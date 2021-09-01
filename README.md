@@ -360,16 +360,35 @@
       Конструкторы в React обычно используют для двух целей: Инициализация внутреннего состояния через присвоение объекта this.state. Привязка обработчиков событий к экземпляру.
       <br>
       Конструктор — единственное место, где можно напрямую изменять this.state. В остальных методах необходимо использовать this.setState().
+      <br>
+      <b>useState</b> - заменяет конструктор. Служит для управление локальным state у компонента.
     </li>
     <br/>
     <li>
       <b>componentDidMount()</b> - вызывается сразу после монтирования (то есть, вставки компонента в DOM). В этом методе должны происходить действия, которые требуют наличия DOM-узлов. Это хорошее место для создания сетевых запросов.
       <br/>
       Этот метод подходит для настройки подписок. Но не забудьте отписаться от них в componentWillUnmount().
+      <br/>
+      <b>useEffect(callBack, [])</b> - Инициализируется немедленно после первого рендера, инициализирует state которому могут понадобиться DOM ноды, Network запросы и другие side effects.
     </li>
     <br/>
     <li>
       <b>componentDidUpdate(prevProps, prevState, snapshot)</b> - вызывается сразу после обновления. Не вызывается при первом рендере. Метод позволяет работать с DOM при обновлении компонента. Также он подходит для выполнения таких сетевых запросов, которые выполняются на основании результата сравнения текущих пропсов с предыдущими. Если пропсы не изменились, новый запрос может и не требоваться.
+      <br>
+      <p>
+
+        const mounted = useRef()
+        useEffect(() => {
+          if(!mounted.current) {
+            mounted.current = true
+          } else {
+            console.log('componentDidUpdate !)
+          }
+
+        })
+
+   </p>
+    <b>useEffect(callBack)</b> - вызывается и при первом рендере и после обновления. Для эмуляции componentDidUpdate нужна проверка на первый рендер и useRef.
     </li>
     <br/>
     <li>
@@ -399,6 +418,7 @@
     </li>
   </ul>
   <img src='https://cdn-images-1.medium.com/max/1600/1*cPwvUhZrnB1dtZnjBEfXfA.png' />
+  <img src='https://res.cloudinary.com/practicaldev/image/fetch/s--S1NFg-EJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/800/1%2AJ1OWWbEDit18yTrM0sthgA.png'/>
   <p><i>Источник: <a href ="https://ru.reactjs.org/docs/react-component.html#render">ru.reactjs.org</a></i></p>
 </div>
 </details>
