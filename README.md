@@ -617,7 +617,27 @@
   <p>
     Неуправляемые компоненты опираются на DOM в качестве источника данных и могут быть удобны при интеграции React с кодом, не связанным с React. Количество кода может уменьшиться, правда, за счёт потери в его чистоте. Поэтому в обычных ситуациях мы рекомендуем использовать управляемые компоненты.
   </p>
-  <p><i>Источник: <a href ="https://ru.reactjs.org/docs/forms.html#controlled-components">ru.reactjs.org</a></i></p>
+  <p>Настройка контролируемого input включает в себя 3 шага: </p>
+    1. Создать стейт для хранения значения input: 
+    <p>
+
+      [val, setVal] = useState('') 
+   </p>
+    2. Определить event handler для обновления state когда пользователь вводит данные в input 
+    <p> 
+
+      onChange = event => setVal(event.target.value)
+   </p>    
+    3. Присоединить eventHandler и установить значение аттрибута value на input field: 
+    <p>
+
+      <input onChange={onChange} value={val} />.
+   </p>
+    Debouncing значения input'a в state требует создания нового разделенного состояния с использованием hook'a useDebouncedValue(value, wait):
+    <p>  
+    
+     debouncedQuery = useDebouncedValue(value, wait). 
+   </p>
 </div>
 </details>
 
