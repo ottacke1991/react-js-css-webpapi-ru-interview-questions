@@ -395,9 +395,10 @@
       <b>componentWillUnmount()</b> - вызывается непосредственно перед размонтированием и удалением компонента. В этом методе выполняется необходимый сброс: отмена таймеров, сетевых запросов и подписок, созданных в componentDidMount().
     </li>
     <br/>
-      <b>useEffect(callBack)</b> - return функция. Возвращает функцию которая будет запущена после unmount'a компоненты.
+      <b>useEffect(callBack)</b> - return функция. Возвращает функцию которая будет запущена после unmount'a компоненты. Подходит для отмены таймеров, сетевых запросов и подписок.
     <li>
       <b>shouldComponentUpdate(nextProps, nextState)</b> - вызывается перед рендером, когда получает новые пропсы или состояние. Значение по умолчанию равно true. Этот метод нужен только для повышения производительности.. Но не опирайтесь на его возможность «предотвратить» рендер, это может привести к багам. Вместо этого используйте PureComponent, который позволяет не описывать поведение shouldComponentUpdate() вручную. PureComponent поверхностно сравнивает пропсы и состояние и позволяет не пропустить необходимое обновление.
+      <b>memo</b> - управляет обновлением компонента
     </li>
     <br/>
     <li>
@@ -417,9 +418,21 @@
     <li>
       <b>componentDidCatch(error, info)</b> - Этот метод жизненного цикла вызывается после возникновения ошибки у компонента-потомка. Он получает два параметра: error — перехваченная ошибка, info — объект с ключом componentStack, содержащий информацию о компоненте, в котором произошла ошибка. Метод можно использовать для логирования ошибок.
     </li>
+    <li>
+      <b>useRef</b> - предоставляет доступ к DOM елементам созданным при рендере, помогает useEffect симитировать работу componentDidUpdate.
+       <p>useRef() - это хук принимающий в качестве аргумента какое то значение и возвращающий референс. Референс это специальный обьект у которого есть свойство current.</p>
+       reference.current - предоставляет доступ к значению, reference.current = newValue обновляет значение.<br/>
+       1. Значение референса остается не изменным между ререндерами. <br/>
+       2. Обновление референса не вызывает ререндер. <br/>
+    </li>
+    <li>
+      <b>memo</b> - управление ререндером компонента. Заменяет shouldComponentUpdate.
+      <p>Когда компонент обернут в React.memo. React отрисосвывает компонент и запоминает результат. Перед следющим рендером, если props и state не изменились, реакт использует сохраненный компонент и пропускает рендер.</p>
+    </li>
   </ul>
   <img src='https://cdn-images-1.medium.com/max/1600/1*cPwvUhZrnB1dtZnjBEfXfA.png' />
   <img src='https://res.cloudinary.com/practicaldev/image/fetch/s--S1NFg-EJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/800/1%2AJ1OWWbEDit18yTrM0sthgA.png'/>
+  <img src ='https://res.cloudinary.com/practicaldev/image/fetch/s--HiDZKzEO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/1000/1%2A2ANppcgcNvccNSsS8fHbnQ.png'/>
   <p><i>Источник: <a href ="https://ru.reactjs.org/docs/react-component.html#render">ru.reactjs.org</a></i></p>
 </div>
 </details>
