@@ -804,29 +804,32 @@
   <p><i>Источник: <a href ="https://ru.reactjs.org/docs/faq-styling.html#can-i-do-animations-in-react">ru.reactjs.org</a></i></p>
 </div>
 </details>
+
 <details>
 <summary>Что такое SOLID?</summary>
 <div>
 </div>
-<details>
+</details>
 
 <details>
 <summary>Что такое DRY?</summary>
 <div>
+  <p> Don’t Repeat Yourself </p>
+  <p> Главный из паттернов для поддержания этого принципа High-Order Component. </p>
 </div>
-<details>
+</details>
 
 <details>
 <summary>Плюсы и минусы React?</summary>
 <div>
 </div>
-<details>
+</details>
 
 <details>
 <summary>Сколько будет re-renders  при 4 useState?</summary>
 <div>
 </div>
-<details>
+</details>
 <br/>
 
 **Flux-архитектура, Redux и MobX**:
@@ -860,7 +863,6 @@
     <p><i>Источник: <a href ="https://ru.wikipedia.org/wiki/Flux-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0">wikipedia.org</a></i></p>
   </div>
 </details>
-
 <br/>
 
 **Веб - технологии**:
