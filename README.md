@@ -804,7 +804,29 @@
   <p><i>Источник: <a href ="https://ru.reactjs.org/docs/faq-styling.html#can-i-do-animations-in-react">ru.reactjs.org</a></i></p>
 </div>
 </details>
+<details>
+<summary>Что такое SOLID?</summary>
+<div>
+</div>
+<details>
 
+<details>
+<summary>Что такое DRY?</summary>
+<div>
+</div>
+<details>
+
+<details>
+<summary>Плюсы и минусы React?</summary>
+<div>
+</div>
+<details>
+
+<details>
+<summary>Сколько будет re-renders  при 4 useState?</summary>
+<div>
+</div>
+<details>
 <br/>
 
 **Flux-архитектура, Redux и MobX**:
