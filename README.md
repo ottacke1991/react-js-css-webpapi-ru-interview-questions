@@ -149,43 +149,6 @@
 </div>  
 </details>  
   
-
-<details>
-<summary>Зачем за ранее указывать размер картинок?</summary>
-<div>
-  <li> Потому что при загрузке страницы, по мере загрузки картинок, изображение начнет прыгать. </li>  
-</div>  
-</details>  
-  
-
-
-
-<details>
-<summary>Зачем за ранее указывать размер картинок?</summary>
-<div>
-  <li> Потому что при загрузке страницы, по мере загрузки картинок, изображение начнет прыгать. </li>  
-</div>  
-</details>  
-  
-
-
-
-<details>
-<summary>Зачем за ранее указывать размер картинок?</summary>
-<div>
-  <li> Потому что при загрузке страницы, по мере загрузки картинок, изображение начнет прыгать. </li>  
-</div>  
-</details>  
- 
-
-<details>
-<summary>Зачем за ранее указывать размер картинок?</summary>
-<div>
-  <li> Потому что при загрузке страницы, по мере загрузки картинок, изображение начнет прыгать. </li>  
-</div>  
-</details>  
-  
-
 <br/> 
   
 **JavaScript**:
@@ -1256,12 +1219,6 @@
 </details>
 
 <details>
-<summary>Что такое SOLID?</summary>
-<div>
-</div>
-</details>
-
-<details>
 <summary>Что такое DRY?</summary>
 <div>
   <p> Don’t Repeat Yourself </p>
@@ -1649,20 +1606,6 @@ import ConnectedComponent from './containers/ConnectedComponent';
 | Вы можете обновлять HTML напрямую | Вы не можете обновлять HTML напрямую |
 | Активная работа с DOM часто приводит к утечкам памяти | Утечки памяти практически полностью исключены |
 | При обновлении элемента создается новая DOM | При изменении элемента обновляется только JSX |
-</div>
-</details>
-
-
-<details>
-<summary>Что такое SOLID?</summary>
-<div>
-</div>
-</details>
-
-
-<details>
-<summary>Что такое SOLID?</summary>
-<div>
 </div>
 </details>
 
