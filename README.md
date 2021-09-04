@@ -1798,7 +1798,8 @@ import ConnectedComponent from './containers/ConnectedComponent';
     </p>
     <ul>
       <li>
-        <b>S</b> - Принцип единственной ответственности (The Single Responsibility Principle) каждый класс выполняет лишь одну задачу.
+        <b>S</b> -  <p>Принцип единственной ответственности (The Single Responsibility Principle) каждый копмпонент решает только одну задачу.</p>
+        <p>Компонент имеет принцип единственной отвественности в том случае если всего один причина для изменения. </p>
       </li>
       <li>
         <b>O</b> - Принцип открытости/закрытости (The Open Closed Principle) «программные сущности должны быть открыты для расширения, но закрыты для модификации.»
@@ -1813,11 +1814,6 @@ import ConnectedComponent from './containers/ConnectedComponent';
         <b>D</b> - Принцип инверсии зависимостей (The Dependency Inversion Principle) «Зависимость на Абстракциях. Нет зависимости на что-то конкретное.»
       </li>
     </ul>
-    <p>
-     <i>
-       Источник: <a href="https://ru.wikipedia.org/wiki/SOLID_%28%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BD%D0%BE-%D0%BE%D1%80%D0%B8%D0%B5%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%29">wikipedia.org</a>
-     </i>
-    </p>
   </div>
 </details>
   
