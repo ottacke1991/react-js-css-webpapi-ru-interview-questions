@@ -775,11 +775,6 @@
 <div>
   <ul>
      <li>
-       <b>render()</b> — единственный обязательный метод в классовом компоненте.
-       <br>
-       При вызове он проверяет this.props и this.state и возвращает один из следующих вариантов: Элемент React, Массивы и фрагменты, Порталы, Строки и числа, Booleans или null
-     </li>
-    <br/>
     <li>
       <b>constructor()</b> - Конструктор компонента React вызывается до того, как компонент будет примонтирован. В начале конструктора необходимо вызывать super(props). Если это не сделать, this.props не будет определён. Это может привести к багам.
       <br>
@@ -828,23 +823,6 @@
     </li>
     <br/>
     <li>
-      <b>static getDerivedStateFromProps(props, state)</b> - вызывается непосредственно перед вызовом метода render, как при начальном монтировании, так и при последующих обновлениях. Он должен вернуть объект для обновления состояния или null, чтобы ничего не обновлять.
-      <br/>
-      Этот метод существует для редких случаев, когда состояние зависит от изменений в пропсах. 
-    </li>
-    <br/>
-    <li>
-      <b>getSnapshotBeforeUpdate(prevProps, prevState)</b> - вызывается прямо перед этапом «фиксирования» (например, перед добавлением в DOM). Он позволяет вашему компоненту брать некоторую информацию из DOM (например, положение прокрутки) перед её возможным изменением. Любое значение, возвращаемое этим методом жизненного цикла, будет передано как параметр componentDidUpdate().
-    </li>
-    <br/>
-    <li>
-      <b>static getDerivedStateFromError(error)</b> - Этот метод жизненного цикла вызывается после возникновения ошибки у компонента-потомка. Он получает ошибку в качестве параметра и возвращает значение для обновления состояния. getDerivedStateFromError() вызывается во время этапа «рендера». Поэтому здесь запрещены любые побочные эффекты, но их можно использовать в componentDidCatch().
-    </li>
-    <br/>
-    <li>
-      <b>componentDidCatch(error, info)</b> - Этот метод жизненного цикла вызывается после возникновения ошибки у компонента-потомка. Он получает два параметра: error — перехваченная ошибка, info — объект с ключом componentStack, содержащий информацию о компоненте, в котором произошла ошибка. Метод можно использовать для логирования ошибок.
-    </li>
-    <li>
       <b>useRef</b> - предоставляет доступ к DOM елементам созданным при рендере, помогает useEffect симитировать работу componentDidUpdate.
        <p>useRef() - это хук принимающий в качестве аргумента какое то значение и возвращающий референс. Референс это специальный обьект у которого есть свойство current.</p>
        reference.current - предоставляет доступ к значению, reference.current = newValue обновляет значение.<br/>
@@ -859,7 +837,6 @@
   <img src='https://cdn-images-1.medium.com/max/1600/1*cPwvUhZrnB1dtZnjBEfXfA.png' />
   <img src='https://res.cloudinary.com/practicaldev/image/fetch/s--S1NFg-EJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/800/1%2AJ1OWWbEDit18yTrM0sthgA.png'/>
   <img src ='https://res.cloudinary.com/practicaldev/image/fetch/s--HiDZKzEO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/1000/1%2A2ANppcgcNvccNSsS8fHbnQ.png'/>
-  <p><i>Источник: <a href ="https://ru.reactjs.org/docs/react-component.html#render">ru.reactjs.org</a></i></p>
 </div>
 </details>
 
