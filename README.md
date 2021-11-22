@@ -1913,6 +1913,27 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </details>
 
 <details>
+  <summary>Что такое DOM (У браузера)?</summary>
+  <div>
+    <br/>
+    <p>
+     Браузер выполняет запрос на сервер (предварительно выяснив этот адрес с помощью DNS)
+      GET /courses HTTP/1.1
+      HOST: ru.hexlet.io
+      В ответ сервер отправляет HTML.</p>
+    <p> 
+      Когда HTML получен, браузер начинает его разбор (говорят парсинг) и формирование внутренней структуры под названием DOM-дерево.
+    </p>
+    <p>
+      Затем это дерево (а не исходный HTML) используется для физической отрисовки страницы, которую мы и наблюдаем.
+      Процесс отрисовки страницы браузером
+    </p>
+    <img src="https://cdn2.hexlet.io/derivations/image/original/eyJpZCI6ImE4OWJkOGMxMTk3ZGNkMDVjODUxYmU1OWYwYmNhODViLnBuZyIsInN0b3JhZ2UiOiJjYWNoZSJ9?signature=58c5a3d031ffb3f83ab9f54975057ce22b5f4a9625c8b4162deb9cfdd4214952"></img>
+  </div>
+</details>
+
+
+<details>
   <summary>Что такое Веб-компоненты и какие технологии в них используются?</summary>
   <div>
     <br/>
@@ -1936,26 +1957,6 @@ import ConnectedComponent from './containers/ConnectedComponent';
         HTML Imports — импорт HTML документов.
       </li>
     </ul>
-    <p>
-     <i>
-       Источник: 
-        <a href="https://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%B1-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B">wikipedia.org</a>
-     </i>
-    </p>
   </div>
 </details>
-<details>
-  <summary>Что такое DOM (У браузера)?</summary>
-  <div>
-    <br/>
-    <p>
-     Браузер выполняет запрос на сервер (предварительно выяснив этот адрес с помощью DNS)
-      GET /courses HTTP/1.1
-      HOST: ru.hexlet.io
-      В ответ сервер отправляет HTML.
-      Когда HTML получен, браузер начинает его разбор (говорят парсинг) и формирование внутренней структуры под названием DOM-дерево.
-      Затем это дерево (а не исходный HTML) используется для физической отрисовки страницы, которую мы и наблюдаем.
-      Процесс отрисовки страницы браузером
-    </p>
-  </div>
-</details>
+
