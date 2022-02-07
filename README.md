@@ -226,7 +226,7 @@
 <details>
 <summary>11. Расскажите о различия padding и margin?</summary>
 
-<img src="https://qph.fs.quoracdn.net/main-qimg-cc37136926d109ac1d5e261a6a07df94" />
+<img src="https://webcodius.ru/wp-content/uploads/2014/11/otstup.png" />
 <div>
 <H2>margin</H2>
 
