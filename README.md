@@ -2527,6 +2527,35 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </details> 
 
 <details>
+  <summary>16. Что такое куки (cookie)?</summary>
+<div>   
+  Куки — это небольшой фрагмент данных, который сохраняется на компьютере пользователя для последующего использования браузером. Куки сохраняются в виде пар ключ/значение:
+
+  document.cookie = 'username=John'
+</div>
+</details>
+
+<details>
+  <summary></summary>
+<div>   
+
+</div>
+</details>
+
+<details>
+  <summary></summary>
+<div>   
+
+</div>
+</details>
+
+<details>
+  <summary></summary>
+<div>   
+
+</div>
+</details>
+<details>
   <summary>15. Что такое Веб-компоненты и какие технологии в них используются?</summary>
   <div>
     <br/>
