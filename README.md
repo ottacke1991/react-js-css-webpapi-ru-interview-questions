@@ -1046,19 +1046,27 @@ this указывает на объект области видимости во
 <summary>3. Что такое JSX(Javascript Syntax Expression)?</summary>
 <div>
   *JSX* (JavaScript и XML) - это XML-подобный синтаксис, расширяющий возможности ECMAScript. По сути, он является синтаксическим сахаром для функции `React.createElement()`, совмещая выразительность JavaScript с HTML-подобным синтаксисом разметки. За парсинг и отработку отвечает babel.
- 
+  JSX- выражение, это означает, что вы можете использовать JSX внутри операторов if и for, присваивать его переменным, принимать его в качесиве аргументов и возвращать из функций:
    <p> В приведенном ниже примере, текст внутри тега `h1` в методе `render()` возвращается в виде JavaScript-функции: </p>
 
     
     class App extends React.Component {
       render() {
         return (
-        
-            <h1>{'Добро пожаловать в мир React!'}</h1>
+             <h1 className="greeting">
+               Привет, мир!
+             </h1>
           </div>
         )
       }
     }
+  
+  const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'Привет, мир!'
+);
+
     
 </div>
 </details>
