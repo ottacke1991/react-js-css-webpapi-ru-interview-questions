@@ -1838,6 +1838,35 @@ this указывает на объект области видимости во
 </div>
 </details>
 
+<details>
+<summary>38. Что такое React.lazy(), suspense?</summary>
+<div>
+  <p> Don’t Repeat Yourself </p>
+  <p> Главный из паттернов для поддержания этого принципа High-Order Component. </p>
+</div>
+</details>
+
+
+
+<details>
+<summary>39. Что такое react prop?</summary>
+<div>
+  <p> Don’t Repeat Yourself </p>
+  <p> Главный из паттернов для поддержания этого принципа High-Order Component. </p>
+</div>
+</details>
+
+
+<details>
+<summary>40. Является ли react реактивным?</summary>
+<div>
+  <p> Читай schedulling  ()</p>
+  <p> Главный из паттернов для поддержания этого принципа High-Order Component. </p>
+</div>
+</details>
+
+
+
 <br/>
 
 **Flux-архитектура, Redux и MobX**:
