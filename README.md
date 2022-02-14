@@ -1256,7 +1256,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>14. Как реализовать рендеринг на стороне сервера или SSR?</summary>
+<summary>13. Как реализовать рендеринг на стороне сервера или SSR?</summary>
 <div>
   <p>React поддерживает рендеринг на стороне Node-сервера из коробки. Для этого используется специальная версия DOM-рендерера, которая реализует такой же паттерн, что и клиентская версия:</p>
 
@@ -1274,7 +1274,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>17. Какие методы жизненного цикла компонента существуют в React?</summary>
+<summary>14. Какие методы жизненного цикла компонента существуют в React?</summary>
 <div>
 <img src='https://cdn-images-1.medium.com/max/1600/1*cPwvUhZrnB1dtZnjBEfXfA.png' />
   <ul>
@@ -1350,7 +1350,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>18. Что такое Context в React и для чего он используется?</summary>
+<summary>15. Что такое Context в React и для чего он используется?</summary>
 <div>
   <br />
   <p>Контекст разработан для передачи данных, которые можно назвать «глобальными» для всего дерева React-компонентов (например, текущий аутентифицированный пользователь, UI-тема или выбранный язык).</p>
@@ -1404,7 +1404,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>19. Для чего нужен атрибут key при рендере списков?</summary>
+<summary>16. Для чего нужен атрибут key при рендере списков?</summary>
 <div>
   <br />
   <p>
@@ -1421,7 +1421,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>20. Как работает проп children?</summary>
+<summary>17. Как работает проп children?</summary>
 <div>
   <br />
   <p>
@@ -1461,7 +1461,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>21. В чем разница между управляемыми (controlled) и не управляемыми (uncontrolled) компонентами?</summary>
+<summary>18. В чем разница между управляемыми (controlled) и не управляемыми (uncontrolled) компонентами?</summary>
 <div>
   <br />
   <p> В HTML элементы формы, такие как input, textarea и select, обычно сами управляют своим состоянием и обновляют его когда пользователь вводит данные. В React мутабельное состояние обычно содержится в свойстве компонентов state и обновляется только через вызов setState().
@@ -1529,7 +1529,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>22. Что такое PureComponent?</summary>
+<summary>19. Что такое PureComponent?</summary>
 <div>
   <br />
   <p>
@@ -1546,7 +1546,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>23. Что такое state в React?</summary>
+<summary>20. Что такое state в React?</summary>
 <div>
   <br />
   <p>
@@ -1564,7 +1564,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>24. События в React?</summary>
+<summary>21. События в React?</summary>
 <div>
   <br />
   <p>
@@ -1597,7 +1597,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>25. Что такое Компонент высшего порядка (Higher-Order Component, HOC)?</summary>
+<summary>22. Что такое Компонент высшего порядка (Higher-Order Component, HOC)?</summary>
 <div>
   <br />
   <p>
@@ -1621,7 +1621,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>26. Хук useState?</summary>
+<summary>23. Хук useState?</summary>
 <div>
   <br />
   <p>
@@ -1644,7 +1644,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>27. Хук useEffect?</summary>
+<summary>24. Хук useEffect?</summary>
 <div>
   <br />
   <p>
@@ -1675,7 +1675,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>28. Хук ref?</summary>
+<summary>25. Хук ref?</summary>
 <div>
   <p>
    useRef() – хранение любых данных между вызовами компонента. Этот хук возвращает обычный объект со свойством current внутри. Единственное отличие этого объекта, от создаваемого вручную { current: ... }, в том, что хук возвращает один и тот же объект при каждом вызове компонента. По своему поведению useRef() похож на использование обычного свойства внутри классового компонента (this.someproperty).
@@ -1685,7 +1685,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>29. Хук useMemo?</summary>
+<summary>26. Хук useMemo?</summary>
 <div>
   <p>
     Встроенный в реакт хук, который запоминает результат выполнения функции. На вход принимается сама  функция и массив ее завесимостей. Во время иницилизирующего рендера хук запоминает результат выполнения функции. Если во время следующих ререндеров зависимости не изменяются useMemo не запустит функцию, но вернет ее результат.
@@ -1709,7 +1709,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>30. Хук useCallback?</summary>
+<summary>27. Хук useCallback?</summary>
 <div>
   <p>
    useCallback возвращает один и тот же экземпляр передаваемой функции (параметр 1) вместо создания нового при каждом повторном рендеринге компонента. Новый экземпляр передаваемой функции (параметр 1) может быть создан только при изменении массива зависимостей (параметр 2).
@@ -1727,7 +1727,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>31. Назовите правила использования хуков?</summary>
+<summary>28. Назовите правила использования хуков?</summary>
 <div>
 <p>При использовании хуков необходимо соблюдать два правила:</p>
 
@@ -1738,7 +1738,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>32. Что такое порталы в React?</summary>
+<summary>29. Что такое порталы в React?</summary>
 <div>
   <br />
   <p>
@@ -1757,7 +1757,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>33. Что такое debounce и throttle?</summary>
+<summary>30. Что такое debounce и throttle?</summary>
 <div>
   <br />
   <p>Это две похожие но разные техники контроля за тем сколько раз будет вызвана функция за определенное время.
@@ -1772,7 +1772,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>34. Что такое React Reconciliation (Cверка) и как он работает?</summary>
+<summary>31. Что такое React Reconciliation (Cверка) и как он работает?</summary>
 <div>
   <br />
   <p>
@@ -1798,7 +1798,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>35. Можно создавать анимации в React?</summary>
+<summary>32. Можно создавать анимации в React?</summary>
 <div>
   <br />
   <p>
@@ -1809,7 +1809,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>36. Что такое DRY?</summary>
+<summary>33. Что такое DRY?</summary>
 <div>
   <p> Don’t Repeat Yourself </p>
   <p> Не повторять свой код. Главный из паттернов для поддержания этого принципа High-Order Component. </p>
@@ -1825,7 +1825,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>36. Что такое KISS?</summary>
+<summary>34. Что такое KISS?</summary>
 <p>
   KISS — «Оставьте код простым и тупым». Думаю, с понятием простого кода вы знакомы. Но что значит «тупой» код? В моем понимании, это код, который решает задачу, используя минимальное количество абстракций, при этом вложенность этих абстракций друг в друга также минимальна.
 </p>
@@ -1833,7 +1833,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>36. Что такое YAGNI?</summary>
+<summary>35. Что такое YAGNI?</summary>
 <p>
   YAGNI — «Вам это не понадобится». Код должен уметь делать только то, для чего он написан. Мы не создаем никакой функционал, который может понадобиться потом или который делает приложение лучше на наш взгляд. Делаем только то, что нужно конкретно для реализации поставленной задачи.
 </p>
@@ -1842,7 +1842,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>38. Что такое React.lazy(), suspense?</summary>
+<summary>36. Что такое React.lazy(), suspense?</summary>
 <div>
   <p> Функция React.lazy позволяет рендерить динамический импорт как обычный. Проще говоря, она позволяет загружать дополнительные компоненты в наш общий файл bundle (для браузера) только тогда, когда они понадобятся. Это дает возможность облегчить загрузку страницы сразу, но с другой стороны увеличивает ожидание, когда приходит время подгрузки. Поэтому тут важно построить «цепочку поведения пользователей» и правильно разделить компоненты на «пачки».</p>
   <p> Suspense («задержка») позволяет показать запсное содержание, пока подгружается компонента черзе React.lazy.
@@ -1919,7 +1919,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>40. React 18 в кратце об изменениях?</summary>
+<summary>37. React 18 в кратце об изменениях?</summary>
 <div>
   <a>Automatic Batching</a>
   <p>До версии 18, React уже объединял/группировал (batched) несколько обновлений состояния в одно, чтобы уменьшить количество ненужных повторных отрисовок. Однако это происходило только в обработчиках событий DOM, поэтому промисы, тайм-ауты или другие обработчики этим не могли воспользоваться. Дело в том, что ранее каждый вызов useState (установка нового значения) приводил к перерисовке компонентов. Чуть позже движок оптимизировали и такие вызовы начали группироваться и выполняться за один раз, что должно было сократить количество перерисовок. Теперь данный функционал еще больше оптимизировали. В примере выше, в обработчике alternativeHandleClick показано различие поведений вызова установки состояния в версиях 17 и 18.
