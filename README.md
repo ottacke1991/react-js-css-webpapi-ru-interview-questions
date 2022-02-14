@@ -1205,15 +1205,34 @@ this указывает на объект области видимости во
 <details>
 <summary>12. Что такое `React.memo()`?</summary>
 <div>
-<p>Классовым компонентам можно запретить повторный рендеринг, если их пропы остались прежними, с помощью *PureComponent* или `shouldComponentUpdate()`. Теперь и у функциональных компонентов имеется такая возможность благодаря функции-обертке `React.memo()`:</p>
+  <a>Определение React.memo:</a>
+  <p>Когда компонент заключен в React.memo(), React рендерит компонент и запоминает результат. Перед следующим рендерингом, если новые пропсы одинаковы, React повторно использует memoизированный результат, пропуская следующий рендеринг.</p>
 
   ```jsx
-  const MyComponent = React.memo(Component, (prevProps, nextProps) => {
-    Сравнение пропсов( по-умолчанию Shallow)
-  });
+  export function Movie({ title, releaseDate }) {
+    return (
+      <div>
+        <div>Movie title: {title}</div>
+        <div>Release date: {releaseDate}</div>
+      </div>
+    );
+  }
+  export const MemoizedMovie = React.memo(Movie);
   ```
 
 <p>Похожий функционал предоставляет хук `useMemo()`.</p>
+
+<a>Использование кастомного сравнения props:</a>
+<p>По-умолчанию мемо делает поверхностное сравнение props. Функцию для кастомного сравнения можно передать вторым параметром:</p>
+
+```jsx
+React.memo(Component, [areEqual(prevProps, nextProps)]);
+```
+
+<p>Функция areEqual должна вернуть true если пропсы равны.</p>
+
+<a>Когда использовать memo:</a>
+<img src="https://dmitripavlutin.com/static/c07d2ce4ede6301197b9605a75ae9b4e/47a22/when-to-use-react-memo-infographic.webp" />
 </div>
 </details>
 
