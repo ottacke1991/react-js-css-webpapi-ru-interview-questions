@@ -1840,44 +1840,80 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </div>
 </details>
 
-<details>
-<summary>37. Что вызывает обновление компонентов?</summary>
-<div>
-  
-  <p>1. setState
-  </p>
-  <p>2. Рендеринг родительского компонента приводит к рендерингу дочернего компонента через изменение props.
-  </p>
-  <p>3. forceUpdate у классовых компонентов, используется в редких случаях. Аналога в функциональных компонентах нет.
-  </p>
-   Пример:
-
-    const [_, forceUpdate] = useReducer(x => x + 1, 0)
-   
-  <p>Углубление:
-    useState , useReducer - не приведут к ререндеру, если новое значение равно старому. 
-    Если мутировать состояние на прямую без использования функций, то это так же не приведет к ререндеру.
-    </p>
-
-
-</div>
-</details>
 
 <details>
 <summary>38. Что такое React.lazy(), suspense?</summary>
 <div>
-  <p> Don’t Repeat Yourself </p>
-  <p> Главный из паттернов для поддержания этого принципа High-Order Component. </p>
-</div>
-</details>
+  <p> Функция React.lazy позволяет рендерить динамический импорт как обычный. Проще говоря, она позволяет загружать дополнительные компоненты в наш общий файл bundle (для браузера) только тогда, когда они понадобятся. Это дает возможность облегчить загрузку страницы сразу, но с другой стороны увеличивает ожидание, когда приходит время подгрузки. Поэтому тут важно построить «цепочку поведения пользователей» и правильно разделить компоненты на «пачки».</p>
+  <p> Suspense («задержка») позволяет показать запсное содержание, пока подгружается компонента черзе React.lazy.
+  Меняем обычный импорт на импорт с «ленивой загрузкой». Например, отложим загрузку двух компонент в файле App.js. </p>
+  </br>
 
+  <a>Было:</a>
 
+    import DialogsContainer from './components/Dialogs/DialogsContainer';
+    import ProfileContainer from './components/Profile/ProfileContainer';
+    ....
+  <a>Стало:</a>
 
-<details>
-<summary>39. Что такое react prop?</summary>
-<div>
-  <p> Don’t Repeat Yourself </p>
-  <p> Главный из паттернов для поддержания этого принципа High-Order Component. </p>
+    const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+    const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+  </br>
+
+  <p>Теперь сами ленивые компоненты в том же файле нам в месте вызова нужно обернуть в компоненту Suspense, которая позволяет нам показать запасное содержимое (например, индикатор загрузки) пока происходит загрузка ленивой компоненты. Сам компонент Suspense можно разместить где угодно выше над этими компонентами. Например:</p>
+
+    return (
+          
+            <div className="app-wrapper">
+              <HeaderContainer />
+              <Navbar />
+              <div className="app-wrapper-content">
+                <Suspense fallback={<Preloader />}> //вот начало оборачивания
+                  <Route path='/dialogs' render={ () => <DialogsContainer /> } />
+                <Route path='/profile/:userId?' render={ () => <ProfileContainer /> } />
+                </Suspense>
+                  <Route path='/users' render={ () => <UsersContainer /> } />
+                  <Route path='/news' render={ () => <News /> } />
+                  <Route path='/music' render={ () => <Music /> } />
+                  <Route path='/setings' render={ () => <Setings /> } />
+                  <Route path='/login' render={ () => <Login /> } />
+              </div>
+            </div>
+        );
+    
+
+  <p>Можно в качестве альтернативы создать подобие ХОКа, как показывал Димыч у видео. Для этого создаем файл src/components/hoc/withSuspense.js:</p>
+
+    import React, { Suspense } from 'react';
+    import Preloader from '../common/Preloader/Preloader';
+    export const withSuspense = (Component) => {
+        return (props) => {
+            return  <Suspense fallback={<Preloader />}>
+                <Component {...props} />
+                </Suspense>
+        }
+    }
+  </br>
+
+  <p>И теперь оборачиваем те же наши компоненты этим ХОКом, а не самой компонентой Suspense:</p>
+
+    return (
+        
+          <div className="app-wrapper">
+            <HeaderContainer />
+            <Navbar />
+            <div className="app-wrapper-content">
+                <Route path='/dialogs' render={ withSuspense(DialogsContainer) } /> //вот
+                <Route path='/profile/:userId?' render={ withSuspense(ProfileContainer) } /> //и вот
+                <Route path='/users' render={ () => <UsersContainer /> } />
+                <Route path='/news' render={ () => <News /> } />
+                <Route path='/music' render={ () => <Music /> } />
+                <Route path='/setings' render={ () => <Setings /> } />
+                <Route path='/login' render={ () => <Login /> } />
+            </div>
+          </div>
+      );
+
 </div>
 </details>
 
@@ -1885,8 +1921,38 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 <details>
 <summary>40. React 18 в кратце об изменениях?</summary>
 <div>
-  <p> Читай schedulling  ()</p>
-  <p> Скорее планировщик, чем реактивный. </p>
+  <a>Automatic Batching</a>
+  <p>До версии 18, React уже объединял/группировал (batched) несколько обновлений состояния в одно, чтобы уменьшить количество ненужных повторных отрисовок. Однако это происходило только в обработчиках событий DOM, поэтому промисы, тайм-ауты или другие обработчики этим не могли воспользоваться. Дело в том, что ранее каждый вызов useState (установка нового значения) приводил к перерисовке компонентов. Чуть позже движок оптимизировали и такие вызовы начали группироваться и выполняться за один раз, что должно было сократить количество перерисовок. Теперь данный функционал еще больше оптимизировали. В примере выше, в обработчике alternativeHandleClick показано различие поведений вызова установки состояния в версиях 17 и 18.
+ </p>
+ </br>
+  <p>ReactDOM.flushSync() может принудительно заставить компонент перерисовываться при каждом вызове useState (установка нового значения). Это может иногда понадобиться.</p>
+  </br>
+  <a>Strict Mode</a>
+  <p>Напомню что Strict Mode был добавлен в React 16.3. Данный режим позволяет реакту производить дополнительные проверки что бы исключить возможные проблемы приложения.
+Далее, некоторые дополнения к строгому режиму (Strict Mode), включая новое поведение, называемое «строгими эффектами» (“strict effects”). Данный режим будет вызывать двойные эффекты — в частности, монтирование и размонтирование (mount и unmount). Добавление <StrictMode> в приложение React добавляет особое поведение (только в режиме DEV) ко всем компонентам, вокруг которых оно выполняется. Например, при работе в «строгом режиме» React намеренно выполняет двойной рендеринг компонентов, чтобы избавиться от небезопасных побочных эффектов.
+Эти дополнительные проверки предназначены для проверки нескольких циклов монтирования/размонтирования. Он обеспечивает не только более устойчивые компоненты, но и правильное поведение с технологией Fast Refresh во время разработки (когда компоненты монтируются/размонтируются для обновления) и новый «Offscreen API», который в настоящее время находится в разработке. </p>
+
+  <a>Offscreen API</a>
+  <p> Обеспечивает лучшую производительность, скрывая компоненты вместо их размонтирования, сохраняя состояние и по-прежнему вызывая эффекты монтирования/размонтирования. Это сыграет решающую роль в оптимизации таких компонентов, как вкладки, виртуализированные списки и т. д. </p>
+
+  <a>Root API</a>
+  <p>Немного про новое API, ориентированных на пользователя. Функция рендеринга (render) — та, которая находится в корне каждого приложения React, будет заменена на createRoot.
+Новый API — это шлюз для доступа к новым функциям React 18. createRoot предоставляется вместе с устаревшим API, чтобы способствовать постепенному внедрению и упрощению возможных сравнений производительности.</p>
+    import ReactDOM from "react-dom";
+    import App from "App";
+
+    const container = document.getElementById("app");
+
+    // Old
+    ReactDOM.render(<App />, container);
+
+    // New
+    const root = ReactDOM.createRoot(container);
+
+    root.render(<App />);
+
+  <a>Параллельный рендеринг — Concurrent Rendering</a>
+  <p>Если совсем просто про concurrent rendering то так: В обычном поведении, если React начал перерисовывать DOM, все остальные обновления в очереди блокируются и дожидаются окончания обновления. Concurrent rendering должен решить эту проблему. В конкурентном режиме рендеринг не блокируется. Он прерывается. Это улучшает UX и открывает новые возможности.</p>
 </div>
 </details>
 
