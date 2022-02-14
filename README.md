@@ -1276,6 +1276,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 <details>
 <summary>17. Какие методы жизненного цикла компонента существуют в React?</summary>
 <div>
+<img src='https://cdn-images-1.medium.com/max/1600/1*cPwvUhZrnB1dtZnjBEfXfA.png' />
   <ul>
     <li>
       <b>constructor()</b> - Конструктор компонента React вызывается до того, как компонент будет примонтирован. В начале конструктора необходимо вызывать super(props). Если это не сделать, this.props не будет определён. 
@@ -1347,7 +1348,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
     </li>
     <br/>
   </ul>
-  <img src='https://cdn-images-1.medium.com/max/1600/1*cPwvUhZrnB1dtZnjBEfXfA.png' />
+  
   <img src='https://res.cloudinary.com/practicaldev/image/fetch/s--S1NFg-EJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/800/1%2AJ1OWWbEDit18yTrM0sthgA.png'/>
   <img src ='https://res.cloudinary.com/practicaldev/image/fetch/s--HiDZKzEO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://miro.medium.com/max/1000/1%2A2ANppcgcNvccNSsS8fHbnQ.png'/>
 </div>
