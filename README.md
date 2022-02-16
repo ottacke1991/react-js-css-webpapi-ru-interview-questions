@@ -2058,7 +2058,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
   <li>иметь побочные эффекты (никаких API-вызовов с какими-либо изменениями);</li>
   <li>вызывать нечистые функции. Это функции, результат которых зависит от чего-то кроме их аргументов (например, Date.now() или Math.random()).</li>
   </br>
-  
+
       Редуктор для каждой части состояния
     const title = (state = '', action) => {
       if (action.type === 'CHANGE_LIST_TITLE') {
@@ -2084,7 +2084,19 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </div>
 </details>
 
+<details>
+<summary>5. Dispatcher?</summary>
+<div>
+  <p>Что бы обновить store необходимо вызвать метод dispatch(). Он вызывается у объекта store который вы создаёте в store.js. Этот объект принято называть store поэтому обновление состояния в моём случае выглядит так:</p>
 
+    store.dispatch({ type: ACTION_1, value_1: "Some text" });
+
+    ACTION_1 это константа события о которой речь пойдет дальше (см. Actions).
+
+  <p>Эта функция вызовет функцию reducer который обработает событие и обновит соответствующие поля хранилища.</p>
+
+</div>
+</details>
 
 <details>
 <summary>3. Проведите сравнение Redux и Flux</summary>
