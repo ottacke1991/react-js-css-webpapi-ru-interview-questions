@@ -2017,6 +2017,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 <details>
 <summary>3. Store?</summary>
 <div>
+  <img src="https://habrastorage.org/webt/gm/ww/nq/gmwwnqmma6rdwtf3ofir3fjrcmy.gif" />
   <p>Все, что хранится в хранилище, мы называем состоянием, но не все состояния одинаково полезны. Вот какую классификацию вводит документация Redux:</p>
 
   <a>Domain data — данные приложения, которые нужно отображать, использовать и модифицировать. Например, список пользователей, загруженный с сервера.</a>
@@ -2097,6 +2098,45 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 </div>
 </details>
+
+
+
+
+<details>
+<summary>6. Middleware?</summary>
+<div>
+  <img src="https://d33wubrfki0l68.cloudfront.net/08d01ed85246d3ece01963408572f3f6dfb49d41/4bc12/assets/images/reduxasyncdataflowdiagram-d97ff38a0f4da0f327163170ccc13e80.gif" />
+
+  <p>Мидлвары — функции, которые последовательно вызываются в процессе обновления данных в хранилище.</p>
+
+  <h3>Общий принцип работы таков:</h3>
+
+  <p>Мидлвары встраиваются в хранилище при его создании
+  Во время диспатчинга (отправки действий) данные проходят через них и только затем попадают в редьюсер</p>
+  
+  Типичные примеры использования включают:
+
+    Логирование
+    Оповещение об ошибках
+    Работу с асинхронным API
+    Маршрутизацию
+  </br>
+  <p>Посмотрим как их подключить:</p>
+
+    import { createStore, applyMiddleware } from 'redux';
+    import thunk from 'redux-thunk';
+
+    const store = createStore(
+      reducer,
+      /* preloadedState, */
+      applyMiddleware(thunk)
+    )
+  <p>thunk — это мидлвар, но перед тем, как передать его в функцию createStore, нужно применить к нему функцию applyMiddleware. Также обратите внимание на то, что мидлвар мы передаём вторым параметром, хотя в предыдущем уроке вторым параметром шёл initState. Объясняется это просто — функция createStore проверяет тип второго параметра и в зависимости от этого понимает, что перед ней. В общем случае она принимает три параметра: редьюсер, начальное состояние и мидлвары</p>  
+</div>
+</details>
+
+
+
 
 <details>
 <summary>3. Проведите сравнение Redux и Flux</summary>
