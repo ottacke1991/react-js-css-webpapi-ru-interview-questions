@@ -2950,8 +2950,11 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </div>
 </details>
 
+
+
+
 <details>
-<summary>25. RTK generators?</summary>
+<summary>25. RTK hooks?</summary>
 <div>
   <p></p>
 
@@ -2959,13 +2962,52 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </div>
 </details>
 
-
-
 <details>
-<summary>26. RTK hooks?</summary>
+<summary>26. ES6 generators?</summary>
 <div>
-  <p></p>
+  <p>Как видно из примера, генераторы вводят новый синтаксис в язык. Во-первых, это звездочка после слова function. Она просто указывает на то, что мы имеем дело с генератором. Во-вторых, выражение yield (подчеркиваю: это – не инструкция).</p>
 
+  <p>Генератор в отличие от обычной функции при своем вызове не выполняет тело, а возвращает специальный объект с методом next. Каждый раз, когда вызывается next, запускается тело генератора с того места, где оно остановилось последний раз. При первом вызове выполнение идёт с самого начала генератора и продолжается до встречи с выражением yield. В этот момент управление передаётся наружу, next возвращает то, что было передано в yield, а генератор замирает в этом состоянии, на выражении yield. Последующие вызовы начинают работу от yield.</p>
+
+  <p>Еще один пример для осознания:</p>
+
+    const gen = function* () {
+      yield 1;
+      yield 2;
+      yield 3;
+    };
+
+    const it = gen();
+    it.next(); // { value: 1, done: false }
+    it.next(); // { value: 2, done: false }
+    it.next(); // { value: 3, done: false }
+    it.next(); // { value: undefined, done: true }
+
+  <p>Или даже так:</p>
+
+    const it = gen();
+    [...it]; // [1, 2, 3]
+
+  <p>Кроме yield в генераторах можно использовать версию yield*, которая ожидает на вход коллекцию и делает yield для каждого элемента этой коллекции.</p>
+
+    const makeIterator = function* () {
+      yield* this.collection;
+    };
+
+  <p>Теперь можно переписать наш первый пример вот таким образом:</p>
+
+    const obj = {
+      collection: ['yo', 'ya'],
+      [Symbol.iterator]: function* () {
+        yield* this.collection;
+      },
+    };
+
+    for (const v of obj) {
+      console.log(v);
+    }
+    // yo
+    // ya
 
 </div>
 </details>
