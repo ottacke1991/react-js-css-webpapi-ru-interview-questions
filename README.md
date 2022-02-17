@@ -2095,62 +2095,66 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
     ACTION_1 это константа события о которой речь пойдет дальше (см. Actions).
 
   <p>Эта функция вызовет функцию reducer который обработает событие и обновит соответствующие поля хранилища.</p>
-
-</div>
-</details>
-
-
-
-
-<details>
-<summary>6. Middleware?</summary>
-<div>
-  <img src="https://d33wubrfki0l68.cloudfront.net/08d01ed85246d3ece01963408572f3f6dfb49d41/4bc12/assets/images/reduxasyncdataflowdiagram-d97ff38a0f4da0f327163170ccc13e80.gif" />
-
-  <p>Мидлвары — функции, которые последовательно вызываются в процессе обновления данных в хранилище.</p>
-
-  <h3>Общий принцип работы таков:</h3>
-
-  <p>Мидлвары встраиваются в хранилище при его создании
-  Во время диспатчинга (отправки действий) данные проходят через них и только затем попадают в редьюсер</p>
   
-  Типичные примеры использования включают:
-
-    Логирование
-    Оповещение об ошибках
-    Работу с асинхронным API
-    Маршрутизацию
-  </br>
-  <p>Посмотрим как их подключить:</p>
-
-    import { createStore, applyMiddleware } from 'redux';
-    import thunk from 'redux-thunk';
-
-    const store = createStore(
-      reducer,
-      /* preloadedState, */
-      applyMiddleware(thunk)
-    )
-  <p>thunk — это мидлвар, но перед тем, как передать его в функцию createStore, нужно применить к нему функцию applyMiddleware. Также обратите внимание на то, что мидлвар мы передаём вторым параметром, хотя в предыдущем уроке вторым параметром шёл initState. Объясняется это просто — функция createStore проверяет тип второго параметра и в зависимости от этого понимает, что перед ней. В общем случае она принимает три параметра: редьюсер, начальное состояние и мидлвары</p>  
 </div>
 </details>
 
 
 
+<details>
+<summary>6. Что такое селекторы (selectors) Redux и зачем их использовать?</summary>
+<div>
+<p>*Selectors* - это функции, принимающие состояние Redux в качестве аргумента и возвращающие некоторые данные для передачи компоненту.</p>
+
+<p>Например, так можно извлечь данные пользователя из состояния:</p>
+
+  ```javascript
+  const getUserData = state => state.user.data
+  ```
+
+<p>Селекторы имеют два главных преимущества:</p>
+
+<p>1. Селектор забирает из стора конкретные нужные данные.</p>
+<p>2. Селектор не выполняет повторных вычислений до тех пор, пока не изменится один из его аргументов</p>
+
+</div>
+</details>
+
 
 <details>
-<summary>3. Проведите сравнение Redux и Flux</summary>
+<summary>7. Что такое операция (action) в Redux?</summary>
+<div>
+<p>*Actions* - это обычные JavaScript-объекты, содержащие данные приложения, которые отправляются в хранилище. Операции должны иметь свойство `type`, указывающее какой тип операции необходимо выполнить. Операции также могут содержать полезную нагрузку (payload) - данные для обновления состояния.</p>
+
+<p>Вот как может выглядеть операция по добавлению новой задачи в список:</p>
+
+  ```
+  // здесь используется константа
+  {
+    type: ADD_TODO,
+    text: 'Добавление задачи в список'
+  }
+  ```
+</div>
+</details>
+
+
+
+<details>
+<summary>8. Проведите сравнение Redux и Flux</summary>
 <div>
   <p>Отличия между Redux и Flux можно свести к следующему:</p>
 
   <p>1. **Недопустимость мутаций:** во Flux состояние может быть изменяемым, а Redux требует, чтобы состояние было иммутабельным, и многие библиотеки для Redux исходят из предположения, что вы никогда не будете менять состояние напрямую. Вы можете обеспечить иммутабельность состояния с помощью таких пакетов, как `redux-immutable-state-invariant`, `Immutable.js` или условившись с другими членами команды о написании иммутабельного кода</p>
   <p>2. **Осторожность в выборе библиотек:** Flux не пытается решать такие проблемы, как повторное выполнение/отмена выполнения, стабильность (постоянство) кода или проблемы, связанные с обработкой форм, явно, а Redux имеет возможность к расширению с помощью промежуточного программного обеспечения (middleware) и предохранителей хранилища, что породило богатую экосистему</p>
   <p>3. **Отсутствие интеграции с Flow:** Flux позволяет осуществлять очень выразительную статическую проверку типов, а Redux пока не поддерживает такой возможности</p>
+
+   
 </div>
 </details>
 
 <details>
-<summary>4. В чем разница между `mapStateToProps()` и `mapDispatchToProps()`?</summary>
+<summary>9. В чем разница между `mapStateToProps()` и `mapDispatchToProps()`?</summary>
 <div>
 <p> `mapStateToProps()` - это утилита, помогающая компонентам получать обновленное состояние (которое было обновлено другим компонентом):</p>
 
@@ -2190,7 +2194,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>5. Обязательно ли хранить состояние всех компонентов в хранилище Redux?</summary>
+<summary>10. Обязательно ли хранить состояние всех компонентов в хранилище Redux?</summary>
 <div>
 <p>Данные приложения следует хранить в хранилище Redux, а состояние компонентов пользовательского интерфейса в соответствующих компонентах. У создателя Redux Дэна Абрамова по этому поводу есть статья под названием "Следует ли вам использовать Redux?"</p>
 </div>
@@ -2198,7 +2202,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 
 
 <details>
-<summary>6. Как рекомендуется получать доступ к хранилищу Redux?</summary>
+<summary>11. Как рекомендуется получать доступ к хранилищу Redux?</summary>
 <div>
 <p>Лучшим способом получить хранилище в компоненте является использование функции `connect()`, которая создает новый компонент, оборачивающий существующий. Этот паттерн называется *компоненты высшего порядка*, он является предпочтительным способом расширения функциональности компонента в React. Это позволяет передавать в компонент состояние и "создателей операций" (action creators), в том числе, при обновлении хранилища.</p>
 
@@ -2238,7 +2242,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
 </details>
 
 <details>
-<summary>7. Для чего в Redux нужны константы??</summary>
+<summary>12. Для чего в Redux нужны константы??</summary>
 <div>
 <p>Константы позволяют легко обнаруживать все случаи их применения в проекте при использовании IDE. Они также позволяют избегать глупых ошибок, связанных с типами - немедленно выбрасывается исключение `ReferenceError`.</p>
 
@@ -2294,7 +2298,7 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </details>
 
 <details>
-<summary>8. Какие способы существуют для написания `mapDispatchToProps()`?</summary>
+<summary>13. Какие способы существуют для написания `mapDispatchToProps()`?</summary>
 <div>
 <p>Существует несколько способов привязать "создателей операций" к методу `dispatch()` в `mapDispatchToProps()`.
 </p>
@@ -2343,7 +2347,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>9. Как структурировать директории верхнего уровня в Redux?</summary>
+<summary>14. Как структурировать директории верхнего уровня в Redux?</summary>
 <div>
 <p>Большинство приложений имеют несколько "топовых" директорий:</p>
 
@@ -2357,45 +2361,9 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </div>
 </details>
 
-<details>
-<summary>10. Что такое селекторы (selectors) Redux и зачем их использовать?</summary>
-<div>
-<p>*Selectors* - это функции, принимающие состояние Redux в качестве аргумента и возвращающие некоторые данные для передачи компоненту.</p>
-
-<p>Например, так можно извлечь данные пользователя из состояния:</p>
-
-  ```javascript
-  const getUserData = state => state.user.data
-  ```
-
-<p>Селекторы имеют два главных преимущества:</p>
-
-<p>1. Селектор забирает из стора конкретные нужные данные.</p>
-<p>2. Селектор не выполняет повторных вычислений до тех пор, пока не изменится один из его аргументов</p>
-
-</div>
-</details>
-
 
 <details>
-<summary>11. Что такое операция (action) в Redux?</summary>
-<div>
-<p>*Actions* - это обычные JavaScript-объекты, содержащие данные приложения, которые отправляются в хранилище. Операции должны иметь свойство `type`, указывающее какой тип операции необходимо выполнить. Операции также могут содержать полезную нагрузку (payload) - данные для обновления состояния.</p>
-
-<p>Вот как может выглядеть операция по добавлению новой задачи в список:</p>
-
-  ```
-  // здесь используется константа
-  {
-    type: ADD_TODO,
-    text: 'Добавление задачи в список'
-  }
-  ```
-</div>
-</details>
-
-<details>
-<summary>12. Обязательно ли хранить все состояние в Redux? Можно ли использовать внутреннее состояние компонентов?</summary>
+<summary>15. Обязательно ли хранить все состояние в Redux? Можно ли использовать внутреннее состояние компонентов?</summary>
 <div>
 <p>Вы сами принимаете решение, что использовать. В этом заключается работа разработчика - определить, какое состояние требуется  приложению и где должна храниться каждая часть этого состояния. Одни разработчики предпочитают хранить все состояние в Redux, что обеспечивает полную сериализацию и управляемость приложения. Другие предпочитают хранить некритичное состояние UI, такое как "открыт ли выпадающий список" внутри компонента.</p>
 
@@ -2406,6 +2374,599 @@ import ConnectedComponent from './containers/ConnectedComponent';
      3. Используются ли эти данные несколькими компонентами?
      4. Существует ли вероятность того, что потребуется восстанавливать прошлое состояние?
      5. Собираетесь ли вы кэшировать данные (для использования версии из кэша вместо повторного запроса)?
+</div>
+</details>
+
+<details>
+<summary>16. Middleware?</summary>
+<div>
+  <img src="https://d33wubrfki0l68.cloudfront.net/08d01ed85246d3ece01963408572f3f6dfb49d41/4bc12/assets/images/reduxasyncdataflowdiagram-d97ff38a0f4da0f327163170ccc13e80.gif" />
+
+  <p>Мидлвары — функции, которые последовательно вызываются в процессе обновления данных в хранилище.</p>
+
+  <h3>Общий принцип работы таков:</h3>
+
+  <p>Мидлвары встраиваются в хранилище при его создании
+  Во время диспатчинга (отправки действий) данные проходят через них и только затем попадают в редьюсер</p>
+  
+  Типичные примеры использования включают:
+
+    Логирование
+    Оповещение об ошибках
+    Работу с асинхронным API
+    Маршрутизацию
+  </br>
+  <p>Посмотрим как их подключить:</p>
+
+    import { createStore, applyMiddleware } from 'redux';
+    import thunk from 'redux-thunk';
+
+    const store = createStore(
+      reducer,
+      /* preloadedState, */
+      applyMiddleware(thunk)
+    )
+  <p>thunk — это мидлвар, но перед тем, как передать его в функцию createStore, нужно применить к нему функцию applyMiddleware. Также обратите внимание на то, что мидлвар мы передаём вторым параметром, хотя в предыдущем уроке вторым параметром шёл initState. Объясняется это просто — функция createStore проверяет тип второго параметра и в зависимости от этого понимает, что перед ней. В общем случае она принимает три параметра: редьюсер, начальное состояние и мидлвары</p>  
+</div>
+</details>
+
+
+<details>
+<summary>17. RTK Slice?</summary>
+<div>
+  <p> Чтобы мы не делали внутри слайсов, в конце-концов они генерируют обычные редьюсеры и действия, которые затем передаются в Redux. То есть, слайсы не добавляют никаких новых возможностей в сам Redux. Они автоматизируют рутину, сокращают количество кода и предоставляют более удобные "ручки" для управления действиями и состоянием.</p>
+
+  <p>Для создания слайса нам нужно как минимум три компонента: имя, начальное состояние, набор редьюсеров.</p>
+
+    import { createSlice } from '@reduxjs/toolkit';
+
+    // Начальное значение
+    const initialState = {
+      value: 0,
+    };
+
+    const counterSlice = createSlice({
+      name: 'counter',
+      initialState,
+      // Редьюсеры в слайсах мутируют состояние и ничего не возвращают наружу
+      reducers: {
+        increment: (state) => {
+          state.value += 1;
+        },
+        decrement: (state) => {
+          state.value -= 1
+        },
+        // пример с данными
+        incrementByAmount: (state, action) => {
+          state.value += action.payload
+        },
+      },
+    });
+
+  <a>Имя:</a>
+  <p>Имя это свойство в состоянии приложения, внутри которого хранятся данные текущего слайса. Кроме того, имя используется как префикс в названии действия. На картинке слева Navigator. Помогает отладке, мы видим откуда взялось действие.</p>
+  <img src="https://cdn2.hexlet.io/derivations/image/original/eyJpZCI6ImM2ODlmN2VlNWE0OTkxZDhlNmIxOTE0ZGI5YTE0NWM3LnBuZyIsInN0b3JhZ2UiOiJjYWNoZSJ9?signature=47a192fc8d37671228ecb3ad1cb1d72f2fcbbbd052400fb316bc3cb84440bac1" />
+
+  <a>Начальное состояние:</a>
+
+  <p>Под начальным состоянием понимается базовая структура данных и какие-то статические данные, если они есть, например значение 0 для счетчика. А вот те данные, которые нужно выкачать по API, к начальным не относятся. Они заполняются уже потом, через действия.</p>
+
+  <a>Редьюсеры:</a>
+  <p>Редьюсеры в Toolkit очень похожи на редьюсеры самого Redux, но имеют несколько важных отличий. Каждый редьюсер соответствует конкретному действию, поэтому внутри нет конструкции switch, а сами редьюсеры очень маленькие. И внутри редьюсеров происходит прямое изменение состояния. Как такое возможно?
+
+  <p>Redux, несмотря на свою концептуальную красоту и чистоту, становится неудобным в работе, когда состояние становится глубоко вложенным. Запрет на прямое изменение порождает сложные конструкции, которые приходится писать для обновления глубоко спрятанных данных:</p>
+
+    {
+      ...state,
+      firstLevel: {
+        ...state.firstLevel,
+        secondLevel: {
+          ...state.firstLevel.secondLevel,
+          thirdLevel: {
+            ...state.firstLevel.secondLevel.thirdLevel,
+            property1: action.data
+          },
+        },
+      },
+    }
+
+ <p>Для решения этой проблемы в JavaScript написали немало библиотек, но все они требуют изучения еще одного инструмента, который хоть и сокращает количество кода, но вносит еще один уровень абстракции, со своими проблемами и сложностями использования. Так продолжалось до тех пор, пока не появился Immer.</p>   
+
+
+ <p>И наконец экспорты. Функция createSlice() генерирует редьюсер и экшены к нему. Всё это нужно экспортировать в показанном стиле: редьюсер по умолчанию, действия по именам:</p>
+
+    export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+    export default counterSlice.reducer; 
+</div>
+</details>
+
+
+<details>
+<summary>18. Immer?</summary>
+<div>
+  <p>Immer. Эта библиотека позволяет отследить прямые изменения внутри объекта, так чтобы обновить оригинал без мутаций, то есть создавая копию в стиле Redux.</p>
+
+    import produce from 'immer';
+
+    const baseState = [
+      {
+        title: "Learn TypeScript",
+        done: true
+      },
+      {
+        title: "Try Immer",
+        done: false
+      },
+    ];
+
+
+    // draft содержит такие же данные как и baseState,
+    // но они обернуты в Proxy для отслеживания изменений
+    // Эти изменения затем используются для обновления baseState
+    const nextState = produce(baseState, (draft) => {
+      draft[1].done = true;
+      draft.push({title: 'Hexlet teach me'});
+    });
+
+    // Разные объекты!
+    nextState !== baseState;
+
+<p>В отличие от прямого изменения baseState, Immer делает это как редьюсеры в Redux, в неизменяемом стиле.</p>
+
+  <p>Получается, что каждый редьюсер в Toolkit, это тот колбек из Immer, в который передается draft. Теперь мы можем мутировать состояние, но внутри все работает так, как будто мы этого не делаем. Благодаря такому подходу сохраняются все возможности, которые предоставляет Redux, включая его DevTool - утилиту для анализа происходящего в браузере. В этом заключается главная фантастика происходящего. Мы получили плюсы от обоих миров, сохранив всю экосистему Redux.</p>
+
+  
+</div>
+</details>
+
+
+<details>
+<summary>19. Batch?</summary>
+<div>
+  <p>Когда появляется несколько слайсов, то возникает необходимость обновить состояние сразу несколькими экшенами. Если это делать обычным способом, то на каждое действие будет происходить перерисовка компонента:</p>
+
+    import React, { useEffect } from 'react';
+    import { useDispatch } from 'react-redux';
+    import { addUsers } from '../slices/usersSlice.js';
+    import { addPosts } from '../slices/postsSlice.js';
+    import Posts from './Posts.jsx';
+
+    export default () => {
+      const dispatch = useDispatch();
+
+      useEffect(async () => {
+        // получаем данные users и posts
+        const { data: posts } = await axios.get('/posts');
+        const { data: users } = await axios.get('/users');
+        dispatch(addPosts(posts));
+        dispatch(addUsers(users));
+      });
+
+      return (<Posts />)
+    };
+  
+    export default () => {
+    // Вытаскиваем данные из хранилища. state – все состояние
+    const users = useSelector((state) => state.usersSlice.users);
+    const posts = useSelector((state) => state.postsSlice.posts);
+
+    const renderPost = (post) => {
+      const author = users.find((user) => user.id === post.authorId); // ошибка! users ещё не добавлен в стор
+      const body = `Автор: ${author.name}. Текст: ${post.body}.`;
+      return <div>{body}</div>;
+    };
+
+      return (
+        {posts.map(renderPost)}
+      );
+    };
+
+  <p>Компонент Posts отрисовывается при каждом изменении состояния. Происходит это дважды: когда мы добавляем посты dispatch(addPosts(posts)) и когда добавляем пользователей dispatch(addUsers(users)). В первом случае возникает проблема, так как пользователи ещё не добавлены, то автор не будет найден. Чтобы этого избежать есть специальная функция batch(), она позволяет объединить несколько обработчиков состояния:</p>
+
+    // file: components/App.jsx
+
+    import React, { useEffect } from 'react';
+    // импортируем batch
+    import { batch } from 'redux';
+    import { useDispatch } from 'react-redux';
+    import { addUsers } from '../slices/usersSlice.js';
+    import { addPosts } from '../slices/postsSlice.js';
+    import Posts from './Posts.jsx';
+
+    export default () => {
+      const dispatch = useDispatch();
+
+      useEffect(async () => {
+        // получаем данные users и posts
+        const { data: posts } = await axios.get('/posts');
+        const { data: users } = await axios.get('/users');
+        // batch принимает функцию, внутри которой мы можем диспатчить экшены
+        batch(() => {
+          dispatch(addPosts(posts));
+          dispatch(addUsers(users));
+        });
+      }, []);
+
+      return (<Posts />)
+    };
+  <p>Теперь, при загрузке постов и пользователей и добавлении их в стор, компонент Posts отрисуется один раз, когда все данные уже добавлены.</p>
+
+  
+</div>
+</details>
+
+
+
+<details>
+<summary>20. Организация хранения данных в Redux/RTK?</summary>
+<div>
+
+  <p>Нормализация – это процесс удаления избыточных данных.
+    Нормализация – это метод проектирования базы данных, который позволяет привести базу данных к минимальной избыточности.</p>
+
+  <p>Правильный подход при работе с Redux — воспринимать его как реляционную базу данных. Данные внутри хранилища должны быть нормализованы. При таком взгляде каждый слайс работающий с набором сущностей может восприниматься как отдельная таблица в базе данных.</p>
+
+  <p>Основные принципы организации данных в хранилище:</p>
+
+    Каждая сущность хранится в своём редьюсере.
+
+    Коллекция сущностей одного типа хранится в виде объекта, где ключи — идентификаторы объектов, а значения — сами объекты.
+
+    Порядок данных в этом объекте задаётся отдельным массивом состоящим только из идентификаторов.
+
+    Данные ссылаются друг на друга только по идентификаторам.
+  
+  <h2>Было:</h2>
+
+    const blogPosts = [
+    {
+      id: 'post1',
+      author: { username: 'user1', name: 'User 1' },
+      body: '......',
+      comments: [
+        {
+          id: 'comment1',
+          author: { username: 'user2', name: 'User 2' },
+          comment: '.....'
+        },
+        {
+          id: 'comment2',
+          author: { username: 'user3', name: 'User 3' },
+          comment: '.....'
+        }
+      ]
+    },
+    ];
+  <h2>Стало:<h2>  
+
+    {posts: {
+        entities: {
+          post1: {
+            id: 'post1',
+            author: 'user1',
+            body: '......',
+            comments: ['comment1', 'comment2'],
+          },
+          post2: {
+            id: 'post2',
+            author: 'user2',
+            body: '......',
+            comments: [],
+          },
+        },
+        ids: ['post1', 'post2'],
+      },
+      comments: {
+        entities: {
+          comment1: {
+            id: 'comment1',
+            author: 'user2',
+            comment: '.....',
+          },
+          comment2: {
+            id: 'comment2',
+            author: 'user3',
+            comment: '.....',
+          },
+        },
+        ids: ['comment1', 'comment2'],
+      },
+      users: {
+        entities: {
+          user1: {
+            username: 'user1',
+            name: 'User 1',
+          },
+          user2: {
+            username: 'user2',
+            name: 'User 2',
+          },
+          user3: {
+            username: 'user3',
+            name: 'User 3',
+          },
+        },
+        ids: ['user1', 'user2', 'user3'],
+      }
+    }
+
+  <p>  Теперь данные нормализованы. Каждая сущность хранится в своём собственном редьюсере. Объект entities хранит сами сущности, а ids - идентификаторы. Какие преимущества мы получили?</p>
+
+    Данные не повторяются, а значит достаточно поменять только одно место при их изменении
+
+    Редьюсеры не имеют вложенности
+
+    Данные в таком виде легко извлекать и модифицировать
+
+    Теперь посмотрим как это будет выглядеть внутри слайсов:
+    
+    const slice = createSlice({
+      name: 'users',
+      initialState: {
+        ids: [],
+        entities: {},
+      },
+      reducers: {
+        addUser(state, action) {
+          const { user } = action.payload;
+
+          state.entities[user.id] = user;
+          state.ids.push(user.id);
+        }
+        removeUser(state, action) {
+          const { userId } = action.payload;
+
+          delete state.entities[userId];
+          state.ids = state.ids.filter((id) => id !== userId);
+        },
+        updateUser(state, action) {
+          const { userId, data } = action.payload;
+
+          Object.assign(state.entities[userId], data);
+        }
+      },
+    });
+
+    dispatch(addUser({ user }));
+    dispatch(removeUser({ userId }));
+    dispatch(updateUser({ userId, data }));
+
+</div>
+</details>
+
+
+ <details>
+<summary>21. RTK entity adapter?</summary>
+<div>
+  <p>Entity Adapter. Он предоставляет набор готовых редьюсеров и селекторов для основных операций над сущностями. Сначала пример:</p>
+
+    import {
+      createSlice,
+      createEntityAdapter,
+    } from '@reduxjs/toolkit';
+
+    const usersAdapter = createEntityAdapter();
+
+    // По умолчанию: { ids: [], entities: {} }
+    const initialState = usersAdapter.getInitialState();
+
+    const slice = createSlice({
+      name: 'users',
+      initialState,
+      reducers: {
+        addUser: usersAdapter.addOne,
+        addUsers: usersAdapter.addMany,
+        removeUser: usersAdapter.removeOne,
+        updateUser: usersAdapter.updateOne,
+      },
+    });
+
+    // Где-то в приложении
+
+    // По соглашению, в передаваемых данных должен быть id для правильной работы
+    dispatch(addUser(user));
+    // Данные передаются в формате: { id, changes }
+    dispatch(updateUser({ id: user.id, changes: data }));
+    // Достаточно передать идентификатор
+    dispatch(removeUser(user.id));
+
+  <p> Буквально 4 строчки в редьюсерах и мы получили полноценную реализацию стандартных операций над пользователем. Но это еще не все, кроме готовых редьюсеров, Entity Adapter дает нам набор готовых селекторов для извлечения данных из хранилища. Для этого их нужно сгенерировать и экспортировать из файла со слайсом:</p> 
+
+    // Колбек определяет базовый селектор, извлекающий нужную часть состояния из Redux
+    // Для слайса users это state.users
+    export const selectors = usersAdapter.getSelectors((state) => state.users);
+
+  <p>Пример использования в приложении:</p>
+
+    import { useSelector, useDispatch } from 'react-redux';
+
+    import { selectors } from '../slices/usersSlice.js';
+
+    const MyComponent = (props) => {
+      // Извлекаем всех пользователей в виде массива
+      // Внутри происходит выборка данных из state.users.entities
+      // отсортированная по state.users.ids
+      const users = useSelector(selectors.selectAll);
+
+      // тут логика вывода
+    }
+    Кроме selectAll(state) мы получаем:
+
+    selectIds(state) – возвращает ids
+    selectEntities(state) – возвращает entities
+    selectTotal(state) – возвращает общее количество
+    selectById(state, id) – возвращает конкретную сущность или undefined если ничего не найдено
+
+    // id – какой-то идентификатор
+    const user = useSelector((state) => selectors.selectById(state, id));  
+</div>
+</details>
+
+
+<details>
+<summary>22. RTK Extra Reducers?</summary>
+<div>
+  <p>Разделение данных по слайсам (а фактически по редьюсерам в Redux) приводит к ситуациям, когда на одно действие нужно реагировать в разных частях хранилища. Например, если удаляется пост, то нужно удалить и его комментарии, которые находятся в другом слайсе.</p>
+
+  <p>В Redux такая задача решалась просто добавлением в switch реакции на нужное действие по его имени. В Redux Toolkit так уже не получится из-за железной связи редьюсеров с действиями. Это цена, которую мы платим за сокращение кода.</p>
+
+  <p>Для реакции на действия, происходящие в других слайсах, Redux Toolkit добавляет механизм дополнительных редьюсеров extraReducers. Работает он достаточно просто. В слайс добавляется свойство extraReducers, через которое можно устанавливать реакцию (редьюсеры) на внешние действия:</p>
+
+     // Импортируем из других слайсов действия на которые нужно реагировать
+    import { removePost } from '../postsSlice.js';
+
+    const postCommentsAdapter = createEntityAdapter();
+    const initialState = postCommentsAdapter.getInitialState();
+
+    const postCommentsSlice = createSlice({
+      name: 'comments',
+      initialState: initialState,
+      reducers: {
+        // Обычные редьюсеры
+      },
+      extraReducers: (builder) => { // Дополнительные редьюсеры
+        // При удалении поста нужно удалить все его комментарии
+        builder.addCase(removePost, (state, action) => {
+          const postId = action.payload;
+          // Выбираем все комментарии кроме тех, что нужно удалить
+          const restEntities = Object.values(state.entities).filter((e) => e.postId !== postId);
+          // setAll удаляет текущие сущности и добавляет новые
+          postCommentsAdapter.setAll(state, restEntities);
+        });
+      },
+    });
+
+    // Где-то в приложении
+    dispatch(removePost(post.id));
+
+  <p>Дополнительные редьюсеры добавляются как кейсы в объект builder, изменяя его напрямую. Поэтому нам не нужно ничего возвращать. Более того, builder поддерживает цепочки, а значит мы можем вызывать добавление кейсов друг за другом builder.addCase().addCase()....</p>  
+</div>
+</details>
+
+
+<details>
+<summary>23. RTK Thunks?</summary>
+<div>
+  <p>Для автоматизации http-запросов понадобятся два механизма: мидлвара redux-thunk, которая уже включена в Redux Toolkit и механизм createAsyncThunk().
+
+  redux-thunk, представляет из себя мидлвару, которая добавляется в Redux и позволяет использовать асинхронный код внутри dispatch(). С её помощью выносят логику выполнения запросов и обновления хранилища в отдельные функции, называемые thunks:</p>
+
+    // Обратите внимание на вложенную функцию принимающую dispatch
+    // Эта функция будет храниться вне компонента, например, в слайсе
+    export const fetchTodoById = (todoId) => async (dispatch) => {
+      const response = await axios.get(`https://ru.hexlet.io/todos/${todoId}`);
+      // здесь нужно выполнить необходимую нормализацию
+      // и обработать ошибки
+      dispatch(todosLoaded(response.todos));
+    }
+
+    // использование
+    const TodoComponent = ({ todoId }) => {
+      const dispatch = useDispatch();
+
+      const onFetchClicked = () => {
+        // Передали асинхронную функцию
+        dispatch(fetchTodoById(todoId));
+      };
+
+      // Где-то здесь используем onFetchClicked
+    }
+  <p>Примерно тоже самое можно сделать и без redux-thunk просто написав асинхронную функцию, которой мы на вход передадим dispatch(). Разница проявляется в более продвинутых вариантах использования. Например, когда нам нужно работать с состоянием или глобальными объектами, такими как вебсокет соединение. В этом случае придется использовать redux-thunk, который все это позволяет легко сделать:</p>
+
+    // (dispatch, getState, extraArgument)
+    export const fetchTodoById = (todoId) => async (dispatch, getState, extraArgument) => {
+      // Любые данные переданные на этапе конфигурации мидлвары
+      const { serviceApi } = extraArgument;
+      const response = await serviceApi.getTodo(todoId);
+      dispatch(todosLoaded(response.todos));
+    };
+    Несмотря на получаемые удобства, thunks сами по себе не уменьшают количество кода, и та же обработка ошибок составит большую часть кода. Здесь нам на помощь приходит createAsyncThunk():
+
+    import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+    // Чтобы не хардкодить урлы, делаем модуль, в котором они создаются
+    import { userUrl } from './routes.js';
+
+    // Создаем Thunk
+    export const fetchUserById = createAsyncThunk(
+      'users/fetchUserById', // отображается в dev tools
+      async (userId) => {
+        // Здесь только логика запроса и возврата данных
+        // Никакой обработки ошибок
+        const response = await axios.get(userUrl(userId));
+        return response.data;
+      }
+    );
+
+    const usersAdapter = createEntityAdapter();
+
+    const usersSlice = createSlice({
+      name: 'users',
+      // Добавляем в состояние отслеживание процесса загрузки
+      // { ids: [], entities: {}, loading: 'idle', error: null }
+      initialState: usersAdapter.getInitialState({ loading: 'idle', error: null }),
+      reducers: {
+        // любые редьюсеры, которые нам нужны
+      },
+      extraReducers: (builder) => {
+        builder
+          // Вызывается прямо перед выполнением запроса
+          .addCase(fetchUserById.pending, (state) => {
+            state.loading = 'loading';
+            state.error = null;
+          })
+          // Вызывается в том случае если запрос успешно выполнился
+          .addCase(fetchUserById.fulfilled, (state, action) => {
+            // Добавляем пользователя
+            usersAdapter.addOne(state, action.payload);
+            state.loading = 'idle';
+            state.error = null;
+          })
+          // Вызывается в случае ошибки
+          .addCase(fetchUserById.rejected, (state, action) => {
+            state.loading = 'failed';
+            // https://redux-toolkit.js.org/api/createAsyncThunk#handling-thunk-errors
+            state.error = action.error;
+          });
+      },
+    })
+
+    // Где-то в приложении
+    import { fetchUserById } from './slices/usersSlice.js';
+
+    // Внутри компонента
+    dispatch(fetchUserById(123));
+
+  Каждый Thunk, созданный через createAsyncThunk(), содержит внутри себя три редьюсера: pending, fulfilled и rejected. Они соответствуют состояниям промиса и вызываются Redux Toolkit в тот момент, когда промис переходит в одно из этих состояний. Нам не обязательно реагировать на них все, мы сами выбираем, что нам важно в приложении.
+</div>
+</details>
+
+
+<details>
+<summary>24. RTK saga?</summary>
+<div>
+  <p></p>
+
+
+</div>
+</details>
+
+<details>
+<summary>25. RTK generators?</summary>
+<div>
+  <p></p>
+
+
+</div>
+</details>
+
+
+
+<details>
+<summary>26. RTK hooks?</summary>
+<div>
+  <p></p>
+
+
 </div>
 </details>
 
