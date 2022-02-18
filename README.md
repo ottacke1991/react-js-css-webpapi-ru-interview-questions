@@ -1982,24 +1982,6 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
     <p>
       Основной отличительной особенностью Flux является односторонняя направленность передачи данных между компонентами Flux-архитектуры. Архитектура накладывает ограничения на поток данных, в частности, исключая возможность обновления состояния компонентов самими собой. Такой подход делает поток данных предсказуемым и позволяет легче проследить причины возможных ошибок в программном обеспечении.
     </p>
-    <p>
-      В минимальном варианте Flux-архитектура может содержать три слоя, взаимодействующие по порядку:
-    </p>
-    <ul>
-      <li>
-        <b>Действия</b> (англ. actions) — выражение событий (часто для действий используются просто имена — строки, содержащие некоторый «глагол»). Диспетчеры передают действия нижележащим компонентам (хранилищам) по одному. Новое действие не передаётся пока предыдущее полностью не обработано компонентами. Действия из-за работы источника действия, например, пользователя, поступают асинхронно, но их диспетчеризация явлется синхронным процессом. Кроме имени (англ. name), действия могут иметь полезную нагрузку (англ. payload), содержащую относящиеся к действию данные.
-      </li>
-      <li>
-        <b>Диспетчер/Диспатчер</b> (англ. dispatcher) предназначен для передачи действий хранилищам. В упрощённом варианте диспетчер может вообще не выделяться, как единственный на всё приложение. В диспетчере хранилища регистрируют свои функции обратного вызова (callback) и зависимости между хранилищами.
-      </li>
-      <li>
-        <b>Хранилище</b> (англ. store) является местом, где сосредоточено состояние (англ. state) приложения. Остальные компоненты, согласно Flux, не имеют значимого (с точки зрения архитектуры) состояния. Изменение состояния хранилища происходит строго на основе данных действия и старого состояния хранилища при помощи чистых функций.
-      </li>
-      <li>
-        <b>Представление</b> (англ. view) — компонент, обычно отвечающий за выдачу информации пользователю. Во Flux-архитектуре, которая может технически не касаться внутреннего устройства представлений вообще, это — конечная точка потоков данных. Для информационной архитектуры важно только, что данные попадают в систему (то есть, обратно в хранилища) только через действия.
-      </li>
-    </ul>
-    <p><i>Источник: <a href ="https://ru.wikipedia.org/wiki/Flux-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0">wikipedia.org</a></i></p>
   </div>
 </details>
 
@@ -2297,57 +2279,10 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </div>
 </details>
 
-<details>
-<summary>13. Какие способы существуют для написания `mapDispatchToProps()`?</summary>
-<div>
-<p>Существует несколько способов привязать "создателей операций" к методу `dispatch()` в `mapDispatchToProps()`.
-</p>
-
-<p>Ниже представлены возможные варианты:</p>
-
-```javascript
-const mapDispatchToProps = (dispatch) => ({
-action: () => dispatch(action())
-})
-```
-
-```javascript
-const mapDispatchToProps = (dispatch) => ({
-action: bindActionCreators(action, dispatch)
-})
-```
-
-```javascript
-const mapDispatchToProps = { action }
-```
-<p>Третий вариант является сокращением первого.</p>        
-</div>
-</details>
-
-<details>
-<summary>Для чего используется параметр `ownProps` в методах `mapStateToProps()` и `mapDispatchToProps()`?</summary>
-<div>
-<p> При определении параметра `ownProps` React Redux передает пропы в компонент в функциях "подключения". Поэтому, если вы используете подключенный компонент:</p>
-
-```jsx harmony
-import ConnectedComponent from './containers/ConnectedComponent';
-
-<ConnectedComponent user='Иван' />
-```
-
-`ownProps` внутри функций `mapStateToProps()` и `mapDispatchToProps()` будет объектом:
-
-```javascript
-{ user: 'Иван' }
-```
-
-<p>Вы можете использовать этот объект для определения значения, возвращаемого указанными функциями.</p>
-</div>
-</details>
 
 
 <details>
-<summary>14. Как структурировать директории верхнего уровня в Redux?</summary>
+<summary>13. Как структурировать директории верхнего уровня в Redux?</summary>
 <div>
 <p>Большинство приложений имеют несколько "топовых" директорий:</p>
 
@@ -2363,7 +2298,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>15. Обязательно ли хранить все состояние в Redux? Можно ли использовать внутреннее состояние компонентов?</summary>
+<summary>14. Обязательно ли хранить все состояние в Redux? Можно ли использовать внутреннее состояние компонентов?</summary>
 <div>
 <p>Вы сами принимаете решение, что использовать. В этом заключается работа разработчика - определить, какое состояние требуется  приложению и где должна храниться каждая часть этого состояния. Одни разработчики предпочитают хранить все состояние в Redux, что обеспечивает полную сериализацию и управляемость приложения. Другие предпочитают хранить некритичное состояние UI, такое как "открыт ли выпадающий список" внутри компонента.</p>
 
@@ -2378,7 +2313,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </details>
 
 <details>
-<summary>16. Middleware?</summary>
+<summary>15. Middleware?</summary>
 <div>
   <img src="https://d33wubrfki0l68.cloudfront.net/08d01ed85246d3ece01963408572f3f6dfb49d41/4bc12/assets/images/reduxasyncdataflowdiagram-d97ff38a0f4da0f327163170ccc13e80.gif" />
 
@@ -2412,7 +2347,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>17. RTK Slice?</summary>
+<summary>16. RTK Slice?</summary>
 <div>
   <p> Чтобы мы не делали внутри слайсов, в конце-концов они генерируют обычные редьюсеры и действия, которые затем передаются в Redux. То есть, слайсы не добавляют никаких новых возможностей в сам Redux. Они автоматизируют рутину, сокращают количество кода и предоставляют более удобные "ручки" для управления действиями и состоянием.</p>
 
@@ -2482,7 +2417,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>18. Immer?</summary>
+<summary>17. Immer?</summary>
 <div>
   <p>Immer. Эта библиотека позволяет отследить прямые изменения внутри объекта, так чтобы обновить оригинал без мутаций, то есть создавая копию в стиле Redux.</p>
 
@@ -2521,7 +2456,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>19. Batch?</summary>
+<summary>18. Batch?</summary>
 <div>
   <p>Когда появляется несколько слайсов, то возникает необходимость обновить состояние сразу несколькими экшенами. Если это делать обычным способом, то на каждое действие будет происходить перерисовка компонента:</p>
 
@@ -2598,7 +2533,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>20. Организация хранения данных в Redux/RTK?</summary>
+<summary>19. Организация хранения данных в Redux/RTK?</summary>
 <div>
 
   <p>Нормализация – это процесс удаления избыточных данных.
@@ -2736,7 +2671,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
  <details>
-<summary>21. RTK entity adapter?</summary>
+<summary>20. RTK entity adapter?</summary>
 <div>
   <p>Entity Adapter. Он предоставляет набор готовых редьюсеров и селекторов для основных операций над сущностями. Сначала пример:</p>
 
@@ -2804,7 +2739,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>22. RTK Extra Reducers?</summary>
+<summary>21. RTK Extra Reducers?</summary>
 <div>
   <p>Разделение данных по слайсам (а фактически по редьюсерам в Redux) приводит к ситуациям, когда на одно действие нужно реагировать в разных частях хранилища. Например, если удаляется пост, то нужно удалить и его комментарии, которые находятся в другом слайсе.</p>
 
@@ -2845,7 +2780,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>23. RTK Thunks?</summary>
+<summary>22. RTK Thunks?</summary>
 <div>
   <p>Для автоматизации http-запросов понадобятся два механизма: мидлвара redux-thunk, которая уже включена в Redux Toolkit и механизм createAsyncThunk().
 
@@ -2942,10 +2877,10 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>24. RTK saga?</summary>
+<summary>23. Redux-saga?</summary>
 <div>
-  <p></p>
-
+  <p>Redux-saga это библиотека нацеленная делать сайд-эффекты проще и лучше путем работы с сагами.</p>
+  <p>Саги это дизайн паттерн, который пришел из мира распределенных транзакций, где сага управляет процессами, которые необходимо выполнять транзакционным способом, сохраняя состояние выполнения и компенсируя неудачные процессы.</p>
 
 </div>
 </details>
@@ -2954,7 +2889,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 
 <details>
-<summary>25. RTK hooks?</summary>
+<summary>24. RTK hooks?</summary>
 <div>
   <p></p>
 
@@ -2963,7 +2898,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 </details>
 
 <details>
-<summary>26. ES6 generators?</summary>
+<summary>25. ES6 generators?</summary>
 <div>
   <p>Как видно из примера, генераторы вводят новый синтаксис в язык. Во-первых, это звездочка после слова function. Она просто указывает на то, что мы имеем дело с генератором. Во-вторых, выражение yield (подчеркиваю: это – не инструкция).</p>
 
