@@ -2780,10 +2780,21 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </div>
 </details>
 
+<details>
+<summary>22. Redux-thunk?</summary>
+<div>
+  <p>  <p>Redux thunk это термин в программировании который обозначает "кусочек кода который делает какую то отложенную работу". Вместо того, чтобы выполнять некоторую логику сейчас, мы можем написать тело функции или код, который можно использовать для выполнения работы позже.</p>
+  <p>В частности, для Redux «thunks» — это шаблон написания функций с логикой внутри, которые могут взаимодействовать с dispatcher хранилища Redux и методами getState.</p>
+  <p></p>
+
+</div>
+</details>
+
 
 <details>
-<summary>22. RTK Thunks?</summary>
+<summary>23. RTK createAsyncThunks?</summary>
 <div>
+
   <p>Для автоматизации http-запросов понадобятся два механизма: мидлвара redux-thunk, которая уже включена в Redux Toolkit и механизм createAsyncThunk().
 
   redux-thunk, представляет из себя мидлвару, которая добавляется в Redux и позволяет использовать асинхронный код внутри dispatch(). С её помощью выносят логику выполнения запросов и обновления хранилища в отдельные функции, называемые thunks:</p>
@@ -2878,8 +2889,9 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </details>
 
 
+
 <details>
-<summary>23. Redux-saga?</summary>
+<summary>24. Redux-saga?</summary>
 <div>
   <p>Redux-saga это библиотека нацеленная делать сайд-эффекты проще и лучше путем работы с сагами.</p>
   <p>Саги это дизайн паттерн, который пришел из мира распределенных транзакций, где сага управляет процессами, которые необходимо выполнять транзакционным способом, сохраняя состояние выполнения и компенсируя неудачные процессы.</p>
@@ -2891,7 +2903,7 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 
 
 <details>
-<summary>24. RTK hooks?</summary>
+<summary>25. RTK hooks?</summary>
 <div>
   <p></p>
 
@@ -2900,7 +2912,7 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </details>
 
 <details>
-<summary>25. ES6 generators?</summary>
+<summary>26. ES6 generators?</summary>
 <div>
   <p>Как видно из примера, генераторы вводят новый синтаксис в язык. Во-первых, это звездочка после слова function. Она просто указывает на то, что мы имеем дело с генератором. Во-вторых, выражение yield (подчеркиваю: это – не инструкция).</p>
 
@@ -2948,6 +2960,78 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 
 </div>
 </details>
+
+
+
+
+<details>
+<summary>27. RTK Entity adapter?</summary>
+<div>
+  <p>Предоставляет набор готовых редьюсеров и селекторов для основных операций над сущностями. </p>
+
+    import {
+      createSlice,
+      createEntityAdapter,
+    } from '@reduxjs/toolkit';
+
+    const usersAdapter = createEntityAdapter();
+
+    // По умолчанию: { ids: [], entities: {} }
+    const initialState = usersAdapter.getInitialState();
+
+    const slice = createSlice({
+      name: 'users',
+      initialState,
+      reducers: {
+        addUser: usersAdapter.addOne,
+        addUsers: usersAdapter.addMany,
+        removeUser: usersAdapter.removeOne,
+        updateUser: usersAdapter.updateOne,
+      },
+    });
+
+    // Где-то в приложении
+
+    // По соглашению, в передаваемых данных должен быть id для правильной работы
+    dispatch(addUser(user));
+    // Данные передаются в формате: { id, changes }
+    dispatch(updateUser({ id: user.id, changes: data }));
+    // Достаточно передать идентификатор
+    dispatch(removeUser(user.id));
+
+  <p>Буквально 4 строчки в редьюсерах и мы получили полноценную реализацию стандартных операций над пользователем. Но это еще не все, кроме готовых редьюсеров, Entity Adapter дает нам набор готовых селекторов для извлечения данных из хранилища. Для этого их нужно сгенерировать и экспортировать из файла со слайсом:</p>
+
+    // file: usersSlice.js
+
+    // Колбек определяет базовый селектор, извлекающий нужную часть состояния из Redux
+    // Для слайса users это state.users
+    export const selectors = usersAdapter.getSelectors((state) => state.users);
+    Пример использования в приложении:
+
+    import { useSelector, useDispatch } from 'react-redux';
+
+    import { selectors } from '../slices/usersSlice.js';
+
+    const MyComponent = (props) => {
+      // Извлекаем всех пользователей в виде массива
+      // Внутри происходит выборка данных из state.users.entities
+      // отсортированная по state.users.ids
+      const users = useSelector(selectors.selectAll);
+
+      // тут логика вывода
+    }
+    Кроме selectAll(state) мы получаем:
+
+    selectIds(state) – возвращает ids
+    selectEntities(state) – возвращает entities
+    selectTotal(state) – возвращает общее количество
+    selectById(state, id) – возвращает конкретную сущность или undefined если ничего не найдено
+
+    // id – какой-то идентификатор
+    const user = useSelector((state) => selectors.selectById(state, id));
+</div>
+</details>
+
 
 
 <br/>
