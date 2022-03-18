@@ -1766,6 +1766,8 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
       return 'Result';
     };
     const memoizedCallback = useMemo(() => callback, [prop]);
+
+  <p>Просто обернув callback  в стрелочную функцию.</p>
 </div>
 </details>
 
