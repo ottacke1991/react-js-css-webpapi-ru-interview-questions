@@ -1764,7 +1764,113 @@ alert( null >= 0 ); // (3) true
 </div>
 </details>
 
+<details>
+<summary>29. Как сравнивать обьекты в JavaScript?</summary>
+  <p>JavaScript предоставляет 3 способа сравнения значений:</p>
+  <ul>
+    <li>1. Оператор строго равенства ===</li>
+    <li>2. Оператор свободного равенста ==</li>
+    <li>3. Object.is() функция</li>
+  </ul>
 
+  <p>Когда вы сравниваете обьекты одним из превиденных выше способов, сравнение выдаст true только в том случае если сравниваемые значения ссылаются на один и тот же экземпляр обьекта. </p>
+
+      const hero1 = {
+        name: 'Batman'
+      };
+      const hero2 = {
+        name: 'Batman'
+      };
+      hero1 === hero1; // => true
+      hero1 === hero2; // => false
+      hero1 == hero1; // => true
+      hero1 == hero2; // => false
+      Object.is(hero1, hero1); // => true
+      Object.is(hero1, hero2); // => false
+
+  <p>Еще раз. Сравниваются ссылки, а не сами обьекты</p>
+
+  <h2>Manual сравнение:</h2>
+  <p>Очевидный способ сравнить объекты по содержимому — прочитать свойства и сравнить их вручную.</p>
+
+    function isHeroEqual(object1, object2) {
+      return object1.name === object2.name;
+    }
+    const hero1 = {
+      name: 'Batman'
+    };
+    const hero2 = {
+      name: 'Batman'
+    };
+    const hero3 = {
+      name: 'Joker'
+    };
+    isHeroEqual(hero1, hero2); // => true
+    isHeroEqual(hero1, hero3); // => false
+
+  <p>Ручное сравнение требует ручного извлечения свойств — для простых объектов это не проблема. Но для сравнения больших объектов (или объектов с неизвестной структурой) ручное сравнение неудобно, так как требует большого количества шаблонного кода.</p>
+
+
+  <h2>Shallow сравнение:</h2>
+  <p>Во время поверхностной проверки на равенство объектов вы получаете список свойств (используя Object.keys()) обоих объектов, затем проверяете значения свойств на равенство</p>
+
+      function shallowEqual(object1, object2) {
+        const keys1 = Object.keys(object1);
+        const keys2 = Object.keys(object2);
+        if (keys1.length !== keys2.length) {
+          return false;
+        }
+        for (let key of keys1) {
+          if (object1[key] !== object2[key]) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+  <p>Но объекты в JavaScript могут быть вложенными. В таком случае, к сожалению, поверхностное равенство не работает.</p>    
+
+  <h2>Deep сравнение:</h2>
+  <p>Глубокое равенство похоже на поверхностное равенство, но с одним отличием. Во время неглубокой проверки, если сравниваемые свойства являются объектами, для этих вложенных объектов выполняется рекурсивная неглубокая проверка на равенство.</p>
+
+      function deepEqual(object1, object2) {
+        const keys1 = Object.keys(object1);
+        const keys2 = Object.keys(object2);
+        if (keys1.length !== keys2.length) {
+          return false;
+        }
+        for (const key of keys1) {
+          const val1 = object1[key];
+          const val2 = object2[key];
+          const areObjects = isObject(val1) && isObject(val2);
+          if (
+            areObjects && !deepEqual(val1, val2) ||
+            !areObjects && val1 !== val2
+          ) {
+            return false;
+          }
+        }
+        return true;
+      }
+      function isObject(object) {
+        return object != null && typeof object === 'object';
+      }
+
+  <p>Выделенная строка areObjects && !deepEqual(val1, val2) указывает на то, что, как только сравниваемые свойства становятся объектами, начинается рекурсивный вызов для проверки равенства вложенных объектов.</p>
+
+  <p>Для глубокого сравнения рекомендуется использовать:</p>
+
+      isDeepStrictEqual(object1, object2) of Node built-in util module
+      or _.isEqual(object1, object2) of lodash library.
+
+  <h2>Итог:</h2>
+  <ul>
+    <li>Ссылочное равенство (с использованием ===, == или Object.is()) определяет, являются ли операнды одним и тем же экземпляром объекта.</li>
+    <li>Ручная проверка на равенство требует ручного сравнения значений свойств. Хотя эта проверка требует написания свойств для сравнения вручную, я нахожу этот подход удобным из-за его простоты.</li>
+    <li>Когда сравниваемые объекты имеют много свойств или структура объектов определяется во время выполнения, лучшим подходом является использование поверхностной проверки.</li>
+    <li>Наконец, если у сравниваемых объектов есть вложенные объекты, лучше всего использовать глубокую проверку на равенство.</li>
+  </ul>
+</details>
 <br/>
 
 **React**:
