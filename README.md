@@ -1302,7 +1302,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>14. Что такое прототип объекта в JavaScript?</summary>
+<summary>16. Что такое прототип объекта в JavaScript?</summary>
 <div>
   <p>В JavaScript объект может наследовать свойства другого объекта. Объект, от которого наследуются свойства, называется прототипом.</p>
   <p>Прототип даёт нам немного «магии». Когда мы хотим прочитать свойство из object, а оно отсутствует, JavaScript автоматически берёт его из прототипа. В программировании такой механизм называется «прототипным наследованием». Многие интересные возможности языка и техники программирования основываются на нём.</p>
@@ -1360,7 +1360,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>15. Расскажите про классы в JavaScript?</summary>
+<summary>17. Расскажите про классы в JavaScript?</summary>
   <p>В JavaScript класс – это разновидность функции.</p>
 
     class User {
@@ -1428,42 +1428,9 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 
-<details>
-<summary>16. Как работает ключевое слово this?</summary>
-<div>
-  <p>В глобальном контексте выполнения (за пределами каких-либо функций), this ссылается на глобальный объект вне зависимости от использования в строгом или нестрогом режиме.</p>
-  <p>В пределах функции значение this зависит от того, каким образом вызвана функция (т.е. THIS это контекст вызова функции):</p>
-  <ul>
-  <li>Простой вызов -  значением this будет глобальный объект. В строгом режиме, значение this остается тем значением, которое было установлено в контексте исполнения. Если такое значение не определено, оно остается undefined. Для того что бы передать значение this от одного контекста другому необходимо использовать call или apply</li>
-  <li>Стрелочные функции, this привязан к окружению, в котором была создана функция. В глобальной области видимости, this будет указывать на глобальный объект. </li>
-  <li>Метод обьекта, Когда функция вызывается как метод объекта, используемое в этой функции ключевое слово this принимает значение объекта, по отношению к которому вызван метод.</li>
-  <li>Не прямой вызов, this это первый аргумент когда мы вызываем связанную функцию myFync.bind(thisArg)</li>
-  <li>Конструктор, new Foo(), this это созданный обьект при вызове конструктора. new Foo() делает вызов конструктора, где контекст это контекст созданного обьекта. Внутри Foo обьект проиницилизорован.</li>
-    
-    
-  
-  
-    //Функция конструктор
-    function Foo () {
-      // this is fooInstance
-      this.property = 'Default Value';
-    }
-
-    //Constructor invocation
-    const fooInstance = new Foo();
-
-    fooInstance.property; // => 'Default Value'
-
-   <img src="https://dmitripavlutin.com/static/a0f6062c2d9848de7c0b569aff17195b/7c84e/5-1.webp"/>
-  
-
-  </ul>
-  <p><i>Источник: <a href ="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/this">developer.mozilla.org</a></i></p>
-</div>
-</details>
 
 <details>
-<summary>17. Как работают методы apply(), call() и bind()?</summary>
+<summary>18. Как работают методы apply(), call() и bind()?</summary>
 <div>
   <p>Функции в JavaScript никак не привязаны к своему контексту this, с одной стороны, здорово – это позволяет быть максимально гибкими, одалживать методы и так далее.</p>
   <p>Но с другой стороны – в некоторых случаях контекст может быть потерян. Способы явно указать this  - методы bind, call и apply.</p>
@@ -1495,7 +1462,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>18. Что такое Promise (Промис)?</summary>
+<summary>19. Что такое Promise (Промис)?</summary>
 <div>
   <br/>
   <h1>Promise</h1>
@@ -1584,7 +1551,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-  <summary>19. Promise.all?</summary>
+  <summary>20. Promise.all?</summary>
   <div>
   Допустим, нам нужно запустить множество промисов параллельно и дождаться, пока все они выполнятся.
 
@@ -1629,7 +1596,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-  <summary>20. Async/await?</summary>
+  <summary>21. Async/await?</summary>
   <div>
     Функции, объявленные с использованием ключевого слова async (асинхронные функции), дают нам возможность писать аккуратный и не перегруженный служебными конструкциями код, позволяющий получить тот же результат, который мы получали с использованием промисов. Надо отметить, что ключевое слово async — это, в сущности, лишь «синтаксический сахар» для промисов.
 
@@ -1661,7 +1628,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-  <summary>21. Что такое статический метод класса (static)?</summary>
+  <summary>22. Что такое статический метод класса (static)?</summary>
   <div>
     <p>
       Ключевое слово static используется в классах для определения статичных методов. Статичные методы функции, принадлежащие объекту класса, но не доступные другим объектам того же класса.
@@ -1691,7 +1658,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>22. Что такое Set, Map, WeakSet и WeakMap?</summary>
+<summary>23. Что такое Set, Map, WeakSet и WeakMap?</summary>
 <div>
   <br/>
   <p>В ES-2015 появились новые типы коллекций в JavaScript: Set, Map, WeakSet и WeakMap.</p>
@@ -1793,7 +1760,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>23. Что делает строчка “use strict”;? Какие достоинства и недостатки от ее использования?</summary>
+<summary>24. Что делает строчка “use strict”;? Какие достоинства и недостатки от ее использования?</summary>
 <div>
   <p>ECMAScript 5 (ES5) добавил новые возможности в язык и изменил некоторые из существующих. Чтобы устаревший код работал, как и раньше, по умолчанию подобные изменения не применяются. Поэтому нам нужно явно их активировать с помощью специальной директивы: "use strict".</p>
 
@@ -1815,7 +1782,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>24. Расскажите про методы массивов forEach, filter, map, reduce?</summary>
+<summary>25. Расскажите про методы массивов forEach, filter, map, reduce?</summary>
 <div>
   <p>forEach ни чего не возвращает. Прервать итерирование по массиву не возможно.</p>
 
@@ -1855,7 +1822,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>25. Что такое "чистая функция"?</summary>
+<summary>26. Что такое "чистая функция"?</summary>
 <div>
   <p>
    Чистые функции — строительные блоки в функциональном программировании. Их обожают за простоту и тестируемость.  Функция должна удовлетворять двум условиям, чтобы считаться «чистой»:
@@ -1882,7 +1849,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>26. Что такое лямбда- или стрелочные функции?</summary>
+<summary>27. Что такое лямбда- или стрелочные функции?</summary>
 <div>
 
   Стрелочные функции — это сокращенный способ записи функциональных выражений. Они не имеют собственных this, arguments, super и new.target. Эти функции служат хорошей альтернативой функциям, не имеющим методов, но не могут использоваться как конструкторы.
@@ -1891,7 +1858,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>27. Что такое запоминание или мемоизация?</summary>
+<summary>28. Что такое запоминание или мемоизация?</summary>
 <div>
   Мемоизация — это способ повышения производительности функции за счет сохранения в кэше ранее полученных результатов выполнения этой функции. При каждом вызове функции переданный ей аргумент становится индексом кэша. Если данные имеются в кэше, они возвращаются без повторного выполнения функции. В противном случае, функция выполняется, а результат записывается в кэш:
 
@@ -1918,7 +1885,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>28. Расскажите про сборку мусора в JavaScript?</summary>
+<summary>29. Расскажите про сборку мусора в JavaScript?</summary>
 <div>
   <h2>Достижимость:</h2>
   Основной концепцией управления памятью в JavaScript является принцип достижимости.
@@ -1970,7 +1937,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>29. Как сравнивать обьекты в JavaScript?</summary>
+<summary>30. Как сравнивать обьекты в JavaScript?</summary>
   <p>JavaScript предоставляет 3 способа сравнения значений:</p>
   <ul>
     <li>1. Оператор строго равенства ===</li>
