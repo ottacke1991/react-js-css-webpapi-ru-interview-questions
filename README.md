@@ -1333,7 +1333,9 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <summary>16. Что такое прототип объекта в JavaScript?</summary>
 <div>
   <p>В JavaScript объект может наследовать свойства другого объекта. Объект, от которого наследуются свойства, называется прототипом.</p>
+
   <p>Прототип даёт нам немного «магии». Когда мы хотим прочитать свойство из object, а оно отсутствует, JavaScript автоматически берёт его из прототипа. В программировании такой механизм называется «прототипным наследованием». Многие интересные возможности языка и техники программирования основываются на нём.</p>
+  <p>JavaScript ищет унаследованные свойства в прототипе объекта, а также в прототипе прототипа и так далее в цепочке прототипов.</p>
   <p>Суть прототипного наследования в JavaScript: объекты могут наследовать свойства от других объектов - прототипов. Связующим звеном выступает специальное свойство __proto__</p>
   <p>Если один объект имеет специальную ссылку __proto__ на другой объект, то при чтении свойства из него, если свойство отсутствует в самом объекте, оно ищется в объекте __proto__. Недостаток этого подхода – он не работает в IE10-.</p>
   <p>К счастью, в JavaScript с древнейших времён существует альтернативный, встроенный в язык и полностью кросс-браузерный способ. Чтобы новым объектам автоматически ставить прототип, конструктору ставится свойство prototype.</p>
@@ -1389,6 +1391,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 <details>
 <summary>17. Расскажите про классы в JavaScript?</summary>
+  <h2>Класс и конструктор класса:</h2>
   <p>В JavaScript класс – это разновидность функции.</p>
 
     class User {
@@ -1403,8 +1406,9 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   <ul>
     <li>Создаёт функцию с именем User, которая становится результатом объявления класса. Код функции берётся из метода constructor (она будет пустой, если такого метода нет).</li>
     <li>Сохраняет все методы, такие как sayHi, в User.prototype.
-  При вызове метода объекта new User он будет взят из прототипа, как описано в главе F.prototype. Таким образом, объекты new User имеют доступ к методам класса.</li>
+  При вызове метода объекта new User он будет взят из прототипа. Таким образом, объекты new User имеют доступ к методам класса.</li>
   </ul>
+
   <p>Можно проверить вышесказанное и при помощи кода:</p>
 
     class User {
@@ -1425,6 +1429,198 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 
   <p>Классы всегда используют use strict. Весь код внутри класса автоматически находится в строгом режиме.</p>
+  <h3>Поля класса:</h3>
+  <p>Поля класса — это переменные, содержащие информацию. Поля могут быть прикреплены к 2 объектам:</p>
+
+  <ul>
+    <li>Поля экземпляра класса</li>
+    <li>Поля в самом классе (static)</li>
+  </ul>
+
+
+
+  <p>Поля также имеют 2 уровня доступности:</p>
+
+  <ul>
+    <li>Public: поле доступно в любом месте</li>
+    <li>Private: поле доступно только внутри тела класса</li>
+  </ul>
+
+  <h3>Private fields</h3>
+  <p>Приватные поля доступны только внутри тела класса.</p>
+
+    class User {
+      #name;
+      constructor(name) {
+        this.#name = name;
+      }
+      getName() {
+        return this.#name;
+      }
+    }
+    const user = new User('Jon Snow');
+    user.getName(); // => 'Jon Snow'
+    user.#name;     // SyntaxError is thrown
+
+  <h3>Public static</h3>
+  <p>Вы также можете определить поля в самом классе: статические поля. Они полезны для определения констант класса или хранения информации, относящейся к классу.</p>
+
+    class User {
+      static TYPE_ADMIN = 'admin';
+      static TYPE_REGULAR = 'regular';
+      name;
+      type;
+      constructor(name, type) {
+        this.name = name;
+        this.type = type;
+      }
+    }
+    const admin = new User('Site Admin', User.TYPE_ADMIN);
+    admin.type === User.TYPE_ADMIN; // => true
+
+  <h3>Private static</h3>
+  <p>Чтобы сделать статическое поле приватным, поставьте перед именем поля специальный символ #: static #myPrivateStaticField.
+
+  Допустим, вы хотите ограничить количество экземпляров класса User. Чтобы скрыть детали лимитов экземпляров, вы можете создать приватные статические поля pattern singleton:</p>
+
+    class User {
+      static #MAX_INSTANCES = 1;
+      static #instances = 0;
+      
+      name;
+      constructor(name) {
+        User.#instances++;
+        if (User.#instances > User.#MAX_INSTANCES) {
+          throw new Error('Unable to create User instance');
+        }
+        this.name = name;
+      }
+    }
+    new User('Jon Snow');
+    new User('Sansa Stark'); // throws Error
+
+  <p>Эти закрытые статические поля доступны только в классе User. Ничто из внешнего мира не может помешать механизму ограничений: в этом преимущество инкапсуляции.</p>
+
+  <h3>Static methods</h3>
+  <p>Статические методы — это функции, прикрепленные непосредственно к классу. Они содержат логику, связанную с классом, а не с экземпляром класса.
+
+      static myStaticMethod() { ... }.
+
+  При работе со статическими методами следует помнить 2 простых правила:</p>
+
+  <ul>
+    <li>Статический метод может обращаться к статическим полям</li>
+    <li>Статический метод не может получить доступ к полям экземпляра.</li>
+  </ul>
+
+    class User {
+      static #takenNames = [];
+      static isNameTaken(name) {
+        return User.#takenNames.includes(name);
+      }
+      name = 'Unknown';
+      constructor(name) {
+        this.name = name;
+        User.#takenNames.push(name);
+      }
+    }
+    const user = new User('Jon Snow');
+    User.isNameTaken('Jon Snow');   // => true
+    User.isNameTaken('Arya Stark'); // => false
+
+  <p>isNameTaken() — это статический метод, который использует статическое приватное поле User.#takenNames для проверки занятых имен.
+
+  Статические методы могут быть приватными: static #staticFunction() {...}. Опять же, они соблюдают правила приватности: вы можете вызывать приватный статический метод только внутри тела класса.</p>
+
+  <h3>Inheritance: extends</h3>
+  <p>Классы в JavaScript поддерживают одиночное наследование с использованием ключевого слова extends.
+
+  В выражении class Child extends Parent { } класс Child наследует от Parent конструктор, поля и методы.</p>
+
+    class User {
+      name;
+      constructor(name) {
+        this.name = name;
+      }
+      getName() {
+        return this.name;
+      }
+    }
+    class ContentWriter extends User {
+      posts = [];
+    }
+    const writer = new ContentWriter('John Smith');
+    writer.name;      // => 'John Smith'
+    writer.getName(); // => 'John Smith'
+    writer.posts;     // => []
+
+  <p>ContentWriter наследует от пользователя конструктор, метод getName() и имя поля. Кроме того, класс ContentWriter объявляет новое поле posts.
+
+  Обратите внимание, что частные члены родительского класса не наследуются дочерним классом.</p>
+
+  <h3>Parent constructor: super() in constructor()</h3>
+  <p>Если вы хотите вызвать родительский конструктор в дочернем классе, вам нужно использовать специальную функцию super(), доступную в дочернем конструкторе.
+
+  Например, сделаем так, чтобы конструктор ContentWriter вызывал родительский конструктор User, а также инициализировал поле posts:</p>
+
+    class User {
+      name;
+      constructor(name) {
+        this.name = name;
+      }
+      getName() {
+        return this.name;
+      }
+    }
+    class ContentWriter extends User {
+      posts = [];
+      constructor(name, posts) {
+        super(name);
+        this.posts = posts;
+      }
+    }
+    const writer = new ContentWriter('John Smith', ['Why I like JS']);
+    writer.name; // => 'John Smith'
+    writer.posts // => ['Why I like JS']
+
+  <p>super(name) inside the child class ContentWriter executes the constructor of the parent class User</p>
+
+  <h3>Parent instance: super в методах</h3>
+  <p>Если вы хотите получить доступ к родительскому методу внутри дочернего метода, вы можете использовать специальный ярлык super.</p>
+
+    class User {
+      name;
+      constructor(name) {
+        this.name = name;
+      }
+      getName() {
+        return this.name;
+      }
+    }
+    class ContentWriter extends User {
+      posts = [];
+      constructor(name, posts) {
+        super(name);
+        this.posts = posts;
+      }
+      getName() {
+        const name = super.getName();
+        if (name === '') {
+          return 'Unknwon';
+        }
+        return name;
+      }
+    }
+    const writer = new ContentWriter('', ['Why I like JS']);
+    writer.getName(); // => 'Unknwon'
+
+  <p>getName() дочернего класса ContentWriter обращается к методу super.getName() непосредственно из родительского класса User.
+
+  Эта функция называется переопределением метода.
+
+  Обратите внимание, что вы также можете использовать super со статическими методами, чтобы получить доступ к статическим методам родителя.</p>
+
+  
 
   <p>Итого:</p>
 
@@ -1440,6 +1636,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
       // ...
     }
 
+  
   <p>MyClass технически является функцией (той, которую мы определяем как constructor), в то время как методы, геттеры и сеттеры записываются в MyClass.prototype.</p>
 
   <p>Давайте обобщим, какие методы для проверки типа мы знаем:</p>
@@ -1452,7 +1649,14 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
   <p>Как мы можем видеть, технически {}.toString «более продвинут», чем typeof.
 
-  А оператор instanceof – отличный выбор, когда мы работаем с иерархией классов и хотим делать проверки с учётом наследования.  </p>
+  А оператор instanceof – отличный выбор, когда мы работаем с иерархией классов и хотим делать проверки с учётом наследования. 
+  instanceof является полиморфным: оператор определяет дочерний элемент как экземпляр родительского класса. </p>
+
+  <p>Классы JavaScript инициализируют экземпляры с помощью конструкторов, определяют поля и методы. Вы можете присоединять поля и методы даже к самому классу, используя ключевое слово static.
+
+  Наследование достигается с помощью ключевого слова extends: вы можете легко создать дочерний класс из родительского. ключевое слово super используется для доступа к родительскому классу из дочернего класса.
+
+  Чтобы воспользоваться преимуществами инкапсуляции, сделайте поля и методы закрытыми, чтобы скрыть внутренние детали ваших классов. Имена приватных полей и методов должны начинаться с #.</p>
 </details>
 
 
