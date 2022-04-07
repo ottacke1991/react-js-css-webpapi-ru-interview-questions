@@ -1850,7 +1850,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   <h3>Promise.any(iterable)</h3>
   Promise.any(promises) — это вспомогательная функция, которая выполняет промисы параллельно и разрешает значение первого успешно разрешенного промиса из списка промисов.Полезно выполнять независимые асинхронные операции параллельно и в режиме гонки, чтобы получить значение любого первого выполненного обещания.
   Promise, возвращаемый Promise.any(), выполняется с любым первым выполненным promise. Даже если некоторые promise будут rejected, эти reject будут проигнорированы.
-  
+
   <h3>Разница promse.race VS promise.any</h3>
   Promise.any решится, как только любое из переданных вами promise выполнено или все они отклонены, и в этом случае они отклоняются с AggregateError.
 
@@ -1873,6 +1873,8 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   <h1>async/await преимущества</h1>
   <p>Использование промисов по-прежнему требует обратных вызовов и относительно большого количества шаблонного кода, такого как .then(), .catch().</p>
 
+  <p> Синхронно вернуть результат из Promise не получится, promise всегда возвращает promise.</p>
+
   К счастью, JavaScript сделал еще один шаг вперед в улучшении асинхронного кода, предоставив синтаксис async/await — действительно полезный синтаксический сахар поверх промисов.
 
   Когда это возможно, я настоятельно рекомендую работать с    синтаксисом async/await, а не с необработанными промисами.
@@ -1883,6 +1885,19 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     <li>Внутри тела асинхронной функции всякий раз, когда вы хотите дождаться разрешения промиса, используйте синтаксис await promiseExpression</li>
     <li>Асинхронная функция всегда возвращает обещание, что позволяет вызывать асинхронные функции внутри асинхронных функций.</li>
   </ul>
+
+      const address = fetch("https://jsonplaceholder.typicode.com/users/1")
+        .then((response) => response.json())
+        .then((user) => {
+          return user.address;
+        });
+
+      const printAddress = async () => {
+        const a = await address;
+        console.log(a);
+      };
+
+      printAddress();
 </div>
 </details>
 
