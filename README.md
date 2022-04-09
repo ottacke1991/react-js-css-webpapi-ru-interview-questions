@@ -2401,6 +2401,35 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
       isDeepStrictEqual(object1, object2) of Node built-in util module
       or _.isEqual(object1, object2) of lodash library.
 
+
+  <h2>Сравнение с помощью JSON.stringify()</h2>
+  <p>Простой путь: </p>
+
+    function deep_clone(a){
+      return JSON.parse(JSON.stringify(a));
+    };
+    function is_equal(a,b){
+        return JSON.stringify(a) === JSON.stringify(b);
+    };
+
+  <p>JavaScript не гарантирует порядок ключей. 
+    Если они вводятся в одном и том же порядке, этот подход будет работать в большинстве случаев, но он не будет надежным.
+    Кроме того, он вернет false для объектов, которые глубоко равны, но чьи ключи вводятся в другом порядке:
+  </p>
+
+    JSON.stringify({ a: 1, b: 2}) === "{"a":1,"b":2}"
+
+    JSON.stringify({ b: 2, a: 1}) === "{"b":2,"a":1}"
+
+
+  <p>Обьект с сортировкой: </p>
+
+    JSON.stringify(sortMyObj, Object.keys(sortMyObj).sort());
+
+  <p>Однако этот метод удаляет любые вложенные объекты, на которые нет ссылок, и не применяется к объектам внутри массивов. Вы также захотите сделать flat для объекта сортировки.</p>
+
+
+
   <h2>Итог:</h2>
   <ul>
     <li>Ссылочное равенство (с использованием ===, == или Object.is()) определяет, являются ли операнды одним и тем же экземпляром объекта.</li>
