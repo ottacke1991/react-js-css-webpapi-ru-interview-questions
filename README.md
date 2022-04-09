@@ -2214,6 +2214,37 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     const addition = memoizAddition()
     console.log(addition(20)) // Результат вычисляется 40
     console.log(addition(20)) // Получения данных из кэша 40
+
+
+    const multiplayer = (x, y, str) =>{
+    
+      console.log(x , y, str + ' args in fn')
+      return x*y
+    }
+
+    const memoize = (fn) => {
+      const cache = {}
+
+      return (...args) =>  {
+        
+        if(cache[args]){
+          console.log('result from cache')
+          return cache[args]
+        } else {
+          const results = fn(...args)
+          cache[args] = results
+          console.log('memoized')
+          return results
+        }
+        
+      }
+      
+      
+    }
+
+    const memFn = memoize(multiplayer)
+    console.log(memFn(3, 4, 'vlad'))
+    console.log(memFn(3, 4, 'vlad'))
 </div>
 </details>
 
@@ -2233,12 +2264,13 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     <li>Локальные переменные и параметры текущей функции.</li>
     <li>Переменные и параметры других функций в текущей цепочке вложенных вызовов.</li>
     <li>Глобальные переменные.</li>
-    <li>(некоторые другие внутренние значения)</li>
-    <li>Эти значения мы будем называть корнями.</li>
   <ul>
+
+  <b>Эти значения мы будем называть корнями.</b>
+
   Любое другое значение считается достижимым, если оно доступно из корня по ссылке или по цепочке ссылок.
 
-  Например, если в локальной переменной есть объект, и он имеет свойство, в котором хранится ссылка на другой объект, то этот объект считается достижимым. И те, на которые он ссылается, тоже достижимы. Далее вы познакомитесь с подробными примерами на эту тему.
+  Например, если в локальной переменной есть объект, и он имеет свойство, в котором хранится ссылка на другой объект, то этот объект считается достижимым. И те, на которые он ссылается, тоже достижимы. 
 
   В интерпретаторе JavaScript есть фоновый процесс, который называется сборщик мусора. Он следит за всеми объектами и удаляет те, которые стали недостижимы.
 
