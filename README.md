@@ -2599,31 +2599,10 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 
-<details>
-  <summary>31. Паттер декоратор?</summary>
-  <div>
-  <p>Декоратор – это обёртка вокруг функции, которая изменяет поведение последней. Основная работа по-прежнему выполняется функцией.</p>
-  <p>Обычно безопасно заменить функцию или метод декорированным, за исключением одной мелочи. Если исходная функция предоставляет свойства, такие как func.calledCount или типа того, то декорированная функция их не предоставит. Потому что это обёртка. Так что нужно быть осторожным в их использовании. Некоторые декораторы предоставляют свои собственные свойства.</p>
-  <p>Декораторы можно рассматривать как «дополнительные возможности» или «аспекты», которые можно добавить в функцию. Мы можем добавить один или несколько декораторов. И всё это без изменения кода оригинальной функции!</p>
-  <p>Для реализации cachingDecorator мы изучили методы:</p>
-  <b>func.call(context, arg1, arg2…) – вызывает func с данным контекстом и аргументами.</b>
-  <b>func.apply(context, args) – вызывает func, передавая context как this и псевдомассив args как список аргументов.</b>
-  <p>В основном переадресация вызова выполняется с помощью apply:</p>
-
-      let wrapper = function(original, arguments) {
-        return original.apply(this, arguments);
-      };
-
-  <p>Мы также рассмотрели пример заимствования метода, когда мы вызываем метод у объекта в контексте другого объекта. Весьма распространено заимствовать методы массива и применять их к arguments. В качестве альтернативы можно использовать объект с остаточными параметрами ...args, который является реальным массивом.</p>
-
-  <p>На практике декораторы используются для самых разных задач. Проверьте, насколько хорошо вы их освоили, решая задачи этой главы.</p>
-  </div>
-
-</details>
 
 
 <details>
-  <summary>32. OOP в JavaScript?</summary>
+  <summary>31. OOP в JavaScript?</summary>
   <div>
   <h2>Инкапсуляция:</h2>
   <p>Инкапсуляция включает в себя идею о том, что данные объекта не должны быть напрямую доступны. Нужно вызывать методы вместо прямого доступа к данным. Инкапсуляция позволяет нам скрывать/показывать свойства функций.</p>
@@ -2673,7 +2652,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>33. Разница между Prototypal Inheritance vs Classical Inheritance?</summary>
+<summary>32. Разница между Prototypal Inheritance vs Classical Inheritance?</summary>
 <div>
   <p>Экземпляры обычно создаются с помощью функций-конструкторов с ключевым словом `new`. Наследование классов может использовать или не использовать ключевое слово class из ES6. Классы, какими вы их знаете из таких языков, как Java, технически не существуют в JavaScript. Вместо этого используются функции конструктора. Ключевое слово `class` ES6 преобразует сахар в функцию-конструктор:</p>
 
@@ -2716,6 +2695,46 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 
+<br/>
+
+**Patterns**:
+
+<details>
+<summary>1. Singleton pattern?</summary>
+<div>
+  <p>
+  <p>
+</div>
+</details>
+
+
+
+<details>
+  <summary>2. Decorator pattern?</summary>
+  <div>
+  <p>Декоратор – это обёртка вокруг функции, которая изменяет поведение последней. Основная работа по-прежнему выполняется функцией.</p>
+  <p>Обычно безопасно заменить функцию или метод декорированным, за исключением одной мелочи. Если исходная функция предоставляет свойства, такие как func.calledCount или типа того, то декорированная функция их не предоставит. Потому что это обёртка. Так что нужно быть осторожным в их использовании. Некоторые декораторы предоставляют свои собственные свойства.</p>
+  <p>Декораторы можно рассматривать как «дополнительные возможности» или «аспекты», которые можно добавить в функцию. Мы можем добавить один или несколько декораторов. И всё это без изменения кода оригинальной функции!</p>
+  <p>Для реализации cachingDecorator мы изучили методы:</p>
+  <b>func.call(context, arg1, arg2…) – вызывает func с данным контекстом и аргументами.</b>
+  <b>func.apply(context, args) – вызывает func, передавая context как this и псевдомассив args как список аргументов.</b>
+  <p>В основном переадресация вызова выполняется с помощью apply:</p>
+
+      let wrapper = function(original, arguments) {
+        return original.apply(this, arguments);
+      };
+
+  <p>Мы также рассмотрели пример заимствования метода, когда мы вызываем метод у объекта в контексте другого объекта. Весьма распространено заимствовать методы массива и применять их к arguments. В качестве альтернативы можно использовать объект с остаточными параметрами ...args, который является реальным массивом.</p>
+  </div>
+</details>
+
+<details>
+<summary>3. Observer pattern?</summary>
+<div>
+  <p>
+  <p>
+</div>
+</details>
 
 
 <br/>
@@ -4698,6 +4717,7 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
   <p>redux-thunk это пример Redux Middleware и как таковой должен придеживаться сигнатуры validMiddleware => (store) => (next) => (action)
   
   Где store = {dispatch, getState}</p>
+
   <p>redux-thunk логика достаточно проста. Выполняется проверка на то, является ли переданный action функцией. И если да, функция запускается. По умолчанию происходит импорт Middleware без extraArgument, но потом к thunk добавляется поле withExtraArgument = createThunkMiddleware. При необходимости эта функция будет использована.</p>
 
   <a href="https://daveceddia.com/what-is-a-thunk/#commento-login-box-container">thunk theory</a>
@@ -4707,116 +4727,57 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </details>
 
 
+
 <details>
-<summary>23. RTK createAsyncThunks?</summary>
+<summary>23. ES6 generators?</summary>
 <div>
+  <p>Как видно из примера, генераторы вводят новый синтаксис в язык. Во-первых, это звездочка после слова function. Она просто указывает на то, что мы имеем дело с генератором. Во-вторых, выражение yield (подчеркиваю: это – не инструкция).</p>
 
-  <p>Для автоматизации http-запросов понадобятся два механизма: мидлвара redux-thunk, которая уже включена в Redux Toolkit и механизм createAsyncThunk().
+  <p>Генератор в отличие от обычной функции при своем вызове не выполняет тело, а возвращает специальный объект с методом next. Каждый раз, когда вызывается next, запускается тело генератора с того места, где оно остановилось последний раз. При первом вызове выполнение идёт с самого начала генератора и продолжается до встречи с выражением yield. В этот момент управление передаётся наружу, next возвращает то, что было передано в yield, а генератор замирает в этом состоянии, на выражении yield. Последующие вызовы начинают работу от yield.</p>
 
-  redux-thunk, представляет из себя мидлвару, которая добавляется в Redux и позволяет использовать асинхронный код внутри dispatch(). С её помощью выносят логику выполнения запросов и обновления хранилища в отдельные функции, называемые thunks:</p>
+  <p>Еще один пример для осознания:</p>
 
-    export const fetchTodos = createAsyncThunk(
-        'todos/fetchTodos',
-        async function((_вход функии dispatch(fetchTodos(....))), {rejectWithValue, getState, dispatch}) {
-            const state = getState()
-            try {
-                const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
-                console.log(state)
-                if(!response.ok){
-                    throw new Error('Resp not ok!')
-                }
-                const data = await response.json()
-                return data;
-            } catch (error) {
-                return rejectWithValue(error.message)
-            }
-        }
-    )
-    export  const  deleteTodo = createAsyncThunk(
-        'todos/deleteTodo',
-        async function (id, {rejectWithValue, dispatch}) {
-            try {
-                const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
-                    method: 'DELETE'
-                })
-                if(!response.ok) {
-                    throw new Error('Cant delete task')
-                }
-                dispatch(removeTodo({id}))
-            } catch (error) {
-                return rejectWithValue(error.message)
-            }
-        }
-    )
-
-  <p>Примерно тоже самое можно сделать и без redux-thunk просто написав асинхронную функцию, которой мы на вход передадим dispatch(). Разница проявляется в более продвинутых вариантах использования. Например, когда нам нужно работать с состоянием или глобальными объектами, такими как вебсокет соединение. В этом случае придется использовать redux-thunk, который все это позволяет легко сделать:</p>
-
-    // (dispatch, getState, extraArgument)
-    export const fetchTodoById = (todoId) => async (dispatch, getState, extraArgument) => {
-      // Любые данные переданные на этапе конфигурации мидлвары
-      const { serviceApi } = extraArgument;
-      const response = await serviceApi.getTodo(todoId);
-      dispatch(todosLoaded(response.todos));
+    const gen = function* () {
+      yield 1;
+      yield 2;
+      yield 3;
     };
-    Несмотря на получаемые удобства, thunks сами по себе не уменьшают количество кода, и та же обработка ошибок составит большую часть кода. Здесь нам на помощь приходит createAsyncThunk():
 
-    import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-    // Чтобы не хардкодить урлы, делаем модуль, в котором они создаются
-    import { userUrl } from './routes.js';
+    const it = gen();
+    it.next(); // { value: 1, done: false }
+    it.next(); // { value: 2, done: false }
+    it.next(); // { value: 3, done: false }
+    it.next(); // { value: undefined, done: true }
 
-    // Создаем Thunk
-    export const fetchUserById = createAsyncThunk(
-      'users/fetchUserById', // отображается в dev tools
-      async (userId) => {
-        // Здесь только логика запроса и возврата данных
-        // Никакой обработки ошибок
-        const response = await axios.get(userUrl(userId));
-        return response.data;
-      }
-    );
+  <p>Или даже так:</p>
 
-    const usersAdapter = createEntityAdapter();
+    const it = gen();
+    [...it]; // [1, 2, 3]
 
-    const usersSlice = createSlice({
-      name: 'users',
-      // Добавляем в состояние отслеживание процесса загрузки
-      // { ids: [], entities: {}, loading: 'idle', error: null }
-      initialState: usersAdapter.getInitialState({ loading: 'idle', error: null }),
-      reducers: {
-        // любые редьюсеры, которые нам нужны
+  <p>Кроме yield в генераторах можно использовать версию yield*, которая ожидает на вход коллекцию и делает yield для каждого элемента этой коллекции.</p>
+
+    const makeIterator = function* () {
+      yield* this.collection;
+    };
+
+  <p>Теперь можно переписать наш первый пример вот таким образом:</p>
+
+    const obj = {
+      collection: ['yo', 'ya'],
+      [Symbol.iterator]: function* () {
+        yield* this.collection;
       },
-      extraReducers: (builder) => {
-        builder
-          // Вызывается прямо перед выполнением запроса
-          .addCase(fetchUserById.pending, (state) => {
-            state.loading = 'loading';
-            state.error = null;
-          })
-          // Вызывается в том случае если запрос успешно выполнился
-          .addCase(fetchUserById.fulfilled, (state, action) => {
-            // Добавляем пользователя
-            usersAdapter.addOne(state, action.payload);
-            state.loading = 'idle';
-            state.error = null;
-          })
-          // Вызывается в случае ошибки
-          .addCase(fetchUserById.rejected, (state, action) => {
-            state.loading = 'failed';
-            // https://redux-toolkit.js.org/api/createAsyncThunk#handling-thunk-errors
-            state.error = action.error;
-          });
-      },
-    })
+    };
 
-    // Где-то в приложении
-    import { fetchUserById } from './slices/usersSlice.js';
+    for (const v of obj) {
+      console.log(v);
+    }
+    // yo
+    // ya
 
-    // Внутри компонента
-    dispatch(fetchUserById(123));
-
-  Каждый Thunk, созданный через createAsyncThunk(), содержит внутри себя три редьюсера: pending, fulfilled и rejected. Они соответствуют состояниям промиса и вызываются Redux Toolkit в тот момент, когда промис переходит в одно из этих состояний. Нам не обязательно реагировать на них все, мы сами выбираем, что нам важно в приложении.
 </div>
 </details>
+
 
 
 
@@ -4907,56 +4868,6 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 </div>
 </details>
 
-
-<details>
-<summary>25. ES6 generators?</summary>
-<div>
-  <p>Как видно из примера, генераторы вводят новый синтаксис в язык. Во-первых, это звездочка после слова function. Она просто указывает на то, что мы имеем дело с генератором. Во-вторых, выражение yield (подчеркиваю: это – не инструкция).</p>
-
-  <p>Генератор в отличие от обычной функции при своем вызове не выполняет тело, а возвращает специальный объект с методом next. Каждый раз, когда вызывается next, запускается тело генератора с того места, где оно остановилось последний раз. При первом вызове выполнение идёт с самого начала генератора и продолжается до встречи с выражением yield. В этот момент управление передаётся наружу, next возвращает то, что было передано в yield, а генератор замирает в этом состоянии, на выражении yield. Последующие вызовы начинают работу от yield.</p>
-
-  <p>Еще один пример для осознания:</p>
-
-    const gen = function* () {
-      yield 1;
-      yield 2;
-      yield 3;
-    };
-
-    const it = gen();
-    it.next(); // { value: 1, done: false }
-    it.next(); // { value: 2, done: false }
-    it.next(); // { value: 3, done: false }
-    it.next(); // { value: undefined, done: true }
-
-  <p>Или даже так:</p>
-
-    const it = gen();
-    [...it]; // [1, 2, 3]
-
-  <p>Кроме yield в генераторах можно использовать версию yield*, которая ожидает на вход коллекцию и делает yield для каждого элемента этой коллекции.</p>
-
-    const makeIterator = function* () {
-      yield* this.collection;
-    };
-
-  <p>Теперь можно переписать наш первый пример вот таким образом:</p>
-
-    const obj = {
-      collection: ['yo', 'ya'],
-      [Symbol.iterator]: function* () {
-        yield* this.collection;
-      },
-    };
-
-    for (const v of obj) {
-      console.log(v);
-    }
-    // yo
-    // ya
-
-</div>
-</details>
 
 
 
