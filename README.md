@@ -2638,6 +2638,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   <p>Само слово означает много форм. Существует много толкований того, что именно оно означает, но идея заключается в способности вызывать один и тот же метод для разных объектов, и при этом каждый объект реагирует по-своему.
 
   Чтобы это произошло полиморфизм использует наследование</p>
+  <p>Способность объекта принимать различные формы. Например, функция может быть перегружена с тем же именем, но разными параметрами. </p>
 
   <h2>Наследование: </h2>
   <p>Наследование - это механизм базирования объекта или class на другом объекте (наследование на основе прототипа) или class (наследование на основе класса). Мы избегаем необходимости переписывать один и тот же код, а также экономим пространство памяти, используя общие методы.</p>
@@ -2691,8 +2692,117 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
   <p>Как вы, вероятно, начинаете понимать, конкатенативное наследование — это секретный соус, который делает возможной композицию объектов в JavaScript, что делает как делегирование прототипов, так и функциональное наследование намного более интересными.
   Когда большинство людей думают о прототипном ОО в JavaScript, они думают о делегировании прототипа. К настоящему времени вы должны увидеть, что они многое упускают. Прототипы делегатов — не лучшая альтернатива наследованию классов, лучшаяя это композиция объектов.</p>
+
+  <a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-s-the-difference-between-class-prototypal-inheritance-e4cd0a7562e9">Master the JavaScript Interview: What’s the Difference Between Class & Prototypal Inheritance?</a>
 </div>
 </details>
+
+<details>
+<summary>33. JavaScript ES6?</summary>
+<div>
+
+  <p>ECMAScript 2015 — это шестая редакция стандарта спецификации языка ECMAScript, который используется при реализации JavaScript. Чтобы запустить код ES6 в современном браузере, мы используем BABEL. BABEL — это транспилятор для JavaScript, который позволяет запускать код ES6 в любом браузере.</p>
+
+  <h2>let & var</h2>
+  <p>Одна из самых больших проблем с ключевым словом var заключается в том, что оно позволяет перезаписывать значения переменной.</p>
+  <p>Если вы не хотите переприсваивать значение переменной, в этом случае мы выбираем ключевое слово let. ключевое слово let в ES6 поддерживает облочную область видимости, в которой область действия переменной ограничена блоком. В случае, если вы объявляете переменную с помощью ключевого слова var, область действия переменной может быть либо внутри функции, либо она может быть глобальной.</p>
+
+  <h2>const</h2>
+  <p>Добавлена read-only переменная  const.</p>
+
+  <h2>Template literals</h2>
+  <p>В ES6 появилась новая функция, называемая литералами шаблонов, для объединения или создания новых строк. Мы используем обратные галочки (``) для встраивания выражения. Placeholders представлены с помощью ${expression}</p>
+
+  <h2>Spread and Rest operator</h2>
+  <p>Оператор Rest позволяет нам представить количество аргументов в виде массива. Оператор Rest обозначается как (...args)</p>
+
+    function sum(...theArgs) {
+      return theArgs.reduce((previous, current) => {
+        return previous + current;
+      });
+    }
+    console.log(sum(1, 2, 3)); // output 6
+
+  <p>Оператор spread ... используется для расширения или расширения итерируемого объекта или массива.</p>
+
+    const arrValue = ['My', 'name', 'is', 'Jack'];
+
+    console.log(arrValue);   // ["My", "name", "is", "Jack"]
+    console.log(...arrValue); // My name is Jack
+
+
+  <h2>Destructuring assignment</h2>
+
+  <p>Деструктуризация позволяет нам извлекать значения в отдельные переменные из массива или объекта. Это позволяет нам присваивать значение левой стороне присваивания из массива или объекта.</p>
+    
+    const point = [10, 25, -34];
+
+    const [x, y, z] = point;
+
+    console.log(x, y, z); // 10 25 -34
+
+    const [a, b,,, c] = [1, 2, 3, 4, 5, 6];
+    console.log(a, b, c); // 1, 2, 5
+
+  <h2>Arrow functions</h2>
+  <p>Стрелочные функции — одна из примечательных особенностей ES6. Его поведение чем-то похоже на обычные функции, но синтаксически отличается.
+  Это делает код очень четким и лаконичным.</p>
+
+  <h2>Default parameters in ES6 </h2>
+  <p>ES6 представил параметры по умолчанию для создания более гибких функций. Параметры по умолчанию возвращаются, когда параметр отсутствует для функции</p>
+
+    function greeting(name = "Anonymous") {
+      return "Hello " + name;
+    }
+    console.log(greeting("Dave")); // Hello Dave
+    console.log(greeting()); // Hello Anonymous
+
+  <h2>Classes in ES6</h2>
+  <p>ES6 предоставляет новый способ создания объектов с использованием ключевого слова class. Использование синтаксиса класса предназначено только для синтаксиса, и это не традиционные классы, это просто функция. </p>\
+
+    class myclass{
+      constructor(){
+        this.a = 2
+      }
+    }
+    var myobj = new myclass();
+    console.log(typeof myclass)// function
+
+  <h2>Modules in ES6 </h2>
+  <p>Модули — одна из самых важных функций в ES6. В ES6 каждый модуль определяется в собственном файле. функции и переменные в одном модуле не видны другому модулю, если они не были экспортированы.</p>
+
+  <p>Чтобы экспортировать определенные переменные из модуля, вы просто используете экспорт ключевого слова. Точно так же, чтобы использовать экспортированные переменные в другом модуле, вы используете import.</p>
+
+    //random.js
+    function generateRandom() {
+        return Math.random();
+    }
+
+    function multiply(a, b) {
+        return a * b;
+    }
+
+    export { generateRandom, multiply}
+
+
+    //app.js
+    import { generateRandom, multiply} from 'utility';
+
+    console.log(generateRandom()); //logs a random number
+    console.log(multiply(1, 2)); //2
+
+  <h2>Promises in ES6</h2>
+  <p>Promise — это объект, который даст одно значение, которое может быть либо разрешенным, либо неразрешенным значением. Он находится в трех состояниях: выполнено, отклонено или ожидает выполнения. Обратные вызовы могут быть прикреплены к promise, чтобы узнать причину разрешенного или неразрешенного значения.</p>
+
+    var wait1000 = new Promise(function(resolve, reject) {
+      setTimeout(resolve, 1000);
+    }).then(function() {
+      console.log("Yay!");
+    });
+  <a href="https://medium.com/javascript-scene/how-to-learn-es6-47d9a1ac2620">How to Learn ES6</a>
+</div>
+</details>
+
 
 
 <br/>
@@ -2731,8 +2841,147 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <details>
 <summary>3. Observer pattern?</summary>
 <div>
-  <p>
-  <p>
+  <p>В JavaScript часто возникает проблема. Вам нужен способ обновлять части страницы в ответ на определенные события с данными, которые они предоставляют. Скажем, например, пользовательский ввод, который вы затем проецируете на один или несколько компонентов. Это приводит к большому количеству push-and-pull в коде, чтобы все было синхронно.</p>
+
+  <h2>The event observer:</h2>
+
+    EventObserver
+    │ 
+    ├── subscribe: adds new observable events
+    │ 
+    ├── unsubscribe: removes observable events
+    |
+    └── broadcast: executes all events with bound data
+
+  <p>Начните с пустого списка наблюдаемых событий и делайте это для каждого нового экземпляра.</p>
+
+    class EventObserver {
+      constructor() {
+        this.observers = [];
+      }
+    }
+
+  <h2>The Subscribe Method:</h2>
+
+    subscribe(fn) {
+      this.observers.push(fn);
+    }
+
+  <p>Возьмите список наблюдаемых событий и поместите новый элемент в массив. Список событий — это список функций обратного вызова.</p>
+
+  <h2>The Unsubscribe Method:</h2>
+
+    unsubscribe(fn) {
+      this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+    }
+
+  <p>Отфильтруйте из списка все, что соответствует функции обратного вызова. Если совпадений нет, обратный вызов остается в списке. Фильтр возвращает новый список и переназначает список наблюдателей.</p>
+
+  <h2>The Broadcast Method:</h2>
+  <p>Для вызова всех events:</p>
+
+    broadcast(data) {
+      this.observers.forEach((subscriber) => subscriber(data));
+    }
+
+  <p>Перебираем список наблюдаемых событий и выполняем все обратные вызовы. При этом мы получаем необходимое отношение «один ко многим» с подписанными событиями. Мы передаем параметр data, который связывает колбэки.</p>
+
+
+    class EventObserver {
+      constructor() {
+        this.observers = [];
+      }
+
+      subscribe(fn) {
+        this.observers.push(fn);
+      }
+
+      unsubscribe(fn) {
+        this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+      }
+
+      broadcast(data) {
+        this.observers.forEach((subscriber) => subscriber(data));
+      }
+    }
+
+    const getWordCount = (text) => text ? text.trim().split(/\s+/).length : 0;
+
+    const wordCountElement = document.createElement('p');
+
+    wordCountElement.className = 'wordCount';
+    wordCountElement.innerHTML = 'Word Count: <strong id="blogWordCount">0</strong>';
+    document.body.appendChild(wordCountElement);
+
+    const blogObserver = new EventObserver();
+
+    blogObserver.subscribe((text) => {
+      const blogCount = document.getElementById('blogWordCount');
+
+      blogCount.textContent = getWordCount(text);
+    });
+
+    const blogPost = document.getElementById('blogPost');
+
+    blogPost.addEventListener('keyup', () => blogObserver.broadcast(blogPost.value));
+
+  <p>The observer pattern может помочь вам решить реальные проблемы в JavaScript. Он решает извечную проблему синхронизации множества элементов с одними и теми же данными. Как это часто бывает, когда браузер запускает определенные события.</p>
+
+
+
+  <a href="https://www.sitepoint.com/javascript-design-patterns-observer-pattern/">JavaScript Design Patterns: The Observer Pattern</a>
+</div>
+</details>
+
+<details>
+<summary>4. Observer pattern RxJs (deprecated)?</summary>
+<div>
+  <h3>Observable:</h3>
+  <p>Observable объекты — это объекты, которые могут выдавать данные в течение некоторого времени. Вы можете думать об этом как о функции, которая возвращает поток данных наблюдателям синхронно или асинхронно. Количество данных, возвращаемых потоком, варьируется от нуля до бесконечности.</p>
+
+  <h3>Observers & Subscriptions:</h3>
+  <p>Чтобы Observable работал, ему нужен Observer и подписка. Observer — это потребитель значений, предоставляемых Observable.
+
+  Подписка служит связующим звеном между Observable и Observer: Observer подключается к Observable через метод subscribe().</p>
+
+  <h3>Observable lifecycle:</h3>
+  <ul>
+    <li>Creation</li>
+    <li>Subscription</li>
+    <li>Execution</li>
+    <li>Disposal</li>
+  </ul>
+
+  <h3>Creating Observable:</h3>
+  <p>Обратите внимание, что каждая подписка приводит к отдельному выполнению Observable. Несколько наблюдателей, которые подписались на один и тот же Observable, никак не связаны между собой.
+
+  Observable создает n-значений (синхронно или асинхронно), которые доставляются подписчику во время выполнения. Существует три типа значений, которые может предоставить Observable Execution:</p>
+
+  <ul>
+    <li>"next": отправляет значение, такое как число, строка, объект и т. д. Количество «следующих» уведомлений не ограничено.</li>
+    <li>"error": отправляет ошибку или исключение JavaScript.</li>
+    <li>"Complete": не отправляет значение, служит сигналом об успешном завершении Observable. Вы не можете передавать значения с этим уведомлением!</li>
+  <ul>
+
+  <p>Состояния Complete и error являются окончательными. Это означает, что Observables не может выдавать никаких данных после доставки этих уведомлений.</p>
+
+  <h3>Hot & Cold Observables:</h3>
+  <ul>
+    <li>Если данные генерируются самим Observable, мы называем его «холодным» Observable;</li>
+    <li>Если данные генерируются вне Observable, мы называем это «горячим».</li>
+  </ul>
+
+  <p><b>COLD</b> По умолчанию Observable ленивы — выполнение Observable происходит только для каждого наблюдателя, который подписывается. Observable запускает новое выполнение для каждого подписчика, данные между ними не распределяются.</p>
+
+  <p><b>HOT</b> Чтобы превратить холодный Observable в горячий, нам просто нужно перенести генерацию данных за пределы Observable. </p>
+
+  <p>Чаще всего,  лучше держать Observables холодными, если только:</p>
+  <ul>
+    <li>Вам нужна возможность иметь n-подписчиков, которые будут получать одни и те же данные</li>
+    <li>Вы имеете дело с новым экземпляром. Например, подключение по WebSocket: вы, вероятно, не хотите создавать отдельное подключение для каждого нового подписчика. Вместо этого вы хотели бы использовать одно соединение между ними всеми.</li>
+  </ul>
+
+  <a href="https://www.akveo.com/blog/an-introduction-to-rxjs-things-you-need-to-know-in-2022">RxJs obserables</a>
 </div>
 </details>
 
