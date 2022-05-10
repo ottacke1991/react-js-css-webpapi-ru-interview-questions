@@ -3453,22 +3453,114 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     <li>Компиляция: в отличие от JavaScript, который является интерпретативным языком, TypeScript компилирует код для вас и находит ошибки компиляции, что упрощает отладку.</li>
   </ul>
   <img src="https://s3.ap-south-1.amazonaws.com/myinterviewtrainer-domestic/public_assets/assets/000/000/484/original/Typescript_Compilation_Process.png?1623239887" />
+
+  <p>TypeScript добавляет необязательную статическую типизацию и языковые функции, такие как классы и модули. Важно знать, что все эти расширенные функции добавляют JavaScript нулевую стоимость. TypeScript — это исключительно инструмент времени компиляции. После компиляции у вас остается простой идиоматический JavaScript. TypeScript — это язык для разработки JavaScript в масштабе приложения.</p>
+
+  <img src="https://s3.ap-south-1.amazonaws.com/myinterviewtrainer-domestic/public_assets/assets/000/000/485/original/Typescript_Artboard_3.png?1623240026" />
 </div>
 </details>
+
 
 
 <details>
 <summary>2. Unknown type TS?</summary>
 <div>
-  <p>Неизвестный тип является типобезопасным аналогом любого типа. Неизвестному типу можно присвоить что угодно, но неизвестное нельзя присвоить ничему, кроме самого себя и любого, без выполнения утверждения типа сужения на основе потока управления. Вы не можете выполнять какие-либо операции над переменной неизвестного типа без предварительного утверждения или сужения ее до более конкретного типа.</p>
+  <p>Неизвестный тип является типобезопасным аналогом любого типа. Неизвестному типу можно присвоить что угодно, но неизвестный тип нельзя присвоить ничему, кроме самого себя и any, без выполнения утверждения типа сужения на основе потока управления. Вы не можете выполнять какие-либо операции над переменной неизвестного типа без предварительного утверждения или сужения ее до более конкретного типа.</p>
+  <p>Рассмотрим следующий пример. Мы создаем переменную foo неизвестного типа и присваиваем ей строковое значение. Если мы попытаемся присвоить эту неизвестную переменную строковой переменной bar, компилятор выдаст ошибку.</p>
+
+    let foo: unknown = "Akshay";
+    let bar: string = foo; // Type 'unknown' is not assignable to type 'string'.(2322)
+
+  <p>Вы можете сузить переменную неизвестного типа до чего-то определенного, выполнив проверки typeof или сравнения или используя type guards. Например, мы можем избавиться от вышеуказанной ошибки,</p>
+
+    let foo: unknown = "Akshay";
+    let bar: string = foo as string;
+
+</div>
+</details>
+
+<details>
+<summary>3. Never VS Void type TS?</summary>
+<div>
+  <p>Как следует из названия, тип never представляет собой тип значений, которые никогда не встречаются. Например, функция, которая никогда не возвращает значение или всегда выдает исключение, может пометить тип возвращаемого значения как never.</p>
+
+    function error(message: string): never {
+      throw new Error(message);
+    }
+
+
+  <p>Вы можете задаться вопросом, зачем нам нужен тип «never», когда у нас уже есть «void». Хотя оба типа выглядят одинаково, они представляют собой два совершенно разных понятия.</p>
+  
+  <p>Функция, которая не возвращает значение, неявно возвращает значение undefined в JavaScript. Следовательно, даже если мы говорим, что он ничего не возвращает, он возвращает «undefined». Обычно в таких случаях мы игнорируем возвращаемое значение. Предполагается, что такая функция имеет возвращаемый тип void в TypeScript.</p>
+
+    // This function returns undefined
+    function greet(name: string) {
+      console.log(`Hello, ${name}`);
+    }
+
+    let greeting = greet("David");
+    console.log(greeting);  // undefined
+
+  <p>Напротив, функция, имеющая тип never, никогда не возвращает значений. Она также не возвращает значение undefined. Есть 2 случая, когда функции должны никогда не возвращать тип:</p>
+
+    В случае бесконечного цикла -  while(true){} .
+    В случае если функция прокидывает ошибку function foo(){throw new Exception('Error message')}
+
+
+</div>
+</details>
+<details>
+<summary>4. Enums TS?</summary>
+<div>
+  <p>Перечисления позволяют нам создавать именованные константы. Это простой способ дать более понятные имена числовым значениям констант. Перечисление определяется ключевым словом enum, за которым следует его имя и члены.</p>
+
+  <p>Рассмотрим следующий пример, определяющий перечисление Team с четырьмя значениями.</p>
+
+    enum Team {
+      Alpha,
+      Beta,
+      Gamma,
+      Delta
+    }
+    let t: Team = Team.Delta;
+
+
+  <p>По умолчанию перечисления начинают нумерацию с 0. Вы можете переопределить нумерацию по умолчанию, явно назначив значения ее элементам.</p>
+
+  <p>TypeScript также позволяет создавать перечисления со строковыми значениями следующим образом:</p>
+
+    enum Author {
+      Anders = "Anders",
+      Hejlsberg = "Hejlsberg"
+    };
+
+
+</div>
+</details>
+
+
+<details>
+<summary>5. Optional chaining в TS?</summary>
+<div>
+  <p>Необязательная цепочка позволяет вам обращаться к свойствам и вызывать методы для них в цепочке. Вы можете сделать это с помощью оператора ‘?.’.
+
+  TypeScript немедленно прекращает выполнение какого-либо выражения, если оно сталкивается со значением «null» или «undefined», и возвращает «undefined» для всей цепочки выражений.
+
+  Используя необязательную цепочку, опишем следующее выражение:</p>
+
+    let x = foo === null || foo === undefined ? undefined : foo.bar.baz();
+
+  <p>Можно записать как:</p>
+
+    let x = foo?.bar.baz();
+
 </div>
 </details>
 
 
 
-
 <details>
-<summary>3. Типы в TS?</summary>
+<summary>6. Типы в TS?</summary>
 <div>
   <img src="https://d3n0h9tb65y8q.cloudfront.net/public_assets/assets/000/002/543/original/Typescript-primitive-types.png?1642578765" />
 
@@ -3506,7 +3598,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>4. Типизация массивов в TS?</summary>
+<summary>7. Типизация массивов в TS?</summary>
 <div>
   <h2>Списки</h2>
   <p>
@@ -3540,7 +3632,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>5. Работа с обьектами в TS?</summary>
+<summary>8. Работа с обьектами в TS?</summary>
 <div>
   <p>Type для обьекта.</p>
 
@@ -3642,7 +3734,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>6. Работа с функциями в TS?</summary>
+<summary>9. Работа с функциями в TS?</summary>
 <div>
   <p>Обьявление функций</p>
 
@@ -3722,7 +3814,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>7. Работа с generics в TS?</summary>
+<summary>10. Работа с generics в TS?</summary>
 <div>
   <p>Обобщённые типы (generics) позволяют создавать компоненты или функции, которые могут работать с различными типами, а не с каким-то одним. Рассмотрим пример:</p>
 
@@ -3835,7 +3927,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>8. Чем отличается interface от type?</summary>
+<summary>11. Чем отличается interface от type?</summary>
 <div>
   <p>Единственная дополнительная функция, которую интерфейсы привносят в таблицу (чего нет у псевдонимов типов), — это «слияние объявлений», что означает, что вы можете определять один и тот же интерфейс несколько раз, и при каждом определении свойства объединяются.</p>
 
@@ -3851,7 +3943,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>9. Как в TypeScript реализовать свойства класса, являющиеся константами?</summary>
+<summary>12. Как в TypeScript реализовать свойства класса, являющиеся константами?</summary>
 <div>
   <p>В TypeScript, при объявлении свойств классов, нельзя использовать ключевое слово const. При попытке использования этого ключевого слова выводится следующее сообщение об ошибке: A class member cannot have the ‘const’ keyword. В TypeScript 2.0 имеется модификатор readonly, позволяющий создавать свойства класса, предназначенные только для чтения:</p>
 
@@ -3869,7 +3961,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>10. Для чего нужен тип «Omit»?</summary>
+<summary>13. Для чего нужен тип «Omit»?</summary>
 <div>
   <p>Это новый тип, в котором можно указать свойства, которые будут исключены из исходного типа.</p>
 
@@ -3882,7 +3974,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>11. Для чего нужен тип «Record»?</summary>
+<summary>14. Для чего нужен тип «Record»?</summary>
 <div>
   <p>Он позволяет создавать типизированную мапу.</p>
 
@@ -3892,6 +3984,85 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </div>
 </details>
 
+
+
+
+<details>
+<summary>15. Модификаторы доступа в TypeScript?</summary>
+<div>
+  <p>TypeScript предоставляет три ключевых слова для управления видимостью членов класса, таких как свойства или методы.</p>
+
+  <ul>
+    <li>public: вы можете получить доступ к общедоступному члену в любом месте за пределами класса. Все члены класса по умолчанию общедоступны.</li>
+    <li>protected: защищенный член виден только подклассам класса, содержащего этот член. Внешний код, который не расширяет класс контейнера, не может получить доступ к защищенному члену.</li>
+    <li>private: закрытый член виден только внутри класса. Никакой внешний код не может получить доступ к закрытым членам класса.</li>
+  </ul>
+</div>
+</details>
+
+
+<details>
+<summary>16. Абстрактные классы в TypeScript?</summary>
+<div>
+  <p>Абстрактные классы похожи на интерфейсы тем, что они определяют контракт для объектов, и вы не можете создавать их экземпляры напрямую. Однако, в отличие от интерфейсов, абстрактный класс может предоставлять сведения о реализации для одного или нескольких своих членов.</p>
+
+  <p>Абстрактный класс помечает один или несколько своих членов как абстрактные. Любые классы, которые расширяют абстрактный класс, должны предоставлять реализацию для абстрактных членов суперкласса.
+
+  <p>Вот пример абстрактного класса Writer с двумя функциями-членами. Метод write() помечен как абстрактный, тогда как метод приветствия() имеет реализацию. И классы FictionWriter, и RomanceWriter, являющиеся наследниками Writer, должны предоставлять свою конкретную реализацию для метода записи.</p>
+
+    abstract class Writer {
+      abstract write(): void;
+
+      greet(): void {
+        console.log("Hello, there. I am a writer.");
+      }
+    }
+
+    class FictionWriter extends Writer {
+      write(): void {
+        console.log("Writing a fiction.");
+      }
+    }
+
+    class RomanceWriter extends Writer {
+      write(): void {
+        console.log("Writing a romance novel.");
+      }
+    }
+
+    const john = new FictionWriter();
+    john.greet();  // "Hello, there. I am a writer."
+    john.write();  // "Writing a fiction."
+
+    const mary = new RomanceWriter();
+    mary.greet();  // "Hello, there. I am a writer."
+    mary.write();  // "Writing a romance novel."
+
+</div>
+</details>
+
+<details>
+<summary>17. Что такое пересечение типов в TypeScript?</summary>
+<div>
+  <p>Типы пересечения позволяют объединять элементы двух или более типов с помощью оператора «&». Это позволяет комбинировать существующие типы, чтобы получить единый тип со всеми необходимыми функциями.</p>
+
+  <p>В следующем примере создается новый тип Supervisor, содержащий члены типов Employee и Manager.</p>
+
+  interface Employee {
+    work: () => string;
+  }
+
+  interface Manager {
+    manage: () => string;
+  }
+
+  type Supervisor = Employee & Manager;
+
+  // john can both work and manage
+  let john: Supervisor;
+
+</div>
+</details>
 
 
 <br/>
