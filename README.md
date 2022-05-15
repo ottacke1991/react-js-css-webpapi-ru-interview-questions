@@ -2789,7 +2789,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>34. Виды наследования в JavaScript?</summary>
+<summary>34. Виды наследования в JavaScript? (L)</summary>
 <div>
   <p>JavaScript — один из самых выразительных языков программирования, когда-либо созданных. Одной из его лучших особенностей является возможность создавать объекты и наследовать от них без классов и наследования классов.</p>
 
@@ -3178,6 +3178,46 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 </div>
 </details>
+
+
+<details>
+<summary>40. Что такое compose?</summary>
+<div>
+ <p>Это самый базовый вариант реализации. Обратите внимание: функции в аргументах будут выполняться справа налево. То есть сначала выполняется функция, расположенная справа, и ее результат передается в функцию слева от нее. </p>
+
+  var compose = function(f, g) {
+    return function(x) {
+        return f(g(x));
+    };
+  };
+
+ <p>Функция reverseAndUpper сначала переворачивает заданную строку, а затем переводит ее в верхний регистр. Мы можем переписать этот код, используя базовую функцию compose:</p>
+
+  var reverseAndUpper = compose(upperCase, reverse);
+
+ <p>Давайте реализуем более гибкую функцию compose, которая может включать любое количество других функций и аргументов. Предыдущая функция compose, которую мы рассмотрели, работает только с двумя функциями и принимает только первый переданный аргумент. Мы можем переписать ее так:</p>
+
+  var compose = function() {
+  var funcs = Array.prototype.slice.call(аргументы);
+ 
+  return funcs.reduce(function(f,g) {
+      return function() {
+        return f(g.apply(this, аргументы));
+      };
+    });
+  };
+
+  Var doSometing = compose(upperCase, reverse, doSomethingInitial);
+ 
+  <h2>Итог:</h2>
+  <p>Композиция - создание сложной функциональности за счет объединения более простых функций. В некотором смысле, композиция - это вложение функций, каждая из которых передает свой результат в качестве входных данных для другой функции. Но вместо того, чтобы создавать неразборчивое количество вложений, мы создадим функцию более высокого порядка - compose(), которая принимает все функции, которые мы хотим объединить, и возвращает нам новую функцию для использования.</p>
+
+  <img src="https://miro.medium.com/max/1400/1*Gq3yQWvcjNEpoNzsek3ILg.jpeg"/>
+  <img src="https://miro.medium.com/max/1400/1*nPi8K4S8noqPhm-t1IyWHQ.jpeg"/>
+
+</div>
+</details>
+
 
 <br/>
 
