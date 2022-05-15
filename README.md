@@ -2934,7 +2934,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>35. Способы создания обьектов JavaScript?</summary>
+<summary>35. Способы создания обьектов JavaScript? (L)</summary>
 <div>
   <h2>Object literal:</h2>
 
@@ -3003,7 +3003,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>36. Слово new в JavaScript?</summary>
+<summary>36. Слово new в JavaScript (L)?</summary>
 <div>
   <p>Ключевое слово `new` используется для вызова конструктора. Что он на самом деле делает, так это:</p>
 
@@ -3021,7 +3021,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>37. Слово instanceof в JavaScript?</summary>
+<summary>37. Слово instanceof в JavaScript (L)?</summary>
 <div>
     <p>Оператор instanceof проверяет, принадлежит ли объект к определённому классу. Другими словами, object instanceof constructor проверяет, присутствует ли объект constructor.prototype в цепочке прототипов object.</p>
 
@@ -3041,7 +3041,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>38. JavaScript ES6?</summary>
+<summary>38. JavaScript ES6? (L)</summary>
 <div>
 
   <p>ECMAScript 2015 — это шестая редакция стандарта спецификации языка ECMAScript, который используется при реализации JavaScript. Чтобы запустить код ES6 в современном браузере, мы используем BABEL. BABEL — это транспилятор для JavaScript, который позволяет запускать код ES6 в любом браузере.</p>
@@ -3066,7 +3066,24 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     }
     console.log(sum(1, 2, 3)); // output 6
 
-  <p>Оператор spread ... используется для расширения или расширения итерируемого объекта или массива.</p>
+  <p>Или такой пример: </p>
+
+    // Use rest to enclose the rest of specific user-supplied values into an array:
+      function myBio(firstName, lastName, ...otherInfo) { 
+        return otherInfo;
+      }
+
+      // Invoke myBio function while passing five arguments to its parameters:
+      myBio("Oluwatobi", "Sofela", "CodeSweetly", "Web Developer", "Male");
+
+      // The invocation above will return:
+      ["CodeSweetly", "Web Developer", "Male"]  
+
+  <p>Текст после оператора rest ссылается на значения, которые вы хотите заключить в массив. Вы можете использовать его только перед последним параметром в определении функции.</p>
+  
+  <p>Оператор spread (...) помогает вам разложить итерации на отдельные элементы.</p>
+
+  <p>Синтаксис spread работает с литералами массивов, вызовами функций и инициализированными объектами свойств для распределения значений итерируемых объектов по отдельным элементам. Таким образом, он делает противоположное оператору rest.</p>
 
     const arrValue = ['My', 'name', 'is', 'Jack'];
 
@@ -3090,6 +3107,8 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   <h2>Arrow functions</h2>
   <p>Стрелочные функции — одна из примечательных особенностей ES6. Его поведение чем-то похоже на обычные функции, но синтаксически отличается.
   Это делает код очень четким и лаконичным.</p>
+  <p>this и аргументы внутри стрелочной функции разрешаются лексически, что означает, что они берутся из внешней области действия функции.</p>
+  <p>У стрелочной функции есть несколько ограничений: ее нельзя использовать в качестве метода объекта, конструктора или функции-генератора.</p>
 
   <h2>Default parameters in ES6 </h2>
   <p>ES6 представил параметры по умолчанию для создания более гибких функций. Параметры по умолчанию возвращаются, когда параметр отсутствует для функции</p>
@@ -3148,7 +3167,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>39. В чем преимущества использования spread оператора и чем он отличается от rest оператора?</summary>
+<summary>39. В чем преимущества использования spread оператора и чем он отличается от rest оператора? (L)</summary>
 <div>
   Spread оператор синтаксиса ES6 очень полезен при написании кода в функциональном стиле, поскольку мы можем легко создавать копии массивов или объектов, не прибегая к Object.create, slice или функции библиотеки. Эта языковая функция часто используется в проектах с Redux и rx.js.
 
@@ -4121,6 +4140,101 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 
+<details>
+<summary>18. Что такое type guards в TypeScript?</summary>
+<div>
+  <p>Защита типа — это некоторое выражение, которое выполняет проверку во время выполнения, гарантирующую тип в некоторой области.</p>
+
+  <p>Пример без использования type guards:</p>
+  <img src="https://miro.medium.com/max/682/1*oVBS5cWU6It-y3DPA5HloA.png"/>
+
+  <p>В примере сверху есть ошибки типов, потому что мы можем получить доступ только к членам  union которые принадлежат к обоим типам.</p>
+
+  <p>Мы могли бы использовать приведения типо для исправления ошибок:</p>
+
+    function makeNoise(creature: Human | Dog) {
+        
+        if (typeof (creature as Human).speak === 'function') {
+            (creature as Human).speak();
+        }
+        
+        if (typeof (creature as Dog).bark === 'function') {
+            (creature as Dog).bark();
+        }
+        
+    }
+
+  <p>Но это усложнит запись кода. Для облегчения понимания кода рекомендуется использовать type guards. Есть два основных способа определения type guards:</p>
+
+  <ul>
+    <li>Используя предикаты типов</li>
+    <li>Используя оператор in</li>
+  </ul>
+
+  <h3>Используем предикаты типов:</h3>
+  <p>Определение функции, у которой тип возвращаемого значения  является предикатом типа, выглядит следующим образом:</p>
+
+    function isHuman(creature: Human | Dog): creature is Human {
+        return typeof (creature as Human).speak === 'function';
+    }
+
+  <p>Мы создали функцию type guard isHuman(creature), которая возвращает предикат типа created is Human. Любой предикат принимает параметр и тип. Параметр должен быть частью текущей сигнатуры функции. В нашем случае это существо.</p>
+
+  <p>Предикат вернет true/false в зависимости от того является ли creature обьектом класса Human и имеет ли creature метод speak.</p>
+
+  <h3>Используем in оператор:</h3>
+  <p>С использованием in оператора, функция будет выглядеть следующим образом:</p>
+
+    function isDog(creature: Human | Dog): creature is Dog {
+        return 'bark' in creature;
+    }
+
+  <p>Оператор in возвращает значение true, если указанное свойство находится в указанном объекте.</p>
+
+  <p>В нашем примере кода первое решение с использованием предикатов типов лучше, потому что мы не только проверяем, существует ли свойство в объекте, но также и является ли свойство функцией.</p>
+
+  <p>Итоговый код будет выглядеть следующим образом.</p>
+
+     function makeNoise(creature: Human | Dog) {
+        
+        if (isHuman(creature)) {
+            creature.speak();
+        }
+        
+        if (isDog(creature)) {
+            creature.bark();
+        }
+        
+    } 
+
+  <p>Используя нашу type guard, Typescript может гарантировать, что наш параметр  creature является либо Human, либо Dog, и больше не будет показывать ошибки.</p>
+
+  <p>Еще один пример</p>
+   
+    function entityIsUser(entity: Entity): entity is User {
+      return !!(entity as User).name;
+    }
+    function entityIsProduct(entity: Entity): entity is Product {
+        return !!(entity as Product).description;
+    }
+
+    function handleEntities(entities: Entity[]) {
+
+        entities.forEach(entity => {
+
+            if (entityIsUser(entity)) {
+                handleUser(entity);
+            }
+            if (entityIsProduct(entity)) {
+                handleProduct(entity);
+            }
+
+        });
+    }
+</div>
+</details>
+
+
 <br/>
 
 **React**:
@@ -4325,7 +4439,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
    1. Элементы разных типов будут создавать разные деревья. 
 
-  <p>React анализирует дерево с помощью поиска в ширину (Breadth-first search). Для узла дерева, если тип элемента изменен, например, с «section» на «div». React уничтожит все поддерево под этим элементом и восстановит его с нуля.</p>
+  <p>React анализирует дерево с помощью поиска в ширину (Breadth-first search - один из методов обхода графа). Для узла дерева, если тип элемента изменен, например, с «section» на «div». React уничтожит все поддерево под этим элементом и восстановит его с нуля.</p>
 
    1. Разработчик указывает с помощью ключа (key prop), на то какие элементы должны быть стабильны в разных рендерах.
 
