@@ -396,7 +396,7 @@ block-name__elem-name_mod-name_mod-val
 **JavaScript**:
 
 <details>
-<summary>1. Что такое функциональное программирование и какие особенности JS позволяют говорить о нем как о функциональном языке программирования?</summary>
+<summary>1. Что такое функциональное программирование и какие особенности JS позволяют говорить о нем как о функциональном языке программирования? (L)</summary>
 <div>
 
   <h2>Парадигма программирования.</h2>
@@ -3237,16 +3237,225 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </div>
 </details>
 
+<details>
+<summary>41. Расскажите про Object.defineProperties?</summary>
+<div>
+<p>Метод Object.defineProperty - позволяет устанавливать свойствам некоторые настройки (можно ли свойство изменять, удалять и др.)</p>
+
+  Object.defineProperty(объект, 'имя свойства', дескриптор);
+
+<p>Дескриптор - это объект, который описывает поведение свойства. В нем могут быть следующие свойства (в скобках указаны значения по умолчанию):</p>
+
+  value //значение свойства (undefined)
+  writable //если true - свойство можно перезаписывать (false)
+  configurable // если true, то свойство можно удалять (false)
+  enumerable //если true, то свойство видно в цикле for..in (false)
+  get //Функции, которая возвращает значение свойства (undefined)
+  set //Функции, которая записывает значение свойства (undefined);
+
+<p>Если со свойством произвести запрещенное действие, например, попытаться изменить в то время как writable = false, то ничего не произойдет (а в строгом режиме (при указании 'use strict') - будет ошибка). Также запрещено указывать value/writeble если указаны get/set.</p>
+
+  var obj = {
+    val1: 10, //Обычное свойство
+  }
+
+  //Создадим свойство через defineProperty
+  Object.defineProperty(obj, 'val2', {
+    value: 10,
+    configurable: false //нельзя удалять
+  });
+
+  alert(obj.val1) //10
+  alert(obj.val2) //10
+
+  delete obj.val1
+  delete obj.val2
+
+  alert(obj.val1) //undefined
+  alert(obj.val2) //10
+
+<h3>useCases:</h3>
+<p>Object.defineProperty в целом полезен для копирования дескрипторов свойств из одного объекта в другой с помощью связанных методов Object.getOwnPropertyNames() и Object.getOwnPropertyDescriptor(), например. при объединении вещей в прототип.</p>
+
+<p>И, как вы уже упоминали, их можно использовать для геттеров и сеттеров. Синтаксис литерала объекта работает только при создании новых объектов. Чтобы создать новые геттеры/сеттеры в существующем объекте (например, прототипе), вы должны использовать Object.defineProperty() или скопировать дескрипторы, как упоминалось выше.</p>
+
+<p>Полезно, чтобы избежать перечисления через Object.keys(), for... in циклы, добавление свойств в подклассы массива и тому подобное. Это очень важно при добавлении полифилов во встроенные прототипы, особенно Object.prototype, поскольку вы не хотите, чтобы ваши добавленные методы внезапно отображались в циклах, поскольку это может нарушить работу другого кода, который не выполняет проверку .hasOwnProperty().</p>
+
+<p>[[Writable]], [[Configurable]]  позволяют создавать свойства только для чтения, которые нельзя случайно перезаписать или удалить. Это отлично подходит для библиотек.</p>
+
+<p>Object.freeze() / .seal() / .preventExtensions() расширяют этот тип защиты до такой степени, что вы можете защитить объекты в достаточной степени, чтобы создать несколько безопасных песочниц javascript eval, защищая прототипы встроенных объектов.</p>
+
+<p>Метод Object.freeze() замораживает объект: это значит, что он предотвращает добавление новых свойств к объекту, удаление старых свойств из объекта и изменение существующих свойств или значения их атрибутов перечисляемости, настраиваемости и записываемости. В сущности, объект становится эффективно неизменным. Метод возвращает замороженный объект.</p>
+
+<p>Метод Object.seal() запечатывает объект, предотвращая добавление новых свойств к объекту и делая все существующие свойства не настраиваемыми. Значения представленных свойств всё ещё могут изменяться, поскольку они остаются записываемыми.</p>
+
+<p>Метод Object.preventExtensions() предотвращает добавление новых свойств к объекту (то есть, предотвращает расширение этого объекта в будущем).</p>
+
+</div>
+</details>
+
+<details>
+<summary>42. Что такое IIFE?</summary>
+<div>
+<p> IIFE — это хороший способ защитить область действия вашей функции и переменные внутри нее. Любые переменные внутри IIFE не видимы для внешнего мира. Cуть паттерна в том, чтобы взять функцию и превратить её в выражение, а затем тут же его запустить.</p>
+
+
+<h2>IIFE с отдаваемым значением</h2>
+<p>Реально важной и полезной фичей IIFE является то, что с их помощью вы можете отдавать значение, которое будет назначено переменной.</p>
+
+  var result = (function() {
+    return "From IIFE";
+  }());
+
+  alert(result); // alerts "From IIFE"
+
+<h2>IIFE с параметрами</h2>
+<p>IIFE не только могут отдавать значения, но ещё и брать аргументы во время своего вызова. </p>
+
+  (function IIFE(msg, times) {
+    for (var i = 1; i <= times; i++) {
+        console.log(msg);
+    }
+  }("Hello!", 5));
+
+<h2>Классический модульный паттерн в JavaScript</h2>
+<p>Пример модульного паттерна, который раскрывают всю мощь совместного применения замыканий и IIFE функций.</p>
+
+  var Sequence = (function sequenceIIFE() { //обьект синглтон sequence
+      
+      // приватная переменная для хранения значения счетчика
+      var current = 0;
+      
+      // объект, возвращаемый IIFE
+      return {
+          getCurrentValue: function() {
+              return current;
+          },
+          
+          getNextValue: function() {
+              current = current + 1;
+              return current;
+          }
+      };
+      
+  }());
+
+  console.log(Sequence.getNextValue()); // 1
+  console.log(Sequence.getNextValue()); // 2
+  console.log(Sequence.getCurrentValue()); // 2
+
+<p>Так как переменная current является приватной в IIFE, то никто кроме функций, имеющих доступ к IIFE через замыкание, не имеет к ней доступа.</p>
+
+<h2>IIFE (webpack, scripts modules)</h2>
+<p>Указывает webpack добавить оболочку IIFE вокруг выпускаемого кода.</p>
+
+  module.exports = {
+    //...
+    output: {
+      iife: true,
+    },
+  };
+
+<p>как указано в ссылке ниже. Function declarations загружаются до выполнения любого кода, в то время как  Function expressions загружаются только тогда, когда интерпретатор достигает этой строки кода.</p>
+<p>webpack обертывает все модули функциональными выражениями и объединяет их в файлы IIFE, чтобы убедиться, что после загрузки файла IIFE выполнит и подпишет модули как  function expressions, «чтобы избежать их выполнения и перегрузить браузер ненужными процессами в дополнение к получение выгоды от повторного использования».</p>
+</div>
+</details>
 
 <br/>
 
-**Patterns**:
+**Patterns and algorithms**:
 
 <details>
-<summary>1. Singleton pattern?</summary>
+<summary>1. Big O notation?</summary>
 <div>
-  <p>
-  <p>
+  <p>Big O нотация определяет эффективность алгоритма</p>
+  <ul>
+    <li>O - относится к порядку функции или скорости ее роста</li>
+    <li>n — длина сортируемого массива</li>
+  </ul>
+  <p>При рассмотрении многих наиболее часто используемых алгоритмов сортировки рейтинг O (n log n) в целом является лучшим, которого можно достичь. Алгоритмы, которые работают с этим рейтингом, включают быструю сортировку, сортировку кучей и сортировку слиянием. Быстрая сортировка является стандартом и используется по умолчанию почти во всех языках программного обеспечения.</p>
+  <img src="https://miro.medium.com/max/1400/1*KfZYFUT2OKfjekJlCeYvuQ.jpeg"/>
+
+  <h3>O(1) - Constant time</h3>
+  <p>Поиск значения, когда вы знаете, что ключ (объекты) или индекс (массивы) всегда выполняется за один шаг  и является постоянным временем.</p>
+
+  <h3>O(log n) - Logarithmic Time</h3>
+  <p>Если вы знаете, на какой стороне массива искать элемент, вы экономите время, срезая другую половину.</p>
+
+    //You decrease the amount of work you have to do with each step
+    function thisOld(num, array){
+      var midPoint = Math.floor( array.length /2 );
+      if( array[midPoint] === num) return true;
+      if( array[midPoint] < num ) --> only look at second half of the array
+      if( array[midpoint] > num ) --> only look at first half of the array
+      //recursively repeat until you arrive at your solution
+      
+    }
+    thisOld(29, sortedAges) // returns true 
+    //Notes
+    //There are a bunch of other checks that should go into this example for it to be truly functional, but not necessary for this explanation.
+    //This solution works because our Array is sorted
+    //Recursive solutions are often logarithmic
+    //We'll get into recursion in another post!
+
+  <p>Простейший пример — бинарный поиск. Если массив отсортирован, мы можем проверить, есть ли в нём какое-то конкретное значение, методом деления пополам. Проверим средний элемент, если он больше искомого, то отбросим вторую половину массива — там его точно нет. Если же меньше, то наоборот — отбросим начальную половину. И так будем продолжать делить пополам, в итоге проверим log n элементов.</p>
+
+
+  <h3>O(n) — Linear Time</h3>
+  <p>Вы должны просмотреть каждый элемент в массиве или списке, чтобы выполнить задачу. Одиночные циклы for почти всегда имеют линейное время. Кроме того, методы массива, такие как indexOf, также являются линейными по времени. Вы просто абстрагировались от процесса зацикливания</p>
+
+    //The number of steps you take is directly correlated to the your input size
+    function addAges(array){
+      var sum = 0;
+      for (let i=0 ; i < array.length; i++){  //has to go through each value
+        sum += array[i]
+      }
+    return sum;
+    }
+    addAges(sortedAges) //133
+
+  <h3>O(A*B) - два независимых параметра</h3>
+  <p>Чтобы получить такую сложность вложенный цикл должен идти по независимой структуре данных.</p>
+  <img src="https://c10.patreonusercontent.com/4/patreon-media/p/post/51378490/1c8ca889319e4269932f571c8deca755/eyJ3Ijo4MjB9/1.png?token-time=1654041600&token-hash=6085SFLkXFp_GxqrNQBLWkfyZxcvz2hOComuVGleYOk%3D"/>
+
+   <p>В текущем примере считается сумма чисел внутренних под массивов, размер и содержимое которых не зависят от внешнего массива. Поэтому сложность O(A+B).</p>
+
+  <h3>O(n²) — Quadratic Time</h3>
+  <p>Вложенные циклы for имеют квадратичное время, потому что вы выполняете линейную операцию внутри другой линейной операции (или n*n = n²).</p>
+
+    //The number of steps you take is your input size squared
+    function addedAges(array){
+      var addedAge = [];
+        for (let i=0 ; i < array.length; i++){ //has to go through each value
+          for(let j=i+1 ; j < array.length ; j++){ //and go through them again
+            addedAge.push(array[i] + array[j]);
+          }
+        }
+      return addedAge;
+    }
+    addedAges(sortedAges); //[ 46, 49, 51, 53, 51, 53, 55, 56, 58, 60 ]
+    //Notes
+    //Nested for loops. If one for loop is linear time (n)
+    //Then two nested for loops are (n * n) or (n^2) Quadratic!
+
+  <h3>O(2^n) — Exponential Time</h3>
+  <p>Экспоненциальное время обычно подходит для ситуаций, когда вы не так много знаете, и вам нужно попробовать все возможные комбинации или перестановки.</p>
+
+    //The number of steps it takes to accomplish a task is a constant to the n power
+    //Thought example
+    //Trying to find every combination of letters for a password of length n
+
+  <img src="https://www.freecodecamp.org/news/content/images/2021/06/0_XZsrnwao98R3dGTB.png"/>
+
+  <p>Доп информация по времени </p>
+
+    O(1) - затраты времени не зависят от размера задачи
+    O(log(n)) - при увеличении размера задачи вдвое, затраты времени меняются на постоянную величину
+    O(n) - при увеличении размера задачи в 2 раза, затраты времени возрастут тоже в два раза
+    O(n^2) - при увеличении размера задачи в 2 раза, затраты времени возрастут примерно в четыре раза
+    O(n*log(n)) - при увеличении задачи в два раза, затраты времени возрастут в два раза, плюс некоторая прибавка, относительный вклад которой уменьшается с ростом n. При малых n может вносить очень большой вклад. O(n*log(n)) начинает расти как квадрат при малых n, но потом рост замедляется почти до линейного
+    O(n^p) - полиномиальный алгоритмы, остающиеся мечтой для некоторых задач.
+    O(a^n), O(n!), O(n^n) - неполиномиальные алгоритмы, в порядке ускорения увеличения затрат времени
 </div>
 </details>
 
@@ -4036,14 +4245,18 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </details>
 
 <details>
-<summary>13. Для чего нужен тип «Omit»?</summary>
+<summary>13. Для чего нужны Omit и Pick?</summary>
 <div>
+
+  <h2>Omit</h2>
   <p>Это новый тип, в котором можно указать свойства, которые будут исключены из исходного типа.</p>
 
     type Person = { name: string; age: number; location: string; };
     type QuantumPerson = Omit<Person, 'location'>; // Аналогично следующей строке
     QuantumPerson = { name: string; age: number; };
 
+  <h2>Pick</h2>
+  <p>Pick помогает вам использовать уже определенный интерфейс, но брать из объекта только те ключи, которые вам нужны.</p>
 </div>
 </details>
 
@@ -6646,6 +6859,8 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
         // optimization
       },
       });
+
+<a href="https://medium.com/swlh/deep-dive-in-webpack-113dd6d39b33">Deep dive in WEBPACK</a>
 </div>
 </details>
 
@@ -7660,4 +7875,5 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
    </div>
  </details>
 <br/>
+
 
