@@ -2616,9 +2616,6 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <div>
   <p>Модуль – это просто файл. Один скрипт – это один модуль.</p>
 
-  <p>Современные браузеры нативно поддерживают модули. Для того, чтобы браузер понимал, что мы экспортируем не просто исполняемый JS-файл, а модуль, необходимо в тэг script, где импортируется модуль, добавить атрибут type="module".</p>
-
-
   <p>Так как модули поддерживают ряд специальных ключевых слов, и у них есть ряд особенностей, то необходимо явно сказать браузеру, что скрипт является модулем, при помощи атрибута .</p>
 
     <script type="module">
@@ -2638,7 +2635,6 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   <p>Модули должны экспортировать функциональность, предназначенную для использования извне. А другие модули могут её импортировать.</p>
   <p>В браузере также существует независимая область видимости для каждого скрипта </p>
 
-    <script type="module">:
 
   <h3>Код в модуле выполняется только один раз при импорте:</h3>
 
@@ -2904,6 +2900,113 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 Композиция невосприимчива к обоим.
+<h2>Prototypes vs Class</h2>
+<p>Наиболее важное различие между наследованием на основе классов и прототипов заключается в том, что класс определяет тип, экземпляр которого может быть создан во время выполнения, тогда как прототип сам по себе является экземпляром объекта.</p>
+<p>Дочерний класс ES6 — это еще одно определение типа, которое расширяет родителя новыми свойствами и методами, которые, в свою очередь, могут быть созданы во время выполнения. Дочерний элемент прототипа — это другой экземпляр объекта, который делегирует родительскому элементу любые свойства, не реализованные в дочернем элементе.</p>
+<p>Конструктор класса создает экземпляр класса. Конструктор в JavaScript — это обычная старая функция, которая возвращает объект. Единственная особенность конструктора JavaScript заключается в том, что при вызове с ключевым словом new он назначает свой прототип в качестве прототипа возвращаемого объекта. Если это звучит для вас немного запутанно, вы не одиноки — это так, и это большая часть того, почему прототипы плохо изучены.</p>
+<p>Чтобы подчеркнуть это, дочерний элемент прототипа не является копией своего прототипа и не является объектом той же формы, что и его прототип. У дочернего элемента есть живая ссылка на прототип, и любое свойство прототипа, не существующее в дочернем элементе, является односторонней ссылкой на свойство прототипа с тем же именем.</p>
+
+  let parent = { foo: 'foo' }
+  let child = { }
+  Object.setPrototypeOf(child, parent)
+
+  console.log(child.foo) // 'foo'
+
+  child.foo = 'bar'
+
+  console.log(child.foo) // 'bar'
+
+  console.log(parent.foo) // 'foo'
+
+  delete child.foo
+
+  console.log(child.foo) // 'foo'
+
+  parent.foo = 'baz'
+
+  console.log(child.foo) // 'baz'
+
+<p>В предыдущем примере, хотя child.foo не был определен, он ссылался на parent.foo. Как только мы определили foo для дочернего элемента, child.foo имел значение 'bar', но parent.foo сохранил свое исходное значение. Как только мы удаляем child.foo, он снова ссылается на parent.foo, что означает, что когда мы меняем значение родителя, child.foo ссылается на новое значение.</p>
+
+<img src="https://uploads.toptal.io/blog/image/127573/toptal-blog-image-1542708811909-a533d5549d057d9b766593a7f018a22a.png" />
+
+<p>Ключевым выводом является то, что прототипы не определяют тип; они сами являются экземплярами и могут изменяться во время выполнения со всеми вытекающими последствиями.</p>
+
+  // Пример функции конструктора с замыканием
+  function SecretiveProto() {
+    const secret = "The Class is a lie!"
+    this.spillTheBeans = function() {
+      console.log(secret)
+    }
+  }
+
+  const blabbermouth = new SecretiveProto()
+  try {
+    console.log(blabbermouth.secret)
+  }
+  catch(e) {
+    // TypeError: SecretiveClass.secret is not defined
+  }
+
+  blabbermouth.spillTheBeans() // "The Class is a lie!"
+
+<p>Для сравнения то как это бы проблемно выглядело в классах:</p>
+
+  class SecretiveClass {
+    constructor() {
+      const secret = "I am a lie!"
+      this.spillTheBeans = function() {
+        console.log(secret)
+      }
+    }
+
+    looseLips() {
+      console.log(secret)
+    }
+  }
+
+  const liar = new SecretiveClass()
+  try {
+    console.log(liar.secret)
+  }
+  catch(e) {
+    console.log(e) // TypeError: SecretiveClass.secret is not defined
+  }
+  liar.spillTheBeans() // "I am a lie!"
+
+  <p>И еще одна проблема...</p>
+
+  try {
+    liar.looseLips()
+  }
+  catch(e) {
+    // ReferenceError: secret is not defined
+  }
+
+  <h3>Что предпочитают опытные разработчики JavaScript — прототипы или классы?</h3>
+  <p>Как вы уже догадались, это еще один вопрос с подвохом — опытные разработчики JavaScript стараются избегать и того, и другого, когда могут. Вот хороший способ сделать это с помощью идиоматического JavaScript:</p>
+
+    function secretFactory() {
+      const secret = "Favor composition over inheritance, `new` is considered harmful, and the end is near!"
+      const spillTheBeans = () => console.log(secret)
+
+      return {
+        spillTheBeans
+      }
+    }
+
+    const leaker = secretFactory()
+    leaker.spillTheBeans()
+
+  <p>Речь идет не только о том, чтобы избежать уродства, присущего наследованию, или о принудительной инкапсуляции. Подумайте, что еще вы могли бы сделать с помощью secretFactory и лейкера, чего не могли бы легко сделать с помощью прототипа или класса.</p>
+
+  <p>Во-первых, вы можете деструктурировать его, потому что вам не нужно беспокоиться о контексте этого:</p>
+
+    const { spillTheBeans } = secretFactory()
+
+    spillTheBeans() // Favor composition over inheritance, (...)
+
+  <p></p>
 </div>
 </details>
 
@@ -4120,8 +4223,9 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>5. Optional chaining в TS?</summary>
+<summary>5. Optional chaining и Nullish coalescing в TS?</summary>
 <div>
+  <h3>Optional chaining</h3>
   <p>Необязательная цепочка позволяет вам обращаться к свойствам и вызывать методы для них в цепочке. Вы можете сделать это с помощью оператора ‘?.’.
 
   TypeScript немедленно прекращает выполнение какого-либо выражения, если оно сталкивается со значением «null» или «undefined», и возвращает «undefined» для всей цепочки выражений.
@@ -4134,6 +4238,11 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
     let x = foo?.bar.baz();
 
+
+  <h3>Nullish coalescing</h3>
+  <p>Если person.firstName отсутствует, мы вернемся к значению John.</p>
+
+    const name = person.firstName ?? 'John';
 </div>
 </details>
 
