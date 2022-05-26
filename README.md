@@ -2906,25 +2906,25 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <p>Конструктор класса создает экземпляр класса. Конструктор в JavaScript — это обычная старая функция, которая возвращает объект. Единственная особенность конструктора JavaScript заключается в том, что при вызове с ключевым словом new он назначает свой прототип в качестве прототипа возвращаемого объекта. Если это звучит для вас немного запутанно, вы не одиноки — это так, и это большая часть того, почему прототипы плохо изучены.</p>
 <p>Чтобы подчеркнуть это, дочерний элемент прототипа не является копией своего прототипа и не является объектом той же формы, что и его прототип. У дочернего элемента есть живая ссылка на прототип, и любое свойство прототипа, не существующее в дочернем элементе, является односторонней ссылкой на свойство прототипа с тем же именем.</p>
 
-  let parent = { foo: 'foo' }
-  let child = { }
-  Object.setPrototypeOf(child, parent)
+    let parent = { foo: 'foo' }
+    let child = { }
+    Object.setPrototypeOf(child, parent)
 
-  console.log(child.foo) // 'foo'
+    console.log(child.foo) // 'foo'
 
-  child.foo = 'bar'
+    child.foo = 'bar'
 
-  console.log(child.foo) // 'bar'
+    console.log(child.foo) // 'bar'
 
-  console.log(parent.foo) // 'foo'
+    console.log(parent.foo) // 'foo'
 
-  delete child.foo
+    delete child.foo
 
-  console.log(child.foo) // 'foo'
+    console.log(child.foo) // 'foo'
 
-  parent.foo = 'baz'
+    parent.foo = 'baz'
 
-  console.log(child.foo) // 'baz'
+    console.log(child.foo) // 'baz'
 
 <p>В предыдущем примере, хотя child.foo не был определен, он ссылался на parent.foo. Как только мы определили foo для дочернего элемента, child.foo имел значение 'bar', но parent.foo сохранил свое исходное значение. Как только мы удаляем child.foo, он снова ссылается на parent.foo, что означает, что когда мы меняем значение родителя, child.foo ссылается на новое значение.</p>
 
@@ -2932,81 +2932,83 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 <p>Ключевым выводом является то, что прототипы не определяют тип; они сами являются экземплярами и могут изменяться во время выполнения со всеми вытекающими последствиями.</p>
 
-  // Пример функции конструктора с замыканием
-  function SecretiveProto() {
-    const secret = "The Class is a lie!"
-    this.spillTheBeans = function() {
-      console.log(secret)
-    }
-  }
-
-  const blabbermouth = new SecretiveProto()
-  try {
-    console.log(blabbermouth.secret)
-  }
-  catch(e) {
-    // TypeError: SecretiveClass.secret is not defined
-  }
-
-  blabbermouth.spillTheBeans() // "The Class is a lie!"
-
-<p>Для сравнения то как это бы проблемно выглядело в классах:</p>
-
-  class SecretiveClass {
-    constructor() {
-      const secret = "I am a lie!"
+    // Пример функции конструктора с замыканием
+    function SecretiveProto() {
+      const secret = "The Class is a lie!"
       this.spillTheBeans = function() {
         console.log(secret)
       }
     }
 
-    looseLips() {
-      console.log(secret)
+    const blabbermouth = new SecretiveProto()
+    try {
+      console.log(blabbermouth.secret)
     }
-  }
+    catch(e) {
+      // TypeError: SecretiveClass.secret is not defined
+    }
 
-  const liar = new SecretiveClass()
-  try {
-    console.log(liar.secret)
-  }
-  catch(e) {
-    console.log(e) // TypeError: SecretiveClass.secret is not defined
-  }
-  liar.spillTheBeans() // "I am a lie!"
+    blabbermouth.spillTheBeans() // "The Class is a lie!"
+
+<p>Для сравнения то как это бы проблемно выглядело в классах:</p>
+
+    class SecretiveClass {
+      constructor() {
+        const secret = "I am a lie!"
+        this.spillTheBeans = function() {
+          console.log(secret)
+        }
+      }
+
+      looseLips() {
+        console.log(secret)
+      }
+    }
+
+    const liar = new SecretiveClass()
+    try {
+      console.log(liar.secret)
+    }
+    catch(e) {
+      console.log(e) // TypeError: SecretiveClass.secret is not defined
+    }
+    liar.spillTheBeans() // "I am a lie!"
 
   <p>И еще одна проблема...</p>
 
-  try {
-    liar.looseLips()
-  }
-  catch(e) {
-    // ReferenceError: secret is not defined
-  }
+      try {
+        liar.looseLips()
+      }
+      catch(e) {
+        // ReferenceError: secret is not defined
+      }
 
   <h3>Что предпочитают опытные разработчики JavaScript — прототипы или классы?</h3>
   <p>Как вы уже догадались, это еще один вопрос с подвохом — опытные разработчики JavaScript стараются избегать и того, и другого, когда могут. Вот хороший способ сделать это с помощью идиоматического JavaScript:</p>
 
-    function secretFactory() {
-      const secret = "Favor composition over inheritance, `new` is considered harmful, and the end is near!"
-      const spillTheBeans = () => console.log(secret)
+      function secretFactory() {
+        const secret = "Favor composition over inheritance, `new` is considered harmful, and the end is near!"
+        const spillTheBeans = () => console.log(secret)
 
-      return {
-        spillTheBeans
+        return {
+          spillTheBeans
+        }
       }
-    }
 
-    const leaker = secretFactory()
-    leaker.spillTheBeans()
+      const leaker = secretFactory()
+      leaker.spillTheBeans()
 
   <p>Речь идет не только о том, чтобы избежать уродства, присущего наследованию, или о принудительной инкапсуляции. Подумайте, что еще вы могли бы сделать с помощью secretFactory и лейкера, чего не могли бы легко сделать с помощью прототипа или класса.</p>
 
   <p>Во-первых, вы можете деструктурировать его, потому что вам не нужно беспокоиться о контексте этого:</p>
 
-    const { spillTheBeans } = secretFactory()
+      const { spillTheBeans } = secretFactory()
 
-    spillTheBeans() // Favor composition over inheritance, (...)
+      spillTheBeans() // Favor composition over inheritance, (...)
 
-  <p></p>
+  <p>Обьектно ориентированный ли язык Javascript?</p>
+
+  <p>JavaScript имеет мощную поддержку объектно-ориентированного программирования, но использует другую модель наследования (прототипную) по сравнению с большинством популярных объектно-ориентированных языков (использующих классическое наследование). Он также поддерживает процедурный и функциональный стили программирования.</p>
 </div>
 </details>
 
