@@ -2750,7 +2750,9 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   | defer | Порядок документа (как расположены в документе). | Выполняется после того, как документ загружен и обработан (ждёт), непосредственно перед DOMContentLoaded. |
   <h2>Итого:</h2>
   <p></p>
-
+  <img src="https://i.stack.imgur.com/uWj3S.png"/>
+  <img src="https://www.drupal.org/files/project-images/Libraries%20delay%20load.png"/>
+  <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5qrUxpJD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.jstar.mx/images/blog/how-a-browser-renders-a-web-page/step-2-1000.png"/>
   <ul>
     <li>1. Модуль – это файл. Чтобы работал import/export, нужно для браузеров указывать атрибут <'script type="module">. У модулей есть ряд особенностей:</li>
     <ul>
@@ -3441,33 +3443,32 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
  <p>Композиция - создание сложной функциональности за счет объединения более простых функций. В некотором смысле, композиция - это вложение функций, каждая из которых передает свой результат в качестве входных данных для другой функции. Но вместо того, чтобы создавать неразборчивое количество вложений, мы создадим функцию более высокого порядка - compose(), которая принимает все функции, которые мы хотим объединить, и возвращает нам новую функцию для использования.</p>
  <p>Это самый базовый вариант реализации. Обратите внимание: функции в аргументах будут выполняться справа налево. То есть сначала выполняется функция, расположенная справа, и ее результат передается в функцию слева от нее. </p>
 
-  var compose = function(f, g) {
-    return function(x) {
-        return f(g(x));
+    var compose = function(f, g) {
+      return function(x) {
+          return f(g(x));
+      };
     };
-  };
 
  <p>Функция reverseAndUpper сначала переворачивает заданную строку, а затем переводит ее в верхний регистр. Мы можем переписать этот код, используя базовую функцию compose:</p>
 
-  var reverseAndUpper = compose(upperCase, reverse);
+    var reverseAndUpper = compose(upperCase, reverse);
 
  <p>Давайте реализуем более гибкую функцию compose, которая может включать любое количество других функций и аргументов. Предыдущая функция compose, которую мы рассмотрели, работает только с двумя функциями и принимает только первый переданный аргумент. Мы можем переписать ее так:</p>
 
-  var compose = function() {
-  var funcs = Array.prototype.slice.call(аргументы);
- 
-  return funcs.reduce(function(f,g) {
-      return function() {
-        return f(g.apply(this, аргументы));
-      };
-    });
-  };
+    var compose = function() {
+    var funcs = Array.prototype.slice.call(аргументы);
+  
+    return funcs.reduce(function(f,g) {
+        return function() {
+          return f(g.apply(this, аргументы));
+        };
+      });
+    };
 
-  Var doSometing = compose(upperCase, reverse, doSomethingInitial);
+    Var doSometing = compose(upperCase, reverse, doSomethingInitial);
  
   <h2>Итог:</h2>
-  <p>Композиция - создание сложной функциональности за счет объединения более простых функций. В некотором смысле, композиция - это вложение функций, каждая из которых передает свой результат в качестве входных данных для другой функции. Но вместо того, чтобы создавать неразборчивое количество вложений, мы создадим функцию более высокого порядка - compose(), которая принимает все функции, которые мы хотим объединить, и возвращает нам новую функцию для использования.</p>
-
+  
   <img src="https://miro.medium.com/max/1400/1*Gq3yQWvcjNEpoNzsek3ILg.jpeg"/>
   <img src="https://miro.medium.com/max/1400/1*nPi8K4S8noqPhm-t1IyWHQ.jpeg"/>
 
@@ -3527,37 +3528,37 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <div>
 <p>Метод Object.defineProperty - позволяет устанавливать свойствам некоторые настройки (можно ли свойство изменять, удалять и др.)</p>
 
-  Object.defineProperty(объект, 'имя свойства', дескриптор);
+    Object.defineProperty(объект, 'имя свойства', дескриптор);
 
 <p>Дескриптор - это объект, который описывает поведение свойства. В нем могут быть следующие свойства (в скобках указаны значения по умолчанию):</p>
 
-  value //значение свойства (undefined)
-  writable //если true - свойство можно перезаписывать (false)
-  configurable // если true, то свойство можно удалять (false)
-  enumerable //если true, то свойство видно в цикле for..in (false)
-  get //Функции, которая возвращает значение свойства (undefined)
-  set //Функции, которая записывает значение свойства (undefined);
+    value //значение свойства (undefined)
+    writable //если true - свойство можно перезаписывать (false)
+    configurable // если true, то свойство можно удалять (false)
+    enumerable //если true, то свойство видно в цикле for..in (false)
+    get //Функции, которая возвращает значение свойства (undefined)
+    set //Функции, которая записывает значение свойства (undefined);
 
 <p>Если со свойством произвести запрещенное действие, например, попытаться изменить в то время как writable = false, то ничего не произойдет (а в строгом режиме (при указании 'use strict') - будет ошибка). Также запрещено указывать value/writeble если указаны get/set.</p>
 
-  var obj = {
-    val1: 10, //Обычное свойство
-  }
+    var obj = {
+      val1: 10, //Обычное свойство
+    }
 
-  //Создадим свойство через defineProperty
-  Object.defineProperty(obj, 'val2', {
-    value: 10,
-    configurable: false //нельзя удалять
-  });
+    //Создадим свойство через defineProperty
+    Object.defineProperty(obj, 'val2', {
+      value: 10,
+      configurable: false //нельзя удалять
+    });
 
-  alert(obj.val1) //10
-  alert(obj.val2) //10
+    alert(obj.val1) //10
+    alert(obj.val2) //10
 
-  delete obj.val1
-  delete obj.val2
+    delete obj.val1
+    delete obj.val2
 
-  alert(obj.val1) //undefined
-  alert(obj.val2) //10
+    alert(obj.val1) //undefined
+    alert(obj.val2) //10
 
 <h3>useCases:</h3>
 <p>Object.defineProperty в целом полезен для копирования дескрипторов свойств из одного объекта в другой с помощью связанных методов Object.getOwnPropertyNames() и Object.getOwnPropertyDescriptor(), например. при объединении вещей в прототип.</p>
@@ -3588,20 +3589,20 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <h2>IIFE с отдаваемым значением</h2>
 <p>Реально важной и полезной фичей IIFE является то, что с их помощью вы можете отдавать значение, которое будет назначено переменной.</p>
 
-  var result = (function() {
-    return "From IIFE";
-  }());
+    var result = (function() {
+      return "From IIFE";
+    }());
 
-  alert(result); // alerts "From IIFE"
+    alert(result); // alerts "From IIFE"
 
 <h2>IIFE с параметрами</h2>
 <p>IIFE не только могут отдавать значения, но ещё и брать аргументы во время своего вызова. </p>
 
-  (function IIFE(msg, times) {
-    for (var i = 1; i <= times; i++) {
-        console.log(msg);
-    }
-  }("Hello!", 5));
+    (function IIFE(msg, times) {
+      for (var i = 1; i <= times; i++) {
+          console.log(msg);
+      }
+    }("Hello!", 5));
 
 <h2>Классический модульный паттерн в JavaScript</h2>
 <p>Пример модульного паттерна, который раскрывают всю мощь совместного применения замыканий и IIFE функций.</p>
@@ -3634,12 +3635,12 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <h2>IIFE (webpack, scripts modules)</h2>
 <p>Указывает webpack добавить оболочку IIFE вокруг выпускаемого кода.</p>
 
-  module.exports = {
-    //...
-    output: {
-      iife: true,
-    },
-  };
+    module.exports = {
+      //...
+      output: {
+        iife: true,
+      },
+    };
 
 <p>как указано в ссылке ниже. Function declarations загружаются до выполнения любого кода, в то время как  Function expressions загружаются только тогда, когда интерпретатор достигает этой строки кода.</p>
 <p>webpack обертывает все модули функциональными выражениями и объединяет их в файлы IIFE, чтобы убедиться, что после загрузки файла IIFE выполнит и подпишет модули как  function expressions, «чтобы избежать их выполнения и перегрузить браузер ненужными процессами в дополнение к получение выгоды от повторного использования».</p>
@@ -3648,22 +3649,22 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <h3>Проименованные функциональные выражения</h3>
 <p>Да, функциональные выражения могут иметь имена. Самое обыденное и всюду объясняемое использование проименованных функциональных выражений — это рекурсия. Пока что не беспокойтесь о них, вы вполне можете понять IIFE и так.</p>
 
-  var fibo = function fibonacci() {
-      // тут вы можете использовать "fibonacci()"
-  };
+    var fibo = function fibonacci() {
+        // тут вы можете использовать "fibonacci()"
+    };
 
-  // fibonacci() не сработает, а fibo() да.
+    // fibonacci() не сработает, а fibo() да.
 
 <p>Разница тут в том, что функциональное выражение имеет имя “fibonacci”, которое можно использовать внутри самого выражения рекурсивным способом. (Тут вообще есть много всего интересного, например то, что имя функции всплывает в стектрейсе и т.п.).</p>
 
 <h3>Примеры IIFE:</h3>
 <p>Любое функциональное выражение с IIFE автоматически и единожды запускается и сразу исчезает.</p>
 
-  let vlad = function() {
-      alert("Hello from IIFE!"); //allert 
-  }();
+    let vlad = function() {
+        alert("Hello from IIFE!"); //allert 
+    }();
 
-  console.log(vlad) // undefined
+    console.log(vlad) // undefined
 
 <h3>Анонимные функции</h3>
 <p>Анонимная функция - функция, которая была объявлена без какой-либо функции с именем идентификатора, чтобы ссылаться на нее. Обычно она недоступна после ее первоначального создания. Эти функции создаются во время выполнения.</p>
@@ -3676,7 +3677,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <div>
 <p></p>
 
-  Object.assign(target, ...sources)
+    Object.assign(target, ...sources)
 
 <ul>
   <li>target — это Объект, к которому вы хотите присвоить. В нашем случае экземпляр объекта класса.</li>
@@ -5601,6 +5602,7 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
     Говорит реакту запустить следующую итерацию рендера. Однако реакт так же может оптимизировать процесс. Несколько вызовов useState приведут к одному рендеру.
   </p>
   <br />
+
       ​ // Toggle a boolean
       ​ const [toggled, setToggled] = useState(false);
     ​   setToggled(toggled => !toggled);
