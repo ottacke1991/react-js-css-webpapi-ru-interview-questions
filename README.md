@@ -6221,6 +6221,118 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
   </div>
 </details>
 
+
+
+
+<details>
+  <summary>43. Strict mode в React JS?</summary>
+  <div>
+    <p>StrictMode — это инструмент, добавленный в версии 16.3 React для выявления потенциальных проблем в приложении. Он выполняет дополнительные проверки приложения.</p>
+
+        import React from "react";
+        import ReactDOM from "react-dom";
+        import App from "./App";
+        const rootElement = document.getElementById("root");
+        ReactDOM.render(
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>,
+          rootElement
+        );
+  <p>StrictMode не отображает ничего визуального (похожего на Fragment), но обнаруживает потенциальные проблемы в коде и даёт полезные предупреждения. Строгий режим работает только в режиме разработки (development) и не влияет на сборку. </p>
+  <p>StrictMode помогает обнаружить:</p>
+  <ul>
+    <li>Устаревший код и устаревшие API;</li>
+    <li>Небезопасные методы жизненного цикла;</li>
+    <li>Неожиданные побочные эффекты</li>
+  </ul>
+
+  <h3>Устаревший код и устаревшие API;</h3>
+  <p>Как и всё остальное, что сделано из кода, React со временем меняется, и то, что когда-то считалось современным, в конечном итоге становится устаревшим и заменяется. Например, findDOMNode, который устарел в строгом режиме и, возможно, будет удален в будущей версии React. Другими примерами являются использование String Refs и устаревшего context API, которые вызывают некоторые “проблемы”.</p>
+
+  <h3>Небезопасные методы жизненного цикла</h3>
+  <p>Начиная с версии 16.9 React выдаёт предупреждение при использовании любого из методов жизненного цикла componentWillMount, componentWillReceiveProps и componentWillUpdate. Надеюсь, что ты уже преобразовал эти методы в более безопасные альтернативы (если нет, тебе следует как минимум добавить префикс «UNSAFE_»). Строгий режим может помочь определить небезопасные методы жизненного цикла в собственном коде и в сторонних библиотеках, а также предложит альтернативу.</p>
+
+
+  <h3>Неожиданные побочные эффекты</h3>
+  <p>В Concurrent Mode React может запускать метод рендеринга несколько раз, прежде чем вносить изменения (например, изменить DOM). Поэтому важно, чтобы этот метод не содержал побочных эффектов, которые могут привести к утечкам памяти и неверному состоянию. Строгий режим не может обнаружить побочные эффекты автоматически. Но он использует хоть простой, но умный трюк - методы constructor, render, setState и getDerivedStateFromProps запускаются дважды, тем самым облегчая обнаружение побочных эффектов. Если это приводит к какому-либо странному поведению в приложении, ты знаешь, что искать.</p>
+  </div>
+</details>
+
+
+<details>
+  <summary>44. Что такое error boundaries?</summary>
+  <div>
+    <p>Границы ошибок, представленные в версии 16 React, позволяют нам отлавливать ошибки, возникающие на этапе рендеринга.</p>
+    <p>Любой компонент, который использует один из следующих методов жизненного цикла, имеет error boundaries.
+    В каких местах граница ошибки может обнаружить ошибку?</p>
+    <ul>
+      <li>Render phase</li>
+      <li>Inside a lifecycle method</li>
+      <li>Inside the constructor</li>
+    </ul>
+    <b>Без использования error boundaries:</b>
+
+        class CounterComponent extends React.Component{
+          constructor(props){
+            super(props);
+            this.state = {
+              counterValue: 0
+            }
+            this.incrementCounter = this.incrementCounter.bind(this);
+          }
+          incrementCounter(){
+            this.setState(prevState => counterValue = prevState+1);
+          }
+          render(){
+            if(this.state.counter === 2){
+              throw new Error('Crashed');
+            }
+            return(
+              <div>
+                <button onClick={this.incrementCounter}>Increment Value</button>
+                <p>Value of counter: {this.state.counterValue}</p>
+              </div>
+            )
+          }
+        }
+  <p>В приведенном выше коде, когда counterValue равно 2, мы выдаем ошибку внутри метода рендеринга.</p>
+  <p>Когда мы не используем границу ошибки, вместо ошибки мы видим пустую страницу. Так как любая ошибка внутри метода рендера приводит к размонтированию компонента. Чтобы отобразить ошибку, возникающую внутри метода рендеринга, мы используем границы ошибок.</p>
+
+  <p><b>С границами ошибок:</b> как упоминалось выше, граница ошибок — это компонент, использующий один или оба из следующих методов: статический getDerivedStateFromError и componentDidCatch.</p>
+
+      class ErrorBoundary extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { hasError: false };
+        }
+        static getDerivedStateFromError(error) {     
+          return { hasError: true }; 
+        }
+        componentDidCatch(error, errorInfo) {       
+          logErrorToMyService(error, errorInfo); 
+        }
+        render() {
+          if (this.state.hasError) {     
+            return <h4>Something went wrong</h4>     
+          }
+          return this.props.children;
+        }
+      }
+
+  <p>В приведенном выше коде функция getDerivedStateFromError отображает резервный интерфейс пользовательского интерфейса, когда метод рендеринга имеет ошибку.</p>
+
+  <p>componentDidCatch записывает информацию об ошибке в службу отслеживания ошибок.</p>
+
+  <p>Теперь с границей ошибки мы можем визуализировать CounterComponent следующим образом:</p>
+
+      <ErrorBoundary>
+          <CounterComponent/>
+      </ErrorBoundary>
+
+  </div>
+</details>
+
 <br/>
 
 **React Router**:
