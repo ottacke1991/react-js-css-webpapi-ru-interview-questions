@@ -7820,6 +7820,7 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 Так как этап Composite происходит в отдельном потоке композитора, а не в основном, то вычисления в JS никак не влияют на него. Даже если вся страница подвиснет из-за бесконечного цикла в JS, анимация которая реализована с помощью transform, opacity продолжит свое выполнение. 
 Благодаря тому что элементы расположены на отдельных слоях, Reflow и Repaint для элементов одного слоя не затрагивают элементы на остальных слоях, но бывают исключения, к примеру когда неправильно определен z-index</p>
 
+<img src="https://wd.imgix.net/image/ZDZVuXt6QqfXtxkpXcPGfnygYjd2/m1d1iB6Ts2HqWRAx8cX5.jpg?auto=format&w=1098"/>
 
 <p>Для работы со слоями в Chrome есть отличный инструмент Layers.</p>
 <img src="https://miro.medium.com/max/1028/1*lFLaSM2rO51SiFQlsVfn_A.png"/>
