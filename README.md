@@ -8499,8 +8499,10 @@ export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
   <h2>Стандарты</h2>
   <p>Сам по себе RESTful не является стандартом или протоколом. Разработчики руководствуются принципами REST API для создания эффективной работы с серверов для своих сайтов и приложений. Принципы позволяют выстраивать серверную архитектуру с помощью других протоколов: HTTP, URL, JSON и XML.</p>
 
-
+  <a href="https://aws.amazon.com/ru/what-is/restful-api/"> Rest API AWS</a>
 </details>
+
+
 <details>
   <summary>14. Объясните, что такое всплытие и погружение (event bubbling)</summary>
   <div>
