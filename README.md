@@ -4186,7 +4186,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
         // вычисляемые элементы
         G = "123".length
     }
-  <a href="https://stackoverflow.com/a/28818850/10769343"> Stack overflow про виды enum</a>  
+  <a href="https://betterprogramming.pub/a-complete-guide-to-enums-in-typescript-6f76da009146"> Большая статья по enum с medium</a>  
   <a href="https://spaceofmatej.com/the-difference-between-enum-const-enum-and-declare-enum-in-typescript">Про виды enum</a>
 <a href="http://typescript-lang.ru/docs/Enums.html">Перечисления</a>
 </div>
