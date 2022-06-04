@@ -4109,7 +4109,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
       vakr4 = vakr
       console.log(vakr4)
     }
-
+  <p>Вы должны использовать unknown, если вы не знаете, какой тип ожидать заранее, но хотите назначить его позже, и any не будет работать.</p>
 </div>
 </details>
 
