@@ -4682,6 +4682,21 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
   <h2>Pick</h2>
   <p>Pick помогает вам использовать уже определенный интерфейс, но брать из объекта только те ключи, которые вам нужны.</p>
+
+      interface Dog {
+      id?: number;
+      name: string;
+      weight: number;
+      age: number;
+    }
+
+    type HomelessDog = Pick<Dog, 'id' | 'name' | 'weight'>
+
+    const hoboDog: HomelessDog = {
+      name: 'hobodog',
+      weight: 50,
+      id: 1488
+    }
 </div>
 </details>
 
