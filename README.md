@@ -4479,7 +4479,31 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
     }
 
+  <p>В TypeScript мы можем указать функцию, которую можно вызывать по-разному, написав сигнатуры перегрузки.</p>
 
+
+
+
+  <ul>
+    <li>При определении функции мы пишем несколько сигнатур перегрузки, которые клиенты могут вызывать для вызова функции.</li>
+    <li>После этих сигнатур перегрузки мы пишем сигнатуру реализации непосредственно перед реализацией функции. Клиент не может вызвать функцию, используя сигнатуру реализации.</li>
+    <li>Сигнатура реализации должна быть совместима с реализацией функции, а также сигнатурами перегрузки.</li>
+    <li>Сигнатура реализации всегда должна быть последней в списке и может принимать любой тип или тип объединения в качестве типа своих параметров.</li>
+  </ul>
+
+    function add(first: number, second: number): number;    //Overload signature with two parameters
+    function add(first: number, second: number, third:number): number;  //Overload signature with three parameters
+    function add(first: number, second: number, third?: number, fourth?: number): number {  //Implementation signature
+      if (first !== undefined && second !== undefined && third !== undefined) {
+        return first + second + third;
+      } else {
+        return first + second;
+      }
+    }
+
+    const r1 = add(1, 2, 3);
+    const r2 = add(1, 2);
+    const r3 = add(1, 2, 3, 4); // Expect 2-3 args but got 4
 </div>
 </details>
 
