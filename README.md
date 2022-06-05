@@ -4709,6 +4709,22 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     let Person = Record<string, number> = {};
     Person.age = 25;
 
+  <p>Наш набор данных имеет идентификатор для своего ключа, который имеет строковый тип. Все значения имеют одинаковый формат, то есть у них есть firstName и lastName.</p>
+
+  <p>Для этой структуры данных лучше всего использовать служебный тип Record. Мы можем определить тип нашей структуры данных следующим образом:</p>
+
+      type User = {
+          firstName: string,
+          lastName: string
+      }
+
+      const myData:Record<string, User> = {
+          "123-123-123" : { firstName: "John", lastName: "Doe" },
+          "124-124-124" : { firstName: "Sarah", lastName: "Doe" },
+          "125-125-125" : { firstName: "Jane", lastName: "Smith" }
+      }
+
+
 </div>
 </details>
 
