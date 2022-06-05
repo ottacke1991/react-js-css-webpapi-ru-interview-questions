@@ -4723,8 +4723,6 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
           "124-124-124" : { firstName: "Sarah", lastName: "Doe" },
           "125-125-125" : { firstName: "Jane", lastName: "Smith" }
       }
-
-
 </div>
 </details>
 
