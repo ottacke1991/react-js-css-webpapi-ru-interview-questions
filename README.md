@@ -4629,6 +4629,8 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
     getProperty(myObj, 'd') // TS предупредит, что так делать нельзя! Ведь ключа 'd' нет в наборе union K.  Как результат, функция будет работать с ключами только того обьекта, который был ему передан
 
     Объединения или union не являются собственно типом данных, но они позволяют комбинировать или объединить другие типы. Так, с помощью объединений можно определить переменную, которая может хранить значение двух или более типов.
+
+  <a href="https://www.digitalocean.com/community/tutorials/how-to-use-generics-in-typescript">How to use generics in TS</a>
 </div>
 </details>
 
