@@ -6107,6 +6107,9 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
       Return Value: Возвращает JSX элемент.
 
   <h2>Для чего нужен forwardRef?</h2>
+  <p>В отличие от компонентов класса, функциональные компоненты не имеют связанного экземпляра компонента при их монтировании. Другими словами, нет никакого способа получить доступ к некоторому «экземпляру» функционального компонента через свойство ref по умолчанию.</p>
+  <p>Просто добавить ref в качестве входного аргумента для функционального компонента тоже будет не правильно. Вместо этого правильно будет использовать forwardRef.</p>
+  
   <p>Давайте начнем с примера: допустим, у нас есть компонент ввода в нашем приложении React, который выглядит следующим образом:</p>
 
       const Input = (props) => {
@@ -6196,9 +6199,26 @@ React.memo(Component, [areEqual(prevProps, nextProps)]);
       Input.displayName = 'Input';
 
 
+  <h2>useImperativeHandle()</h2>
+  <p>useImperativeHandle настраивает значение экземпляра, которое предоставляется родительским компонентам при использовании ref. Как всегда, в большинстве случаев следует избегать императивного кода с использованием ссылок. useImperativeHandle следует использовать с forwardRef:</p>
 
+        useImperativeHandle(ref, createHandle, [deps])
 
+        function FancyInput(props, ref) {
+          const inputRef = useRef();
+          useImperativeHandle(ref, () => ({
+            focus: () => {
+              inputRef.current.focus();
+            }
+          }));
+          return <input ref={inputRef} ... />;
+        }
+        FancyInput = forwardRef(FancyInput);
+
+  <p>В этом примере родительский компонент, отображающий <'Fancyinput ref="{inputRef}" />, сможет вызвать inputRef.current.focus().</p>
   <a href="https://felixgerschau.com/react-forwardref-explained/">forwardRef Explained</a>
+  <a href="https://dev.to/anikcreative/react-hooks-explained-useimperativehandle-5g44">forwardRef and useImperativeHandle()</a>
+  
 </div>
 </details>
 
