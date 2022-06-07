@@ -4922,6 +4922,87 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </div>
 </details>
 
+
+<details>
+<summary>20. Что такое type predicate?</summary>
+<div>
+<p>Предикаты типа — это специальный возвращаемый тип, который сигнализирует компилятору Typescript, к какому типу относится конкретное значение. Предикаты типа всегда присоединяются к функции, которая принимает один аргумент и возвращает логическое значение. Предикаты типа выражаются как argumentName is Type.</p>
+
+
+    interface Cat {
+      numberOfLives: number;
+    }
+    interface Dog {
+      isAGoodBoy: boolean;
+    }
+
+    function isCat(animal: Cat | Dog): animal is Cat {
+      return (animal as Cat).numberOfLive !== undefined;
+    }
+
+<p>Например, функция isCat выполняется во время выполнения, как и все другие type guards. Поскольку эта функция возвращает логическое значение и включает в себя предикат типа animal is Cat, компилятор Typescript правильно преобразует Animal в Cat, если isCat оценивается как true. Он также отобразит Animal как Dog, если isCat оценивается как ложное.</p>
+
+    let animal: Cat | Dog = ...
+
+    if (isCat(animal)) {
+      // animal successfully cast as a Cat
+    } else {
+      // animal successfully cast as a Dog
+    }
+
+
+<h3>Дополнительные примеры:</h3>
+
+    interface Person {
+      name: string;
+    }
+
+    interface House {
+      address: string;
+    }
+
+    const values: (Person | House | string)[] = [
+      { name: "Kim" },
+      { address: "123 street" },
+      "hello world",
+    ];
+
+    function isPerson(value: Person | House): value is Person {
+      return (value as Person).name !== undefined;
+    }
+
+    function isHouse(value: Person | House | string): value is House {
+      return (value as House).address !== undefined;
+    }
+
+    for (const v of values) {
+      // v is `Person | House | string`
+
+      if (isPerson(v)) {
+        // v is `Person`
+      } else {
+        // v is `House | string`
+        if (isHouse(v)) {
+          // v is `House`
+        } else {
+          // v is `string`
+        }
+      }
+
+      // v is `Person | House | string`
+    }
+
+  <p>Use in Arrow Function:</p>
+
+      values
+        .filter((v): v is Person => (v as Person).name !== undefined)
+        .forEach((v) => {
+          // v is `Person`
+        });
+</div>
+</details>
+
+
 <br/>
 
 **React**:
