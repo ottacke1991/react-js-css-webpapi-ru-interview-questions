@@ -4905,6 +4905,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <details>
 <summary>19. Ключевое слово Declare?</summary>
 <div>
+  <h2>Внешние объявления переменных (Ambient declarations)</h2>
   <p>Declare используется, чтобы сообщить компилятору о чем-то, объявленном в другом фрагменте кода. Это особенно полезно при использовании сторонних библиотек. Он также указывает компилятору не включать этот код при транспиляции TypeScript.</p>
 
       interface Interface {
