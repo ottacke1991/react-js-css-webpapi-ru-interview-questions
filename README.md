@@ -391,6 +391,226 @@ block-name__elem-name_mod-name_mod-val
 </details>
 
 
+
+<details>
+<summary>17. Как реализовать кастомный check-box?</summary>
+<div>
+  <b>Тело checkbox:</b>
+
+      <body>
+        <input id="check" type="checkbox">
+      </body>
+
+  <p>Основной элемент будет input, ниже его стили:</p>
+
+      input {
+        width: 100px;
+        height: 100px;
+        background-color: black;
+        border-radius: 50%;
+      }
+  
+  <b>Что бы стилизовать внутренности checkbox, создается label:</b>
+
+      <body>
+        <input id="check" type="checkbox">
+        <label for="check"></label>
+      </body>
+  <p>Затем для label пишутся стили, которыми должен обладать сам checkbox (копируем из input):</p>
+
+      input {
+
+      }
+
+      label {
+        width: 200px;
+        height: 200px;
+        background-color: black;
+        border-radius: 50%;
+      }
+
+  <p>Сам input надо скрыть opacity:0;</p>
+
+      input {
+        opacity: 0
+      }
+
+      label {
+        width: 200px;
+        height: 200px;
+        background-color: black;
+        border-radius: 50%;
+      }
+
+  <p>Для отслеживания того нажат checkbox или нет воспользуемся псевдоэлементами</p>
+
+      input:checked + label {
+        background-color: red;
+      }
+    
+    
+  <h3>Итого:</h3>
+  <p>Перед чекбоксом создается label и привязывается к инпуту. После чего инпут
+скрывается, а label стилизуется так, как необходимо</p>
+</div> 
+</details>
+
+
+
+
+
+<details>
+<summary>18. Как отцентровать блок по горизонтали и вертикали?</summary>
+<div>
+  <p>Существует несколько способов, но самый простой из них - сделать родительский элемент display: flex; и задать два свойства:</p>
+
+      align-items: center;
+      justify-content: center;
+
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>19. Расскажите о свойстве transition?</summary>
+<div>
+  <p>Transition позволяет определять переходное состояние между двумя
+состояниями элемента. Различные состояния могут быть определены с
+помощью псевдоклассов, таких как :hover или :active или установлены динамически с помощью JavaScript.</p>
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>20. Чем border отличается от outline?</summary>
+<div>
+  <b>Свойство outline задаёт дополнительную рамку вокруг элемента, за пределами его CSS-блока. Поддерживается во всех браузерах, IE8+.</b>
+  <p>1.Outline не влияет на положение элемента и его размеры.</p>
+
+  <p>2. Outline не позволяет задать рамку с определённой стороны элемента (только
+сразу со всех).</p>
+
+  <p>3. На outline рамку не действует скругление углов, устанавливаемое с
+помощью свойства border-radius.</p>
+
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>21. Что такое семантические элементы и для чего они нужны?</summary>
+<div>
+  <p>С html5 были введены так называемые семантические теги, которые
+определяют конкретные части страницы. Правильное использование их улучшает СЕО оптимизацию, что позволяет поисковым роботам лучше индексировать страницу. Добавляя семантические HTML теги на ваши страницы, вы даете дополнительную информацию, которая помогает поисковикам понимать роли и относительную важность разных частей ваших страниц.</p>
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>22. Свойство overflow, что делает и когда использовать?</summary>
+<div>
+  <p>Свойство CSS overflow определяет, необходимо ли для переполненного
+блочного элемента содержимое обрезать, предоставить полосы прокрутки или просто отобразить.</p>
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>23. Как убрать маркер у списка?</summary>
+<div>
+  <p>Чтобы скрыть отображение маркеров в списке применяется стилевое свойство
+list-style-type со значением none. Его следует добавить к селектору ul или li.</p>
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>24.Что вы знаете о приоритете селекторов? Специфичность?</summary>
+<div>
+  <p>Специфичность селекторов (selector's specificity) определяет их приоритет в
+таблице стилей. Чем специфичнее селектор, тем выше его приоритет. Каждый селектор имеет вес.</p>
+
+      Элемент – 1
+      Класс – 10
+      id – 100
+      inline style – 1000
+      !important – имеет наибольший вес.
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>25.Какие css свойства для браузера самые тяжелые?</summary>
+<div>
+  <p>Большое количество подключенных шрифтов, тени, анимации, прозрачность..</p>
+
+</div> 
+</details>
+
+
+
+
+<details>
+<summary>26. Какие бывают значения у background-size? Кратко о каждом?</summary>
+<div>
+  <b>cover</b>
+  <p>Масштабирует изображение с сохранением пропорций так, чтобы его ширина
+или высота равнялась ширине или высоте блока.</p>
+  
+  <b>contain</b>
+  <p>Масштабирует изображение с сохранением пропорций таким образом, чтобы картинка целиком поместилась внутрь блока.</p>
+
+  <img src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2015/02/cover-and-contain.jpg?ssl=1"/>
+</div> 
+</details>
+
+<details>
+<summary>27. Как повернуть блок на 45 градусов?</summary>
+<div>
+  transform: rotateX(45deg);
+</div> 
+</details>
+
+
+<details>
+<summary>28. Как увеличить в размере при наведении элемент, не сдвигая соседние?</summary>
+<div>
+  <p>для этого необходимо воспользоваться свойством transform. CSS3-трансформации позволяют сдвигать, поворачивать и масштабировать
+элементы. Трансформации преобразовывают элемент, не затрагивая остальные элементы веб-страницы, т.е. другие элементы не сдвигаются относительно него.</p>
+
+</div> 
+</details>
+
+
+<details>
+<summary>29.Для чего рекомендуется использовать атрибуты data?</summary>
+<div>
+  Они предназначены для:
+    
+       Хранения значений.
+       Создания всплывающих подсказок без применения скриптов.
+       Определения стиля элемента на основе значения атрибута.
+       Получения и изменения значений через скрипты.
+</div> 
+</details>
+
+
+
+
 <br/> 
   
 **JavaScript**:
@@ -4806,9 +5026,34 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 </div>
 </details>
 
+<details>
+<summary>18. Как работает и где используется typeof?</summary>
+<div>
+  <p>TypeScript добавляет оператор typeof, который вы можете использовать в контексте типа для определения типа переменной или свойства:</p>
+
+      let s = "hello";
+      let n: typeof s;
+        
+         (( let n: string ))
+
+  <p>Помните, что значения и типы — это не одно и то же. Чтобы указать тип, который имеет значение f, мы используем typeof:</p>
+
+      function f() {
+        return { x: 10, y: 3 };
+      }
+      type P = ReturnType<typeof f>;
+          
+                **    type P = {
+                          x: number;
+                          y: number;
+                      }
+</div>
+</details>
+
+
 
 <details>
-<summary>18. Что такое type guards в TypeScript?</summary>
+<summary>19. Что такое type guards в TypeScript?</summary>
 <div>
   <p>Защита типа — это некоторое выражение, которое выполняет проверку во время выполнения, гарантирующую тип в некоторой области.</p>
 
@@ -4839,11 +5084,11 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   </ul>
 
   <h3>Используем предикаты типов:</h3>
-  <p>Определение функции, у которой тип возвращаемого значения  является предикатом типа, выглядит следующим образом:</p>
+  <p>Чтобы определить определяемую пользователем защиту типа, нам просто нужно определить функцию, возвращаемый тип которой является предикатом типа:</p>
 
-    function isHuman(creature: Human | Dog): creature is Human {
-        return typeof (creature as Human).speak === 'function';
-    }
+      function isHuman(creature: Human | Dog): creature is Human {
+          return typeof (creature as Human).speak === 'function';
+      }
 
   <p>Мы создали функцию type guard isHuman(creature), которая возвращает предикат типа created is Human. Любой предикат принимает параметр и тип. Параметр должен быть частью текущей сигнатуры функции. В нашем случае это существо.</p>
 
@@ -4903,7 +5148,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>19. Ключевое слово Declare?</summary>
+<summary>20. Ключевое слово Declare?</summary>
 <div>
   <h2>Внешние объявления переменных (Ambient declarations)</h2>
   <p>Declare используется, чтобы сообщить компилятору о чем-то, объявленном в другом фрагменте кода. Это особенно полезно при использовании сторонних библиотек. Он также указывает компилятору не включать этот код при транспиляции TypeScript.</p>
@@ -4925,7 +5170,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>20. Что такое type predicate?</summary>
+<summary>21. Что такое type predicate?</summary>
 <div>
 <p>Предикаты типа — это специальный возвращаемый тип, который сигнализирует компилятору Typescript, к какому типу относится конкретное значение. Предикаты типа всегда присоединяются к функции, которая принимает один аргумент и возвращает логическое значение. Предикаты типа выражаются как argumentName is Type.</p>
 
@@ -5005,7 +5250,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>21. Что такое decorator?</summary>
+<summary>22. Что такое decorator?</summary>
 <div>
 <p>Хотя определение может различаться для разных языков программирования, причина существования декораторов во многом одинакова. В двух словах, декоратор — это шаблон в программировании, в который вы оборачиваете что-то, чтобы изменить его поведение.</p>
 <h2>Class decorator:</h2>
@@ -5063,7 +5308,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 <a href="https://blog.logrocket.com/a-practical-guide-to-typescript-decorators/">Guide to typescript decorators</a>
 
 <details>
-<summary>22. Что такое namespace?</summary>
+<summary>23. Что такое namespace?</summary>
 <div>
 <p>Пространство имен используется для логической группировки функций. Чтобы включить одну или группу связанных функций, пространство имен может включать интерфейсы, классы, функции и переменные.</p>
 
@@ -5079,7 +5324,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
 
 
 <details>
-<summary>23. Что такое Conditional Types?</summary>
+<summary>24. Что такое Conditional Types?</summary>
 <div>
 <p>На основе условия, заданного в качестве проверки отношения типов, условный тип выбирает один из двух альтернативных типов:</p>
 
