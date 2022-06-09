@@ -452,6 +452,77 @@ block-name__elem-name_mod-name_mod-val
   <h3>Итого:</h3>
   <p>Перед чекбоксом создается label и привязывается к инпуту. После чего инпут
 скрывается, а label стилизуется так, как необходимо</p>
+
+  <h3>Другой пример:</h3>
+
+
+        <div class="new">
+          <form>
+            <div class="form-group">
+              <input type="checkbox" id="html">
+              <label for="html">HTML</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="css">
+              <label for="css">CSS</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="javascript">
+              <label for="javascript">Javascript</label>
+            </div>
+          </form>
+        </div>
+
+
+        .new {
+          padding: 50px;
+        }
+
+        .form-group {
+          display: block;
+          margin-bottom: 15px;
+        }
+
+        .form-group input {
+          padding: 0;
+          height: initial;
+          width: initial;
+          margin-bottom: 0;
+          display: none;
+          cursor: pointer;
+        }
+
+        .form-group label {
+          position: relative;
+          cursor: pointer;
+        }
+
+        .form-group label:before {
+          content:'';
+          -webkit-appearance: none;
+          background-color: transparent;
+          border: 2px solid #0079bf;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+          padding: 10px;
+          display: inline-block;
+          position: relative;
+          vertical-align: middle;
+          cursor: pointer;
+          margin-right: 5px;
+        }
+
+        .form-group input:checked + label:after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 2px;
+          left: 9px;
+          width: 6px;
+          height: 14px;
+          border: solid #0079bf;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
 </div> 
 </details>
 
@@ -2342,6 +2413,7 @@ microtasks: process.nextTick, Promises, queueMicrotask, MutationObserver</p>
   Внутри функции используется ключевое слово await, которое ставится перед вызовом функций, которые, в свою очередь, тоже возвращают промисы. Если результат этого вызова присваивается переменной или константе, то в них записывается результат вызова. Если присвоения нет, как в последнем вызове await, то происходит ожидание выполнения операции без использования её результата.
 
   Асинхронность в данном случае (как и в промисах) гарантирует нам, что программа не блокируется ожидая завершения вызовов, она может продолжать делать что-то еще (но не в этой функции). Но она не гарантирует параллельности. Более того, подряд идущие await в рамках одной функции всегда выполняются строго друг за другом.
+  Не сколько параллельно запущенных функций будут выполняться параллельо, но внутри при наличии await они все равно выполняются последовательно.
 
   Асинхронные функции создают, пользуясь при объявлении функции ключевым словом async. Выглядит это так:
 
